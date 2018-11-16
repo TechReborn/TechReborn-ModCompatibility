@@ -1,0 +1,181 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		jcenter()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+		maven {
+			name = "sonatype"
+			url = "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath "gradle.plugin.net.minecrell:licenser:0.2.1"
+	}
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: net.minecrell.gradle.licenser.Licenser
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+repositories {
+	maven {
+		name = "Modmuss50"
+		url = "http://maven.modmuss50.me/"
+	}
+	maven {
+		// JEI, TiC
+		name "TiC"
+		url "http://dvs1.progwml6.com/files/maven"
+	}
+	maven {
+		name = "Amadornes"
+		url "http://maven.amadornes.com/"
+	}
+	maven {
+		// CraftTweaker2
+		name "Jared"
+		url "http://maven.blamejared.com/"
+	}
+	maven {
+		// TheOneProbe
+		url "http://maven.tterrag.com/"
+	}
+	 maven {
+	 	// IC2
+	 	name = "ic2"
+	 	url = "http://maven.ic2.player.to/"
+	 }
+	maven {
+		// HWYLA
+		name "TehNut"
+		url "http://tehnut.info/maven/"
+	}
+	maven {
+		name 'CB Repo'
+		url "http://chickenbones.net/maven/"
+	}
+	maven {
+		// CoFH
+		name 'Covers'
+		url "http://maven.covers1624.net/"
+	}
+	ivy {
+		name "BuildCraft"
+		artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
+	}
+	maven {
+		name "OpenComputer"
+		url "http://maven.cil.li/"
+	}
+	maven {
+		name "CurseForge"
+		url "https://minecraft.curseforge.com/api/maven/"
+	}
+	ivy {
+		name "AE2"
+		artifactPattern "http://ae-mod.info/builds/[module]-[revision](-[classifier])(.[ext])"
+	}
+}
+
+version = "1.0.0"
+
+def ENV = System.getenv()
+if (ENV.BUILD_NUMBER) {
+	version = version + "." + "${System.getenv().BUILD_NUMBER}"
+}
+
+minecraft {
+	version = "1.12.2-14.23.5.2768"
+	mappings = "snapshot_20171003"
+	replace "@MODVERSION@", project.version
+	useDepAts = true
+	runDir = "run"
+}
+
+license {
+	header file('HEADER')
+	include '**/*.java'
+	ignoreFailures = true //Stops the build from failing if a file does not have a license header
+}
+
+group = 'TechReborn-ModCompatibility'
+
+dependencies {
+	deobfCompile('RebornCore:RebornCore-1.12.2:+:universal') {
+		transitive = false
+	}
+	deobfCompile('TechReborn:TechReborn-1.12.2:+:universal') {
+		transitive = false
+	}
+
+
+	compile "mcp.mobius.waila:Hwyla:+"
+	compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.12.323"
+	compile name: 'buildcraft', version: '7.99.19', ext: 'jar'
+		
+	deobfCompile "mezz.jei:jei_1.12.2:+"
+	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.19-11"
+	deobfCompile 'net.industrial-craft:industrialcraft-2:2.8.+'
+	deobfCompile 'cofh:ThermalDynamics:1.12.2-+:universal'
+	deobfCompile 'cofh:ThermalExpansion:1.12.2-+:universal'
+	deobfCompile "cofh:CoFHCore:1.12.2-+:universal"
+	deobfCompile "cofh:ThermalFoundation:1.12.2-+:universal"
+	deobfCompile "cofh:RedstoneFlux:1.12-2.1+:universal"
+	deobfCompile "cofh:CoFHWorld:1.12.2-+:universal"
+	deobfCompile "codechicken:CodeChickenLib:1.12.2-+:universal"
+	deobfCompile 'MCMultiPart2:MCMultiPart:2.4.1'
+	deobfCompile "li.cil.oc:OpenComputers:MC1.12.2-1.7.2+"
+	deobfCompile "blusunrize:ImmersiveEngineering:0.12-+"
+	deobfCompile "mekanism:Mekanism:1.12.2:9.4.13.349"
+	deobfCompile "mekanism-generators:MekanismGenerators:1.12.2:9.4.13.349"
+	deobfCompile "mekanism-tools:MekanismTools:1.12.2:9.4.13.349"
+	deobfCompile "mekanism-tools:MekanismTools:1.12.2:9.4.13.349"
+	deobfCompile name: "appliedenergistics2", version: "rv6-stable-4", classifier: 'api', ext:"jar" //Required to fix odd crash with mekanism
+}
+
+
+jar {
+	classifier = 'universal'
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			groupId 'TechReborn'
+			artifactId project.archivesBaseName
+			version project.version
+
+			from components.java
+
+			//Removes all of the dependencies from the maven pom, fixes issues when other projects try to depend on tr
+			pom.withXml {
+				asNode().remove(asNode().get('dependencies'))
+			}
+		}
+	}
+	repositories {
+		maven {
+			url "http://mavenupload.modmuss50.me/"
+			if (project.hasProperty('mavenPass')) {
+				credentials {
+					username 'buildslave'
+					password project.getProperty('mavenPass')
+				}
+			}
+		}
+	}
+}
+
+apply from: 'https://github.com/FabricMC/fabric-docs/raw/master/gradle/ideconfig.gradle'
