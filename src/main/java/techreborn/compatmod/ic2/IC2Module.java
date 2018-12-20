@@ -27,6 +27,7 @@ package techreborn.compatmod.ic2;
 import ic2.api.item.IC2Items;
 import ic2.core.item.tool.ItemTreetap;
 import ic2.core.ref.ItemName;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -112,6 +113,9 @@ public class IC2Module implements ICompatModule, IC2Helper {
 
 	@Override
 	public boolean extractSap(EntityPlayer player, World world, BlockPos pos, EnumFacing side, IBlockState state, List<ItemStack> stacks) {
+		if(state.getBlock() != Block.getBlockFromItem(IC2Items.getItem("rubber_wood").getItem())){
+			return false;
+		}
 		return ItemTreetap.attemptExtract(player, world, pos, side, state, null);
 	}
 
