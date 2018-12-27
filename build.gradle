@@ -121,7 +121,7 @@ dependencies {
 	}
 
 
-	compile "mcp.mobius.waila:Hwyla:+"
+	compile "mcp.mobius.waila:Hwyla:1.8+"
 	compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.12.323"
 	compile name: 'buildcraft', version: '7.99.19', ext: 'jar'
 		
