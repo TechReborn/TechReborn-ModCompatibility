@@ -2,6 +2,7 @@ package techreborn.compatmod.ic2;
 
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyTile;
+import ic2.api.item.ElectricItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -21,7 +22,9 @@ public class RebronCoreIC2 implements ExternalPowerManager {
 	public static boolean ic2Power = true;
 
 	public RebronCoreIC2() {
-
+		if(ic2Power) {
+			ElectricItem.registerBackupManager(new TRBackupElectricItemManager(this));
+		}
 	}
 
 	@Override
