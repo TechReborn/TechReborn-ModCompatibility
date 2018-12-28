@@ -1,11 +1,15 @@
 package techreborn.compatmod.ic2;
 
+import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyTile;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import reborncore.api.power.ExternalPowerHandler;
 import reborncore.api.power.ExternalPowerManager;
 import reborncore.common.powerSystem.TilePowerAcceptor;
+import reborncore.common.powerSystem.forge.ForgePowerItemManager;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
 import techreborn.lib.ModInfo;
@@ -16,6 +20,10 @@ public class RebronCoreIC2 implements ExternalPowerManager {
 	@ConfigRegistry(config = "ic2", comment = "Should ic2 power support be enabled? (Requires restart)")
 	public static boolean ic2Power = true;
 
+	public RebronCoreIC2() {
+
+	}
+
 	@Override
 	public ExternalPowerHandler createPowerHandler(TilePowerAcceptor acceptor) {
 		if(!ic2Power){
@@ -25,11 +33,11 @@ public class RebronCoreIC2 implements ExternalPowerManager {
 	}
 
 	@Override
-	public boolean isPoweredTile(TileEntity tileEntity) {
+	public boolean isPoweredTile(TileEntity tileEntity, EnumFacing facing) {
 		if(!ic2Power){
 			return false;
 		}
-		return tileEntity instanceof IEnergyTile;
+		return tileEntity instanceof IEnergyTile || EnergyNet.instance.getTile(tileEntity.getWorld(), tileEntity.getPos()) != null;
 	}
 
 	@Override
@@ -54,5 +62,15 @@ public class RebronCoreIC2 implements ExternalPowerManager {
 			return;
 		}
 		IC2ItemCharger.chargeIc2Item(tilePowerAcceptor, stack);
+	}
+
+	@Override
+	public void chargeItem(ForgePowerItemManager powerAcceptor, ItemStack stack) {
+		IC2ItemCharger.chargeIc2Item(powerAcceptor, stack);
+	}
+
+	@Override
+	public void requestEnergyFromArmor(ForgePowerItemManager powerAcceptor, EntityLivingBase entity) {
+		IC2ItemCharger.requestEnergyFromIc2Armor(powerAcceptor, entity);
 	}
 }
