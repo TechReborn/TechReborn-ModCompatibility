@@ -30,34 +30,79 @@ package techreborn.compatmod.ic2;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.api.item.ISpecialElectricItem;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import reborncore.api.power.IEnergyItemInfo;
+import reborncore.common.RebornCoreConfig;
 import reborncore.common.powerSystem.TilePowerAcceptor;
+import reborncore.common.powerSystem.forge.ForgePowerItemManager;
 
 public class IC2ItemCharger {
 
 	protected static void chargeIc2Item(TilePowerAcceptor tilePowerAcceptor, ItemStack stack){
-		if(stack.isEmpty()){
+		if(!isIC2PoweredItem(stack)) {
 			return;
 		}
-		if(stack.getItem() instanceof IElectricItem){
-			tilePowerAcceptor.useEnergy(ElectricItem.manager.charge(stack, tilePowerAcceptor.getEnergy(), 4, false, false));
+
+		tilePowerAcceptor.useEnergy(ElectricItem.manager.charge(stack, tilePowerAcceptor.getEnergy(), 4, false, false));
+	}
+
+	protected static void chargeIc2Item(ForgePowerItemManager powerAcceptor, ItemStack stack){
+		if(!isIC2PoweredItem(stack)) {
+			return;
+		}
+
+		double energyPassed = ElectricItem.manager.charge(stack, powerAcceptor.extractEnergy(powerAcceptor.getEnergyStored(), true) / RebornCoreConfig.euPerFU, 4, false, true);
+		int passedFE = (int)(energyPassed * RebornCoreConfig.euPerFU);
+
+		if(energyPassed > 0) {
+			ElectricItem.manager.charge(stack, powerAcceptor.extractEnergy(passedFE, false) / RebornCoreConfig.euPerFU, 4, false, false);
 		}
 	}
 
 	protected static void dischargeIc2Item(TilePowerAcceptor tilePowerAcceptor, ItemStack stack){
-		if(stack.isEmpty()){
+		if(!isIC2PoweredItem(stack)) {
 			return;
 		}
-		if(stack.getItem() instanceof IElectricItem){
-			tilePowerAcceptor.addEnergy(ElectricItem.manager.discharge(stack, tilePowerAcceptor.getFreeSpace(), 4, false, true,  false));
-		}
+
+		tilePowerAcceptor.addEnergy(ElectricItem.manager.discharge(stack, tilePowerAcceptor.getFreeSpace(), 4, false, true, false));
 	}
 
 	protected static boolean isIC2PoweredItem(ItemStack stack){
-		if(stack.isEmpty()){
+		if(stack.isEmpty()) {
 			return false;
 		}
-		return stack.getItem() instanceof IElectricItem;
+
+		Item item = stack.getItem();
+
+		return item instanceof IElectricItem || item instanceof ISpecialElectricItem || ElectricItem.getBackupManager(stack) != null;
 	}
 
+
+	public static void requestEnergyFromIc2Armor(ForgePowerItemManager powerAcceptor, EntityLivingBase entity) {
+		for (EntityEquipmentSlot slot: EntityEquipmentSlot.values()) {
+			if(slot.getSlotType() == EntityEquipmentSlot.Type.HAND) {
+				continue;
+			}
+
+			ItemStack stack = entity.getItemStackFromSlot(slot);
+			if(!isIC2PoweredItem(stack) || stack.getItem() instanceof IEnergyItemInfo) {
+				// Not a powered item, or it is a TR item that will push energy.
+				continue;
+			}
+
+			double maxExtractedEnergy = ElectricItem.manager.discharge(stack, ElectricItem.manager.getCharge(stack), 4, true, true, true);
+			int passedFE = Math.min(powerAcceptor.getMaxEnergyStored() - powerAcceptor.getEnergyStored(), (int)(maxExtractedEnergy * RebornCoreConfig.euPerFU));
+
+			if(passedFE > 0) {
+				double extracted = ElectricItem.manager.discharge(stack, passedFE / RebornCoreConfig.euPerFU, 4, true, true, false);
+				int extractedFE = (int)(extracted * RebornCoreConfig.euPerFU);
+
+				powerAcceptor.setEnergyStored(Math.min(powerAcceptor.getEnergyStored() + extractedFE, powerAcceptor.getMaxEnergyStored()));
+			}
+		}
+	}
 }
