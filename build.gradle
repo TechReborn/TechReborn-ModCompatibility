@@ -71,10 +71,6 @@ repositories {
 		name 'Covers'
 		url "http://maven.covers1624.net/"
 	}
-	ivy {
-		name "BuildCraft"
-		artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
-	}
 	maven {
 		name "OpenComputer"
 		url "http://maven.cil.li/"
@@ -86,6 +82,10 @@ repositories {
 	ivy {
 		name "AE2"
 		artifactPattern "http://ae-mod.info/builds/[module]-[revision](-[classifier])(.[ext])"
+	}
+	ivy {
+		name "BuildCraft"
+		artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
 	}
 }
 
