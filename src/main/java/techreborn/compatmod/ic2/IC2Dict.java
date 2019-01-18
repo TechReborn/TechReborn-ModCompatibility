@@ -76,7 +76,6 @@ public class IC2Dict {
 		IC2Duplicates.MIXED_METAL.setIc2Stack(ItemName.ingot.getItemStack("alloy"));
 		IC2Duplicates.CARBON_FIBER.setIc2Stack(ItemName.crafting.getItemStack("carbon_fibre"));
 		IC2Duplicates.CARBON_MESH.setIc2Stack(ItemName.crafting.getItemStack("carbon_mesh"));
-		IC2Duplicates.REFINED_IRON.setIc2Stack(ItemName.plate.getItemStack("iron"));
 		IC2Duplicates.SCRAP.setIc2Stack(ItemName.crafting.getItemStack(CraftingItemType.scrap));
 		IC2Duplicates.FREQ_TRANSMITTER.setIc2Stack(ItemName.frequency_transmitter.getItemStack());
 		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(ItemName.neutron_reflector.getItemStack());
