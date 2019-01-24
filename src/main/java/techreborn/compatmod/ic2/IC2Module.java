@@ -25,6 +25,9 @@
 package techreborn.compatmod.ic2;
 
 import ic2.api.item.IC2Items;
+import ic2.api.recipe.IBasicMachineRecipeManager;
+import ic2.api.recipe.IRecipeInput;
+import ic2.api.recipe.Recipes;
 import ic2.core.item.tool.ItemTreetap;
 import ic2.core.ref.ItemName;
 import net.minecraft.block.Block;
@@ -37,18 +40,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
+import reborncore.common.registration.impl.ConfigRegistry;
 import reborncore.common.util.RebornCraftingHelper;
 import techreborn.api.IC2Helper;
+import techreborn.api.Reference;
 import techreborn.api.TechRebornAPI;
 import techreborn.api.recipe.machines.CompressorRecipe;
 import techreborn.api.recipe.machines.ExtractorRecipe;
 import techreborn.api.recipe.machines.GrinderRecipe;
 import techreborn.compat.ICompatModule;
+import techreborn.init.IC2Duplicates;
 import techreborn.init.ModBlocks;
 import techreborn.init.ModItems;
 import techreborn.init.recipes.ChemicalReactorRecipes;
@@ -57,6 +64,7 @@ import techreborn.items.ingredients.ItemParts;
 import techreborn.lib.ModInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -66,12 +74,38 @@ import java.util.List;
 @RebornRegistry(modOnly = "ic2,!ic2-classic-spmod", modID = ModInfo.MOD_ID)
 public class IC2Module implements ICompatModule, IC2Helper {
 
+	@ConfigRegistry(config = "ic2", comment = "When enabled all of TR's compressor recipes are added to the IC2 compressor (Requies deduplication) (Requires restart)")
+	public static boolean syncCompressorRecipes = true;
+
 	List<RecipeDuplicate> recipeDuplicateList = new ArrayList<>();
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
 		TechRebornAPI.ic2Helper = this;
+	}
+
+	@Override
+	public void postInit(FMLPostInitializationEvent event) {
+		if(IC2Duplicates.deduplicate() && syncCompressorRecipes){
+			cloneMachineRecipes(Reference.COMPRESSOR_RECIPE, Recipes.compressor);
+		}
+	}
+
+	private void cloneMachineRecipes(String machine, IBasicMachineRecipeManager recipeManager){
+		RecipeHandler.getRecipeClassFromName(machine).forEach(recipeType -> {
+			if(recipeType.getInputs().size() == 1 && recipeType.getOutputs().size() == 1){
+				Object object = recipeType.getInputs().get(0);
+				IRecipeInput input = null;
+				if(object instanceof ItemStack){
+					input = Recipes.inputFactory.forStack((ItemStack) object);
+				} else if (object instanceof String){
+					input = Recipes.inputFactory.forOreDict((String) object);
+				}
+				recipeManager.addRecipe(input, Collections.singletonList(recipeType.getOutputs().get(0)), null, false);
+			}
+
+		});
 	}
 
 	// LOW is used as we want it to load as late as possible, but before crafttweaker
