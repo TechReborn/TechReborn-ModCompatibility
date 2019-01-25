@@ -133,7 +133,12 @@ public class IC2Dict {
 				OreUtil.registerOre("smallUran238", getItem("nuclear", "small_uranium_238"));
 			}
 
-			OreUtil.registerOre("fenceIron", getItem("fence", "iron"));
+			if(experimental) {
+				OreUtil.registerOre("fenceIron", getItem("fence", "iron"));
+			} else {
+				OreUtil.registerOre("fenceIron", getItem("fence"));
+			}
+
 			OreUtil.registerOre("rubberWood", getItem("rubber_wood"));
 			OreUtil.registerOre("glassReinforced", getItem("glass", "reinforced"));
 

@@ -4,6 +4,7 @@ import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.util.RebornCraftingHelper;
 import techreborn.api.recipe.machines.CompressorRecipe;
@@ -50,8 +51,14 @@ public class IC2Recipes {
 				IC2Dict.getItem("crafting", "rubber"));
 		RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("crafting", "rubber"),
 				ItemParts.getPartByName("rubber"));
-		RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("electric_wrench"), new ItemStack(ModItems.WRENCH),
-				IC2Dict.getItem("crafting", "small_power_unit"));
+
+		if(!Loader.isModLoaded("ic2-classic-spmod")) {
+			RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("electric_wrench"), new ItemStack(ModItems.WRENCH),
+					IC2Dict.getItem("crafting", "small_power_unit"));
+		} else {
+			RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("electric_wrench"), new ItemStack(ModItems.WRENCH),
+					IC2Dict.getItem("re_battery"));
+		}
 
 		RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "carbon_mesh"),
 				IC2Dict.getItem("crafting", "carbon_plate"), 300, 4));
