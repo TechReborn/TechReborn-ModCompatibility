@@ -72,7 +72,10 @@ public class IC2Dict {
 		IC2Duplicates.FREQ_TRANSMITTER.setIc2Stack(getItem("frequency_transmitter"));
 		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(getItem("neutron_reflector"));
 		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(getItem("thick_neutron_reflector"));
-		IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(getItem("iridium_reflector"));
+
+		if(experimental) {
+			IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(getItem("iridium_reflector"));
+		}
 		
 		//Rubber - ore dic: itemRubber, hidden from JEI
 		//Rubber Sap - only used to make rubber, hidden from JEI
@@ -100,7 +103,10 @@ public class IC2Dict {
 
 			OreUtil.registerOre("reflectorBasic", getItem("neutron_reflector"));
 			OreUtil.registerOre("reflectorThick", getItem("thick_neutron_reflector"));
-			OreUtil.registerOre("reflectorIridium", getItem("iridium_reflector"));
+
+			if(experimental) {
+				OreUtil.registerOre("reflectorIridium", getItem("iridium_reflector"));
+			}
 
 			ItemStack industrialTnt = getItem("te", "itnt");
 
