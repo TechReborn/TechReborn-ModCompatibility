@@ -15,7 +15,7 @@ import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
 import techreborn.lib.ModInfo;
 
-@RebornRegistry(modOnly = "ic2,!ic2-classic-spmod", modID = ModInfo.MOD_ID)
+@RebornRegistry(modOnly = "ic2", modID = ModInfo.MOD_ID)
 public class RebronCoreIC2 implements ExternalPowerManager {
 
 	@ConfigRegistry(config = "ic2", comment = "Should ic2 power support be enabled? (Requires restart)")
