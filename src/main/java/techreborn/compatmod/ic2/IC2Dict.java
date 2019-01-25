@@ -79,10 +79,6 @@ public class IC2Dict {
 		//Rubber tree blocks, hidden when deduplication is on, and rubber tress are not set to gen, includes tree taps
 		//Circuits are hidden in JEI
 
-		RecipeHandler.addRecipe(
-				new ExtractorRecipe(getItem("misc_resource", "resin"),
-						ItemParts.getPartByName("rubber", 3), 400, 2));
-
 		try {
 			OreUtil.registerOre("reBattery", getItem("re_battery"));
 

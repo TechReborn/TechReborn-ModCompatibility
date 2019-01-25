@@ -136,6 +136,10 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 		RecipeHandler.addRecipe(new ExtractorRecipe(ItemName.filled_tin_can.getItemStack(),
 				ItemName.crafting.getItemStack("tin_can"), 300, 16));
 
+		RecipeHandler.addRecipe(
+				new ExtractorRecipe(IC2Dict.getItem("misc_resource", "resin"),
+						ItemParts.getPartByName("rubber", 3), 400, 2));
+
 		ItemStack f = IC2Items.getItem("crop_res", "fertilizer");
 		ChemicalReactorRecipes.register(RecipeMethods.getMaterial("calcite", RecipeMethods.Type.DUST), RecipeMethods.getMaterial("sulfur", RecipeMethods.Type.DUST), f, 40);
 	}
