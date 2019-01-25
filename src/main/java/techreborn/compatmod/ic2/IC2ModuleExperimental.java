@@ -24,12 +24,10 @@
 
 package techreborn.compatmod.ic2;
 
-import ic2.api.item.IC2Items;
 import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
 import ic2.core.item.tool.ItemTreetap;
-import ic2.core.ref.ItemName;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -112,35 +110,35 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		recipeDuplicateList.add(new RecipeDuplicate(new ItemStack(ModBlocks.MACHINE_FRAMES, 1, 0),
-				IC2Items.getItem("resource", "machine")));
+				IC2Dict.getItem("resource", "machine")));
 
 		for (RecipeDuplicate duplicate : recipeDuplicateList) {
 			duplicate.add();
 		}
 
 		RebornCraftingHelper.addShapelessRecipe(ItemParts.getPartByName("rubber"),
-				IC2Items.getItem("crafting", "rubber"));
-		RebornCraftingHelper.addShapelessRecipe(IC2Items.getItem("crafting", "rubber"),
+				IC2Dict.getItem("crafting", "rubber"));
+		RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("crafting", "rubber"),
 				ItemParts.getPartByName("rubber"));
-		RebornCraftingHelper.addShapelessRecipe(IC2Items.getItem("electric_wrench"), new ItemStack(ModItems.WRENCH),
-				IC2Items.getItem("crafting", "small_power_unit"));
+		RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("electric_wrench"), new ItemStack(ModItems.WRENCH),
+				IC2Dict.getItem("crafting", "small_power_unit"));
 
-		RecipeHandler.addRecipe(new CompressorRecipe(IC2Items.getItem("crafting", "carbon_mesh"),
-				IC2Items.getItem("crafting", "carbon_plate"), 300, 4));
-		RecipeHandler.addRecipe(new CompressorRecipe(IC2Items.getItem("crafting", "coal_ball"),
-				IC2Items.getItem("crafting", "coal_block"), 300, 4));
+		RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "carbon_mesh"),
+				IC2Dict.getItem("crafting", "carbon_plate"), 300, 4));
+		RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "coal_ball"),
+				IC2Dict.getItem("crafting", "coal_block"), 300, 4));
 
-		RecipeHandler.addRecipe(new GrinderRecipe(ItemName.crafting.getItemStack("tin_can"),
+		RecipeHandler.addRecipe(new GrinderRecipe(IC2Dict.getItem("crafting", "tin_can"),
 				RecipeMethods.getOre("dustTin", 2), 300, 16));
 
-		RecipeHandler.addRecipe(new ExtractorRecipe(ItemName.filled_tin_can.getItemStack(),
-				ItemName.crafting.getItemStack("tin_can"), 300, 16));
+		RecipeHandler.addRecipe(new ExtractorRecipe(IC2Dict.getItem("filled_tin_can"),
+				IC2Dict.getItem("crafting", "tin_can"), 300, 16));
 
 		RecipeHandler.addRecipe(
 				new ExtractorRecipe(IC2Dict.getItem("misc_resource", "resin"),
 						ItemParts.getPartByName("rubber", 3), 400, 2));
 
-		ItemStack f = IC2Items.getItem("crop_res", "fertilizer");
+		ItemStack f = IC2Dict.getItem("crop_res", "fertilizer");
 		ChemicalReactorRecipes.register(RecipeMethods.getMaterial("calcite", RecipeMethods.Type.DUST), RecipeMethods.getMaterial("sulfur", RecipeMethods.Type.DUST), f, 40);
 	}
 
@@ -151,7 +149,7 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 
 	@Override
 	public boolean extractSap(EntityPlayer player, World world, BlockPos pos, EnumFacing side, IBlockState state, List<ItemStack> stacks) {
-		if(state.getBlock() != Block.getBlockFromItem(IC2Items.getItem("rubber_wood").getItem())){
+		if(state.getBlock() != Block.getBlockFromItem(IC2Dict.getItem("rubber_wood").getItem())){
 			return false;
 		}
 		return ItemTreetap.attemptExtract(player, world, pos, side, state, null);
