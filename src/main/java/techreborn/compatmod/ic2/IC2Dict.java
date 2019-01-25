@@ -25,8 +25,11 @@
 package techreborn.compatmod.ic2;
 
 import ic2.api.item.IC2Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.util.OreUtil;
 import techreborn.Core;
@@ -75,6 +78,14 @@ public class IC2Dict {
 
 		if(experimental) {
 			IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(getItem("iridium_reflector"));
+		} else {
+			// Try to get the iridium reflector from the item registry instead.
+			Item item = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("ic2:itemreflectors"));
+			if(item == null) {
+				Core.logHelper.warn("Failed to look up the IC2 Classic iridium neutron reflector item (ic2:itemreflectors:2)");
+			} else {
+				IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(new ItemStack(item, 1, 2));
+			}
 		}
 		
 		//Rubber - ore dic: itemRubber, hidden from JEI
@@ -106,6 +117,15 @@ public class IC2Dict {
 
 			if(experimental) {
 				OreUtil.registerOre("reflectorIridium", getItem("iridium_reflector"));
+			} else {
+				// Try to get the iridium reflector from the item registry instead.
+				Item item = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("ic2:itemreflectors"));
+				if(item == null) {
+					Core.logHelper.warn("Failed to look up the IC2 Classic iridium neutron reflector item (ic2:itemreflectors:2)");
+				} else {
+					System.out.print("Register reflectorIridium with "+new ItemStack(item, 1, 2)+" "+item.getRegistryName());
+					OreUtil.registerOre("reflectorIridium", new ItemStack(item, 1, 2));
+				}
 			}
 
 			ItemStack industrialTnt = getItem("te", "itnt");
