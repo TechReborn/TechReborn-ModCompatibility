@@ -72,7 +72,7 @@ import java.util.List;
  */
 //We load this as TR so we can get the config options in there, and this is mainly recipes
 @RebornRegistry(modOnly = "ic2,!ic2-classic-spmod", modID = ModInfo.MOD_ID)
-public class IC2Module implements ICompatModule, IC2Helper {
+public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 
 	@ConfigRegistry(config = "ic2", comment = "When enabled all of TR's compressor recipes are added to the IC2 compressor (Requies deduplication) (Requires restart)")
 	public static boolean syncCompressorRecipes = true;
