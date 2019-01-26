@@ -30,19 +30,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.util.OreUtil;
 import techreborn.Core;
-import techreborn.api.recipe.machines.ExtractorRecipe;
 import techreborn.init.IC2Duplicates;
-import techreborn.items.ingredients.ItemParts;
 
 /**
  * Created by modmuss50 on 16/07/2016.
  */
 public class IC2Dict {
 
-	public static void init() {
+	public static void initDuplicates() {
 		boolean experimental = !Loader.isModLoaded("ic2-classic-spmod");
 
 		IC2Duplicates.GRINDER.setIc2Stack(getItem("te", "macerator"));
@@ -87,11 +84,15 @@ public class IC2Dict {
 				IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(new ItemStack(item, 1, 2));
 			}
 		}
-		
+	}
+
+	public static void initOreDictionary() {
 		//Rubber - ore dic: itemRubber, hidden from JEI
 		//Rubber Sap - only used to make rubber, hidden from JEI
 		//Rubber tree blocks, hidden when deduplication is on, and rubber tress are not set to gen, includes tree taps
 		//Circuits are hidden in JEI
+
+		boolean experimental = !Loader.isModLoaded("ic2-classic-spmod");
 
 		try {
 			OreUtil.registerOre("reBattery", getItem("re_battery"));
@@ -171,15 +172,15 @@ public class IC2Dict {
 
 		} catch (NoClassDefFoundError notFound) {
 			Core.logHelper.warn(
-				"Can't enable integration: IC2 installed but cannot be hooked\n" +
-					"Do you use incompatible IC2 version?\n" +
-					"Please create issue on github and provide FULL LOG and mod list");
+					"Can't enable integration: IC2 installed but cannot be hooked\n" +
+							"Do you use incompatible IC2 version?\n" +
+							"Please create issue on github and provide FULL LOG and mod list");
 		} catch (Throwable error) {
 			Core.logHelper.warn(
-				"Exception thrown during IC2 integration init\n" +
-					"Do you use incompatible IC2 version?\n" +
-					"Please create issue on github and provide FULL LOG and mod list.\n" +
-					"Error stack trace: ");
+					"Exception thrown during IC2 integration initDuplicates\n" +
+							"Do you use incompatible IC2 version?\n" +
+							"Please create issue on github and provide FULL LOG and mod list.\n" +
+							"Error stack trace: ");
 			error.printStackTrace();
 		}
 	}

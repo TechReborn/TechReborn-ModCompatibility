@@ -84,7 +84,8 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 
 	@Override
 	public void initDuplicates() {
-		IC2Dict.init();
+		IC2Dict.initDuplicates();
+		IC2Dict.initOreDictionary();
 	}
 
 	@Override
