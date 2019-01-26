@@ -133,13 +133,10 @@ public class IC2Dict {
 	public static ItemStack getItem(String name, String variant) {
 		ItemStack stack = IC2Items.getItem(name, variant);
 
+		// Treat IC2 Classic's ic2:itemnouse item as null.
 		if(stack==null || stack.isEmpty() || stack.getItem().getRegistryName().toString().equals("ic2:itemnouse")) {
-			// Treat IC2 Classic's ic2:itemnouse item as null.
-			stack = null;
-		}
-
-		if(stack==null) {
 			Core.logHelper.warn("Failed to look up the IC2 item with name "+name+" and variant "+variant);
+			stack = ItemStack.EMPTY;
 		}
 
 		return stack;
