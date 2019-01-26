@@ -84,10 +84,6 @@ repositories {
 		url "https://minecraft.curseforge.com/api/maven/"
 	}
 	ivy {
-		name "AE2"
-		artifactPattern "http://ae-mod.info/builds/[module]-[revision](-[classifier])(.[ext])"
-	}
-	ivy {
 		name "BuildCraft"
 		artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
 	}
@@ -144,7 +140,6 @@ dependencies {
 	deobfCompile "mekanism-generators:MekanismGenerators:1.12.2:9.4.13.349"
 	deobfCompile "mekanism-tools:MekanismTools:1.12.2:9.4.13.349"
 	deobfCompile "mekanism-tools:MekanismTools:1.12.2:9.4.13.349"
-	deobfCompile name: "appliedenergistics2", version: "rv6-stable-4", classifier: 'api', ext:"jar"
 	deobfCompile "baubles:Baubles:1.12:1.5.2"
 	deobfCompile "industrial-foregoing:industrialforegoing-1.12.2:1.12.3:227"
 	deobfCompile "tesla-core-lib:tesla-core-lib:1.12.2:1.0.15"
