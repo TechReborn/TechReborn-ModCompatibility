@@ -78,6 +78,7 @@ public class IC2ModuleClassic implements ICompatModule, IC2Helper {
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		IC2Recipes.registerRecipes();
+		IC2RecipesClassic.registerRecipes();
 	}
 
 	@Override

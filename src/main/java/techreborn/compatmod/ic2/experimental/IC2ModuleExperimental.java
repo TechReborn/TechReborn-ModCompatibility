@@ -80,6 +80,7 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		IC2Recipes.registerRecipes();
+		IC2RecipesExperimental.registerRecipes();
 	}
 
 	@Override
