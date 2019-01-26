@@ -34,6 +34,16 @@ import techreborn.init.IC2Duplicates;
  * Created by modmuss50 on 16/07/2016.
  */
 public class IC2Dict {
+	public static final String ERROR_CLASS_NOT_FOUND =
+			"Can't enable integration: IC2 is installed but cannot be hooked\n" +
+			"Are you using an incompatible IC2 version?\n" +
+			"Please create an issue on GitHub and provide the FULL LOG and mod list";
+
+	public static final String ERROR_GENERIC =
+			"Exception thrown during IC2 integration init\n" +
+			"Are you using an incompatible IC2 version?\n" +
+			"Please create an issue on GitHub and provide the FULL LOG and mod list\n" +
+			"Error stack trace: ";
 
 	public static void initDuplicates() {
 		IC2Duplicates.GRINDER.setIc2Stack(getItem("te", "macerator"));
@@ -75,51 +85,36 @@ public class IC2Dict {
 		//Rubber tree blocks, hidden when deduplication is on, and rubber tress are not set to gen, includes tree taps
 		//Circuits are hidden in JEI
 
-		try {
-			OreUtil.registerOre("reBattery", getItem("re_battery"));
+		OreUtil.registerOre("reBattery", getItem("re_battery"));
 
-			OreUtil.registerOre("circuitBasic", getItem("crafting", "circuit"));
-			OreUtil.registerOre("circuitAdvanced", getItem("crafting", "advanced_circuit"));
+		OreUtil.registerOre("circuitBasic", getItem("crafting", "circuit"));
+		OreUtil.registerOre("circuitAdvanced", getItem("crafting", "advanced_circuit"));
 
-			OreUtil.registerOre("machineBlockBasic", getItem("resource", "machine"));
-			OreUtil.registerOre("machineBlockAdvanced", getItem("resource", "advanced_machine"));
+		OreUtil.registerOre("machineBlockBasic", getItem("resource", "machine"));
+		OreUtil.registerOre("machineBlockAdvanced", getItem("resource", "advanced_machine"));
 
-			OreUtil.registerOre("lapotronCrystal", getItem("lapotron_crystal"));
-			OreUtil.registerOre("energyCrystal", getItem("energy_crystal"));
+		OreUtil.registerOre("lapotronCrystal", getItem("lapotron_crystal"));
+		OreUtil.registerOre("energyCrystal", getItem("energy_crystal"));
 
-			OreUtil.registerOre("drillBasic", getItem("drill"));
-			OreUtil.registerOre("drillDiamond", getItem("diamond_drill"));
+		OreUtil.registerOre("drillBasic", getItem("drill"));
+		OreUtil.registerOre("drillDiamond", getItem("diamond_drill"));
 
-			OreUtil.registerOre("reflectorBasic", getItem("neutron_reflector"));
-			OreUtil.registerOre("reflectorThick", getItem("thick_neutron_reflector"));
+		OreUtil.registerOre("reflectorBasic", getItem("neutron_reflector"));
+		OreUtil.registerOre("reflectorThick", getItem("thick_neutron_reflector"));
 
-			OreUtil.registerOre("craftingIndustrialDiamond", getItem("crafting", "industrial_diamond"));
+		OreUtil.registerOre("craftingIndustrialDiamond", getItem("crafting", "industrial_diamond"));
 
-			OreUtil.registerOre("hvTransformer", getItem("te", "hv_transformer"));
+		OreUtil.registerOre("hvTransformer", getItem("te", "hv_transformer"));
 
-			OreUtil.registerOre("rubberWood", getItem("rubber_wood"));
-			OreUtil.registerOre("glassReinforced", getItem("glass", "reinforced"));
+		OreUtil.registerOre("rubberWood", getItem("rubber_wood"));
+		OreUtil.registerOre("glassReinforced", getItem("glass", "reinforced"));
 
-			OreUtil.registerOre("oreIridium", getItem("misc_resource", "iridium_ore"));
+		OreUtil.registerOre("oreIridium", getItem("misc_resource", "iridium_ore"));
 
-			OreUtil.registerOre("logRubber", getItem("rubber_wood"));
-			OreUtil.registerOre("plateIridiumAlloy", getItem("crafting", "iridium"));
-			OreUtil.registerOre("plateAdvancedAlloy", getItem("crafting", "alloy"));
-			OreUtil.registerOre("plateCarbon", getItem("crafting", "carbon_plate"));
-
-		} catch (NoClassDefFoundError notFound) {
-			Core.logHelper.warn(
-					"Can't enable integration: IC2 installed but cannot be hooked\n" +
-							"Do you use incompatible IC2 version?\n" +
-							"Please create issue on github and provide FULL LOG and mod list");
-		} catch (Throwable error) {
-			Core.logHelper.warn(
-					"Exception thrown during IC2 integration initDuplicates\n" +
-							"Do you use incompatible IC2 version?\n" +
-							"Please create issue on github and provide FULL LOG and mod list.\n" +
-							"Error stack trace: ");
-			error.printStackTrace();
-		}
+		OreUtil.registerOre("logRubber", getItem("rubber_wood"));
+		OreUtil.registerOre("plateIridiumAlloy", getItem("crafting", "iridium"));
+		OreUtil.registerOre("plateAdvancedAlloy", getItem("crafting", "alloy"));
+		OreUtil.registerOre("plateCarbon", getItem("crafting", "carbon_plate"));
 	}
 
 	public static ItemStack getIC2Cable(String type, int insulation) {

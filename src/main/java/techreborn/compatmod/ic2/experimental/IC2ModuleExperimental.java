@@ -42,6 +42,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
+import techreborn.Core;
 import techreborn.api.IC2Helper;
 import techreborn.api.Reference;
 import techreborn.api.TechRebornAPI;
@@ -85,11 +86,18 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 
 	@Override
 	public void initDuplicates() {
-		IC2Dict.initDuplicates();
-		IC2Dict.initOreDictionary();
+		try {
+			IC2Dict.initDuplicates();
+			IC2Dict.initOreDictionary();
 
-		IC2DictExperimental.initDuplicates();
-		IC2DictExperimental.initOreDictionary();
+			IC2DictExperimental.initDuplicates();
+			IC2DictExperimental.initOreDictionary();
+		} catch (NoClassDefFoundError notFound) {
+			Core.logHelper.warn(IC2Dict.ERROR_CLASS_NOT_FOUND);
+		} catch (Throwable error) {
+			Core.logHelper.warn(IC2Dict.ERROR_GENERIC);
+			error.printStackTrace();
+		}
 	}
 
 	@Override
