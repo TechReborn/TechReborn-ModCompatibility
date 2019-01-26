@@ -1,4 +1,4 @@
-package techreborn.compatmod.ic2;
+package techreborn.compatmod.ic2.power;
 
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
@@ -12,12 +12,12 @@ import net.minecraftforge.fml.common.Optional;
 import reborncore.api.power.ExternalPowerHandler;
 import reborncore.common.powerSystem.TilePowerAcceptor;
 
-public class IC2EnergyBase implements IEnergyTile, IEnergySink, IEnergySource, ExternalPowerHandler, ILocatable {
+public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySource, ExternalPowerHandler, ILocatable {
 
 	TilePowerAcceptor powerAcceptor;
 	protected boolean addedToEnet;
 
-	public IC2EnergyBase(TilePowerAcceptor powerAcceptor) {
+	public IC2EnergyDelegate(TilePowerAcceptor powerAcceptor) {
 		this.powerAcceptor = powerAcceptor;
 	}
 

@@ -1,4 +1,4 @@
-package techreborn.compatmod.ic2;
+package techreborn.compatmod.ic2.power;
 
 import ic2.api.item.IBackupElectricItemManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,9 +8,9 @@ import reborncore.common.RebornCoreConfig;
 import reborncore.common.powerSystem.forge.ForgePowerItemManager;
 
 public class TRBackupElectricItemManager implements IBackupElectricItemManager {
-	private RebronCoreIC2 externalPowerManager;
+	private IC2PowerManager externalPowerManager;
 
-	TRBackupElectricItemManager(RebronCoreIC2 externalPowerManager) {
+	TRBackupElectricItemManager(IC2PowerManager externalPowerManager) {
 		this.externalPowerManager = externalPowerManager;
 	}
 

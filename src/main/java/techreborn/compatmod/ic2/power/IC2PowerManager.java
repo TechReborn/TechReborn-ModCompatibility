@@ -1,4 +1,4 @@
-package techreborn.compatmod.ic2;
+package techreborn.compatmod.ic2.power;
 
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyTile;
@@ -15,13 +15,13 @@ import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
 import techreborn.lib.ModInfo;
 
-@RebornRegistry(modOnly = "ic2,!ic2-classic-spmod", modID = ModInfo.MOD_ID)
-public class RebronCoreIC2 implements ExternalPowerManager {
+@RebornRegistry(modOnly = "ic2", modID = ModInfo.MOD_ID)
+public class IC2PowerManager implements ExternalPowerManager {
 
 	@ConfigRegistry(config = "ic2", comment = "Should ic2 power support be enabled? (Requires restart)")
 	public static boolean ic2Power = true;
 
-	public RebronCoreIC2() {
+	public IC2PowerManager() {
 		if(ic2Power) {
 			ElectricItem.registerBackupManager(new TRBackupElectricItemManager(this));
 		}
@@ -32,7 +32,7 @@ public class RebronCoreIC2 implements ExternalPowerManager {
 		if(!ic2Power){
 			return null;
 		}
-		return new IC2EnergyBase(acceptor);
+		return new IC2EnergyDelegate(acceptor);
 	}
 
 	@Override
@@ -69,11 +69,17 @@ public class RebronCoreIC2 implements ExternalPowerManager {
 
 	@Override
 	public void chargeItem(ForgePowerItemManager powerAcceptor, ItemStack stack) {
+		if(!ic2Power){
+			return;
+		}
 		IC2ItemCharger.chargeIc2Item(powerAcceptor, stack);
 	}
 
 	@Override
 	public void requestEnergyFromArmor(ForgePowerItemManager powerAcceptor, EntityLivingBase entity) {
+		if(!ic2Power){
+			return;
+		}
 		IC2ItemCharger.requestEnergyFromIc2Armor(powerAcceptor, entity);
 	}
 }

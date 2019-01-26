@@ -22,14 +22,10 @@
  * SOFTWARE.
  */
 
-package techreborn.compatmod.ic2;
+package techreborn.compatmod.ic2.experimental;
 
-import ic2.api.item.IC2Items;
-import ic2.api.recipe.IBasicMachineRecipeManager;
-import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
 import ic2.core.item.tool.ItemTreetap;
-import ic2.core.ref.ItemName;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,27 +40,18 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
-import reborncore.common.util.RebornCraftingHelper;
+import techreborn.Core;
 import techreborn.api.IC2Helper;
 import techreborn.api.Reference;
 import techreborn.api.TechRebornAPI;
-import techreborn.api.recipe.machines.CompressorRecipe;
-import techreborn.api.recipe.machines.ExtractorRecipe;
-import techreborn.api.recipe.machines.GrinderRecipe;
 import techreborn.compat.ICompatModule;
+import techreborn.compatmod.ic2.IC2Dict;
+import techreborn.compatmod.ic2.IC2Recipes;
 import techreborn.init.IC2Duplicates;
-import techreborn.init.ModBlocks;
-import techreborn.init.ModItems;
-import techreborn.init.recipes.ChemicalReactorRecipes;
-import techreborn.init.recipes.RecipeMethods;
-import techreborn.items.ingredients.ItemParts;
 import techreborn.lib.ModInfo;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -72,12 +59,10 @@ import java.util.List;
  */
 //We load this as TR so we can get the config options in there, and this is mainly recipes
 @RebornRegistry(modOnly = "ic2,!ic2-classic-spmod", modID = ModInfo.MOD_ID)
-public class IC2Module implements ICompatModule, IC2Helper {
+public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 
 	@ConfigRegistry(config = "ic2", comment = "When enabled all of TR's compressor recipes are added to the IC2 compressor (Requies deduplication) (Requires restart)")
 	public static boolean syncCompressorRecipes = true;
-
-	List<RecipeDuplicate> recipeDuplicateList = new ArrayList<>();
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
@@ -88,83 +73,38 @@ public class IC2Module implements ICompatModule, IC2Helper {
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		if(IC2Duplicates.deduplicate() && syncCompressorRecipes){
-			cloneMachineRecipes(Reference.COMPRESSOR_RECIPE, Recipes.compressor);
+			IC2Recipes.cloneMachineRecipes(Reference.COMPRESSOR_RECIPE, Recipes.compressor);
 		}
-	}
-
-	private void cloneMachineRecipes(String machine, IBasicMachineRecipeManager recipeManager){
-		RecipeHandler.getRecipeClassFromName(machine).forEach(recipeType -> {
-			if(recipeType.getInputs().size() == 1 && recipeType.getOutputs().size() == 1){
-				Object object = recipeType.getInputs().get(0);
-				IRecipeInput input = null;
-				if(object instanceof ItemStack){
-					input = Recipes.inputFactory.forStack((ItemStack) object);
-				} else if (object instanceof String){
-					input = Recipes.inputFactory.forOreDict((String) object);
-				}
-				recipeManager.addRecipe(input, Collections.singletonList(recipeType.getOutputs().get(0)), null, false);
-			}
-
-		});
 	}
 
 	// LOW is used as we want it to load as late as possible, but before crafttweaker
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		recipeDuplicateList.add(new RecipeDuplicate(new ItemStack(ModBlocks.MACHINE_FRAMES, 1, 0),
-				IC2Items.getItem("resource", "machine")));
-
-		for (RecipeDuplicate duplicate : recipeDuplicateList) {
-			duplicate.add();
-		}
-
-		RebornCraftingHelper.addShapelessRecipe(ItemParts.getPartByName("rubber"),
-				IC2Items.getItem("crafting", "rubber"));
-		RebornCraftingHelper.addShapelessRecipe(IC2Items.getItem("crafting", "rubber"),
-				ItemParts.getPartByName("rubber"));
-		RebornCraftingHelper.addShapelessRecipe(IC2Items.getItem("electric_wrench"), new ItemStack(ModItems.WRENCH),
-				IC2Items.getItem("crafting", "small_power_unit"));
-
-		RecipeHandler.addRecipe(new CompressorRecipe(IC2Items.getItem("crafting", "carbon_mesh"),
-				IC2Items.getItem("crafting", "carbon_plate"), 300, 4));
-		RecipeHandler.addRecipe(new CompressorRecipe(IC2Items.getItem("crafting", "coal_ball"),
-				IC2Items.getItem("crafting", "coal_block"), 300, 4));
-
-		RecipeHandler.addRecipe(new GrinderRecipe(ItemName.crafting.getItemStack("tin_can"),
-				RecipeMethods.getOre("dustTin", 2), 300, 16));
-
-		RecipeHandler.addRecipe(new ExtractorRecipe(ItemName.filled_tin_can.getItemStack(),
-				ItemName.crafting.getItemStack("tin_can"), 300, 16));
-
-		ItemStack f = IC2Items.getItem("crop_res", "fertilizer");
-		ChemicalReactorRecipes.register(RecipeMethods.getMaterial("calcite", RecipeMethods.Type.DUST), RecipeMethods.getMaterial("sulfur", RecipeMethods.Type.DUST), f, 40);
+		IC2Recipes.registerRecipes();
+		IC2RecipesExperimental.registerRecipes();
 	}
 
 	@Override
 	public void initDuplicates() {
-		IC2Dict.init();
+		try {
+			IC2Dict.initDuplicates();
+			IC2Dict.initOreDictionary();
+
+			IC2DictExperimental.initDuplicates();
+			IC2DictExperimental.initOreDictionary();
+		} catch (NoClassDefFoundError notFound) {
+			Core.logHelper.warn(IC2Dict.ERROR_CLASS_NOT_FOUND);
+		} catch (Throwable error) {
+			Core.logHelper.warn(IC2Dict.ERROR_GENERIC);
+			error.printStackTrace();
+		}
 	}
 
 	@Override
 	public boolean extractSap(EntityPlayer player, World world, BlockPos pos, EnumFacing side, IBlockState state, List<ItemStack> stacks) {
-		if(state.getBlock() != Block.getBlockFromItem(IC2Items.getItem("rubber_wood").getItem())){
+		if(state.getBlock() != Block.getBlockFromItem(IC2Dict.getItem("rubber_wood").getItem())){
 			return false;
 		}
 		return ItemTreetap.attemptExtract(player, world, pos, side, state, null);
-	}
-
-	public class RecipeDuplicate {
-		ItemStack stack1;
-		ItemStack stack2;
-
-		public RecipeDuplicate(ItemStack stack1, ItemStack stack2) {
-			this.stack1 = stack1;
-			this.stack2 = stack2;
-		}
-
-		public void add() {
-			RebornCraftingHelper.addShapelessRecipe(stack2, stack1);
-			RebornCraftingHelper.addShapelessRecipe(stack1, stack2);
-		}
 	}
 }

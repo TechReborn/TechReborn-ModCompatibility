@@ -24,136 +24,117 @@
 
 package techreborn.compatmod.ic2;
 
-import ic2.core.block.BlockIC2Fence;
-import ic2.core.block.BlockTexGlass;
-import ic2.core.block.type.ResourceBlock;
-import ic2.core.block.wiring.CableType;
-import ic2.core.item.block.ItemCable;
-import ic2.core.item.type.CraftingItemType;
-import ic2.core.item.type.MiscResourceType;
-import ic2.core.item.type.NuclearResourceType;
-import ic2.core.ref.BlockName;
-import ic2.core.ref.ItemName;
-import ic2.core.ref.TeBlock;
+import ic2.api.item.IC2Items;
 import net.minecraft.item.ItemStack;
-import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.util.OreUtil;
 import techreborn.Core;
-import techreborn.api.recipe.machines.ExtractorRecipe;
 import techreborn.init.IC2Duplicates;
-import techreborn.items.ingredients.ItemParts;
 
 /**
  * Created by modmuss50 on 16/07/2016.
  */
 public class IC2Dict {
+	public static final String ERROR_CLASS_NOT_FOUND =
+			"Can't enable integration: IC2 is installed but cannot be hooked\n" +
+			"Are you using an incompatible IC2 version?\n" +
+			"Please create an issue on GitHub and provide the FULL LOG and mod list";
 
-	public static void init() {
+	public static final String ERROR_GENERIC =
+			"Exception thrown during IC2 integration init\n" +
+			"Are you using an incompatible IC2 version?\n" +
+			"Please create an issue on GitHub and provide the FULL LOG and mod list\n" +
+			"Error stack trace: ";
 
-		IC2Duplicates.GRINDER.setIc2Stack(BlockName.te.getItemStack(TeBlock.macerator.getName()));
-		IC2Duplicates.ELECTRICAL_FURNACE.setIc2Stack(BlockName.te.getItemStack(TeBlock.electric_furnace.getName()));
-		IC2Duplicates.IRON_FURNACE.setIc2Stack(BlockName.te.getItemStack(TeBlock.iron_furnace.getName()));
-		IC2Duplicates.GENERATOR.setIc2Stack(BlockName.te.getItemStack(TeBlock.generator.getName()));
-		IC2Duplicates.WATER_MILL.setIc2Stack(BlockName.te.getItemStack(TeBlock.water_generator.getName()));
-		IC2Duplicates.EXTRACTOR.setIc2Stack(BlockName.te.getItemStack(TeBlock.extractor.getName()));
-		IC2Duplicates.RECYCLER.setIc2Stack(BlockName.te.getItemStack(TeBlock.recycler.getName()));
-		IC2Duplicates.COMPRESSOR.setIc2Stack(BlockName.te.getItemStack(TeBlock.compressor.getName()));
-		IC2Duplicates.BAT_BOX.setIc2Stack(BlockName.te.getItemStack(TeBlock.batbox.getName()));
-		IC2Duplicates.MFE.setIc2Stack(BlockName.te.getItemStack(TeBlock.mfe.getName()));
-		IC2Duplicates.MFSU.setIc2Stack(BlockName.te.getItemStack(TeBlock.mfsu.getName()));
-		IC2Duplicates.LVT.setIc2Stack(BlockName.te.getItemStack(TeBlock.lv_transformer.getName()));
-		IC2Duplicates.MVT.setIc2Stack(BlockName.te.getItemStack(TeBlock.mv_transformer.getName()));
-		IC2Duplicates.HVT.setIc2Stack(BlockName.te.getItemStack(TeBlock.hv_transformer.getName()));
-		IC2Duplicates.CABLE_COPPER.setIc2Stack(getIC2Cable(CableType.copper, 0));
-		IC2Duplicates.CABLE_GOLD.setIc2Stack(getIC2Cable(CableType.gold, 0));
-		IC2Duplicates.CABLE_ICOPPER.setIc2Stack(getIC2Cable(CableType.copper, 1));
-		IC2Duplicates.CABLE_IGOLD.setIc2Stack(getIC2Cable(CableType.gold, 1));
-		IC2Duplicates.CABLE_HV.setIc2Stack(getIC2Cable(CableType.tin, 0));
-		IC2Duplicates.CABLE_IHV.setIc2Stack(getIC2Cable(CableType.tin, 1));
-		IC2Duplicates.CABLE_IIHV.setIc2Stack(getIC2Cable(CableType.tin, 2));
-		IC2Duplicates.CABLE_GLASSFIBER.setIc2Stack(getIC2Cable(CableType.glass, 0));
+	public static void initDuplicates() {
+		IC2Duplicates.GRINDER.setIc2Stack(getItem("te", "macerator"));
+		IC2Duplicates.ELECTRICAL_FURNACE.setIc2Stack(getItem("te", "electric_furnace"));
+		IC2Duplicates.IRON_FURNACE.setIc2Stack(getItem("te", "iron_furnace"));
+		IC2Duplicates.GENERATOR.setIc2Stack(getItem("te", "generator"));
+		IC2Duplicates.WATER_MILL.setIc2Stack(getItem("te", "water_generator"));
+		IC2Duplicates.EXTRACTOR.setIc2Stack(getItem("te", "extractor"));
+		IC2Duplicates.RECYCLER.setIc2Stack(getItem("te", "recycler"));
+		IC2Duplicates.COMPRESSOR.setIc2Stack(getItem("te", "compressor"));
+		IC2Duplicates.BAT_BOX.setIc2Stack(getItem("te", "batbox"));
+		IC2Duplicates.MFE.setIc2Stack(getItem("te", "mfe"));
+		IC2Duplicates.MFSU.setIc2Stack(getItem("te", "mfsu"));
+		IC2Duplicates.LVT.setIc2Stack(getItem("te", "lv_transformer"));
+		IC2Duplicates.MVT.setIc2Stack(getItem("te", "mv_transformer"));
+		IC2Duplicates.HVT.setIc2Stack(getItem("te", "hv_transformer"));
+		IC2Duplicates.CABLE_COPPER.setIc2Stack(getIC2Cable("copper", 0));
+		IC2Duplicates.CABLE_GOLD.setIc2Stack(getIC2Cable("gold", 0));
+		IC2Duplicates.CABLE_ICOPPER.setIc2Stack(getIC2Cable("copper", 1));
+		IC2Duplicates.CABLE_IGOLD.setIc2Stack(getIC2Cable("gold", 1));
+		IC2Duplicates.CABLE_HV.setIc2Stack(getIC2Cable("iron", 0));
+		IC2Duplicates.CABLE_IHV.setIc2Stack(getIC2Cable("iron", 1));
+		IC2Duplicates.CABLE_IIHV.setIc2Stack(getIC2Cable("iron", 2));
+		IC2Duplicates.CABLE_GLASSFIBER.setIc2Stack(getIC2Cable("glass", 0));
 
-		IC2Duplicates.MIXED_METAL.setIc2Stack(ItemName.ingot.getItemStack("alloy"));
-		IC2Duplicates.CARBON_FIBER.setIc2Stack(ItemName.crafting.getItemStack("carbon_fibre"));
-		IC2Duplicates.CARBON_MESH.setIc2Stack(ItemName.crafting.getItemStack("carbon_mesh"));
-		IC2Duplicates.SCRAP.setIc2Stack(ItemName.crafting.getItemStack(CraftingItemType.scrap));
-		IC2Duplicates.FREQ_TRANSMITTER.setIc2Stack(ItemName.frequency_transmitter.getItemStack());
-		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(ItemName.neutron_reflector.getItemStack());
-		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(ItemName.thick_neutron_reflector.getItemStack());
-		IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(ItemName.iridium_reflector.getItemStack());
-		
+		IC2Duplicates.MIXED_METAL.setIc2Stack(getItem("ingot", "alloy"));
+		IC2Duplicates.CARBON_FIBER.setIc2Stack(getItem("crafting", "carbon_fibre"));
+		IC2Duplicates.CARBON_MESH.setIc2Stack(getItem("crafting", "carbon_mesh"));
+		IC2Duplicates.SCRAP.setIc2Stack(getItem("crafting", "scrap"));
+		IC2Duplicates.FREQ_TRANSMITTER.setIc2Stack(getItem("frequency_transmitter"));
+		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(getItem("neutron_reflector"));
+		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(getItem("thick_neutron_reflector"));
+		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
+	}
+
+	public static void initOreDictionary() {
 		//Rubber - ore dic: itemRubber, hidden from JEI
 		//Rubber Sap - only used to make rubber, hidden from JEI
 		//Rubber tree blocks, hidden when deduplication is on, and rubber tress are not set to gen, includes tree taps
 		//Circuits are hidden in JEI
 
-		RecipeHandler.addRecipe(
-			new ExtractorRecipe(ItemName.misc_resource.getItemStack("resin"),
-				ItemParts.getPartByName("rubber", 3), 400, 2));
+		OreUtil.registerOre("reBattery", getItem("re_battery"));
 
-		try {
-			CraftingItemType.circuit.getName();
+		OreUtil.registerOre("circuitBasic", getItem("crafting", "circuit"));
+		OreUtil.registerOre("circuitAdvanced", getItem("crafting", "advanced_circuit"));
 
-			OreUtil.registerOre("reBattery", ItemName.re_battery.getItemStack());
+		OreUtil.registerOre("machineBlockBasic", getItem("resource", "machine"));
+		OreUtil.registerOre("machineBlockAdvanced", getItem("resource", "advanced_machine"));
 
-			OreUtil.registerOre("circuitBasic", ItemName.crafting.getItemStack(CraftingItemType.circuit));
-			OreUtil.registerOre("circuitAdvanced", ItemName.crafting.getItemStack(CraftingItemType.advanced_circuit));
+		OreUtil.registerOre("lapotronCrystal", getItem("lapotron_crystal"));
+		OreUtil.registerOre("energyCrystal", getItem("energy_crystal"));
 
-			OreUtil.registerOre("machineBlockBasic", BlockName.resource.getItemStack(ResourceBlock.machine));
-			OreUtil.registerOre("machineBlockAdvanced", BlockName.resource.getItemStack(ResourceBlock.advanced_machine));
+		OreUtil.registerOre("drillBasic", getItem("drill"));
+		OreUtil.registerOre("drillDiamond", getItem("diamond_drill"));
 
-			OreUtil.registerOre("lapotronCrystal", ItemName.lapotron_crystal.getItemStack());
-			OreUtil.registerOre("energyCrystal", ItemName.energy_crystal.getItemStack());
+		OreUtil.registerOre("reflectorBasic", getItem("neutron_reflector"));
+		OreUtil.registerOre("reflectorThick", getItem("thick_neutron_reflector"));
 
-			OreUtil.registerOre("drillBasic", ItemName.drill.getItemStack());
-			OreUtil.registerOre("drillDiamond", ItemName.diamond_drill.getItemStack());
-			OreUtil.registerOre("drillAdvanced", ItemName.iridium_drill.getItemStack());
-			
-			OreUtil.registerOre("reflectorBasic", ItemName.neutron_reflector.getItemStack());
-			OreUtil.registerOre("reflectorThick", ItemName.thick_neutron_reflector.getItemStack());
-			OreUtil.registerOre("reflectorIridium", ItemName.iridium_reflector.getItemStack());
+		OreUtil.registerOre("craftingIndustrialDiamond", getItem("crafting", "industrial_diamond"));
 
-			ItemStack industrialTnt = BlockName.te.getItemStack(TeBlock.itnt);
-			industrialTnt.setItemDamage(1);
-			OreUtil.registerOre("industrialTnt", industrialTnt);
+		OreUtil.registerOre("hvTransformer", getItem("te", "hv_transformer"));
 
-			OreUtil.registerOre("craftingIndustrialDiamond", ItemName.crafting.getItemStack(CraftingItemType.industrial_diamond));
-			OreUtil.registerOre("fertilizer", ItemName.crafting.getItemStack(CraftingItemType.bio_chaff));
-			OreUtil.registerOre("hvTransformer", BlockName.te.getItemStack(TeBlock.hv_transformer));
+		OreUtil.registerOre("rubberWood", getItem("rubber_wood"));
+		OreUtil.registerOre("glassReinforced", getItem("glass", "reinforced"));
 
-			OreUtil.registerOre("uran235", ItemName.nuclear.getItemStack(NuclearResourceType.uranium_235));
-			OreUtil.registerOre("uran238", ItemName.nuclear.getItemStack(NuclearResourceType.uranium_238));
-			OreUtil.registerOre("smallUran238", ItemName.nuclear.getItemStack(NuclearResourceType.small_uranium_238));
-			OreUtil.registerOre("smallUran235", ItemName.nuclear.getItemStack(NuclearResourceType.small_uranium_235));
+		OreUtil.registerOre("oreIridium", getItem("misc_resource", "iridium_ore"));
 
-			OreUtil.registerOre("fenceIron", BlockName.fence.getItemStack(BlockIC2Fence.IC2FenceType.iron));
-			OreUtil.registerOre("rubberWood", BlockName.rubber_wood.getItemStack());
-			OreUtil.registerOre("glassReinforced", BlockName.glass.getItemStack(BlockTexGlass.GlassType.reinforced));
-
-			OreUtil.registerOre("oreIridium", ItemName.misc_resource.getItemStack(MiscResourceType.iridium_ore));
-
-			OreUtil.registerOre("plateIridiumAlloy", ItemName.crafting.getItemStack(CraftingItemType.iridium));
-
-		} catch (NoClassDefFoundError notFound) {
-			Core.logHelper.warn(
-				"Can't enable integration: IC2 installed but cannot be hooked\n" +
-					"Do you use incompatible IC2 version?\n" +
-					"Please create issue on github and provide FULL LOG and mod list");
-		} catch (Throwable error) {
-			Core.logHelper.warn(
-				"Exception thrown during IC2 integration init\n" +
-					"Do you use incompatible IC2 version?\n" +
-					"Please create issue on github and provide FULL LOG and mod list.\n" +
-					"Error stack trace: ");
-			error.printStackTrace();
-		}
+		OreUtil.registerOre("logRubber", getItem("rubber_wood"));
+		OreUtil.registerOre("plateIridiumAlloy", getItem("crafting", "iridium"));
+		OreUtil.registerOre("plateAdvancedAlloy", getItem("crafting", "alloy"));
+		OreUtil.registerOre("plateCarbon", getItem("crafting", "carbon_plate"));
 	}
 
-	public static ItemStack getIC2Cable(CableType type, int insulation) {
-		if (insulation > type.maxInsulation) {
-			return null;
+	public static ItemStack getIC2Cable(String type, int insulation) {
+		return getItem("cable", "type:"+type+",insulation:"+insulation);
+	}
+
+	public static ItemStack getItem(String name) {
+		return getItem(name, null);
+	}
+
+	public static ItemStack getItem(String name, String variant) {
+		ItemStack stack = IC2Items.getItem(name, variant);
+
+		// Treat IC2 Classic's ic2:itemnouse item as null.
+		if(stack==null || stack.isEmpty() || stack.getItem().getRegistryName().toString().equals("ic2:itemnouse")) {
+			Core.logHelper.warn("Failed to look up the IC2 item with name "+name+" and variant "+variant);
+			stack = ItemStack.EMPTY;
 		}
-		return ItemCable.getCable(type, insulation);
+
+		return stack;
 	}
 
 }
