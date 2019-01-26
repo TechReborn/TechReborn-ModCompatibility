@@ -69,11 +69,17 @@ public class IC2PowerManager implements ExternalPowerManager {
 
 	@Override
 	public void chargeItem(ForgePowerItemManager powerAcceptor, ItemStack stack) {
+		if(!ic2Power){
+			return;
+		}
 		IC2ItemCharger.chargeIc2Item(powerAcceptor, stack);
 	}
 
 	@Override
 	public void requestEnergyFromArmor(ForgePowerItemManager powerAcceptor, EntityLivingBase entity) {
+		if(!ic2Power){
+			return;
+		}
 		IC2ItemCharger.requestEnergyFromIc2Armor(powerAcceptor, entity);
 	}
 }
