@@ -84,6 +84,9 @@ public class IC2ModuleClassic implements ICompatModule, IC2Helper {
 	public void initDuplicates() {
 		IC2Dict.initDuplicates();
 		IC2Dict.initOreDictionary();
+
+		IC2DictClassic.initDuplicates();
+		IC2DictClassic.initOreDictionary();
 	}
 
 	@Override

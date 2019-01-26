@@ -25,11 +25,7 @@
 package techreborn.compatmod.ic2;
 
 import ic2.api.item.IC2Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import reborncore.common.util.OreUtil;
 import techreborn.Core;
 import techreborn.init.IC2Duplicates;
@@ -40,8 +36,6 @@ import techreborn.init.IC2Duplicates;
 public class IC2Dict {
 
 	public static void initDuplicates() {
-		boolean experimental = !Loader.isModLoaded("ic2-classic-spmod");
-
 		IC2Duplicates.GRINDER.setIc2Stack(getItem("te", "macerator"));
 		IC2Duplicates.ELECTRICAL_FURNACE.setIc2Stack(getItem("te", "electric_furnace"));
 		IC2Duplicates.IRON_FURNACE.setIc2Stack(getItem("te", "iron_furnace"));
@@ -72,18 +66,7 @@ public class IC2Dict {
 		IC2Duplicates.FREQ_TRANSMITTER.setIc2Stack(getItem("frequency_transmitter"));
 		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(getItem("neutron_reflector"));
 		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(getItem("thick_neutron_reflector"));
-
-		if(experimental) {
-			IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(getItem("iridium_reflector"));
-		} else {
-			// Try to get the iridium reflector from the item registry instead.
-			Item item = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("ic2:itemreflectors"));
-			if(item == null) {
-				Core.logHelper.warn("Failed to look up the IC2 Classic iridium neutron reflector item (ic2:itemreflectors:2)");
-			} else {
-				IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(new ItemStack(item, 1, 2));
-			}
-		}
+		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
 	}
 
 	public static void initOreDictionary() {
@@ -91,8 +74,6 @@ public class IC2Dict {
 		//Rubber Sap - only used to make rubber, hidden from JEI
 		//Rubber tree blocks, hidden when deduplication is on, and rubber tress are not set to gen, includes tree taps
 		//Circuits are hidden in JEI
-
-		boolean experimental = !Loader.isModLoaded("ic2-classic-spmod");
 
 		try {
 			OreUtil.registerOre("reBattery", getItem("re_battery"));
@@ -109,56 +90,12 @@ public class IC2Dict {
 			OreUtil.registerOre("drillBasic", getItem("drill"));
 			OreUtil.registerOre("drillDiamond", getItem("diamond_drill"));
 
-			if(experimental) {
-				OreUtil.registerOre("drillAdvanced", getItem("iridium_drill"));
-			}
-
 			OreUtil.registerOre("reflectorBasic", getItem("neutron_reflector"));
 			OreUtil.registerOre("reflectorThick", getItem("thick_neutron_reflector"));
 
-			if(experimental) {
-				OreUtil.registerOre("reflectorIridium", getItem("iridium_reflector"));
-			} else {
-				// Try to get the iridium reflector from the item registry instead.
-				Item item = GameRegistry.findRegistry(Item.class).getValue(new ResourceLocation("ic2:itemreflectors"));
-				if(item == null) {
-					Core.logHelper.warn("Failed to look up the IC2 Classic iridium neutron reflector item (ic2:itemreflectors:2)");
-				} else {
-					System.out.print("Register reflectorIridium with "+new ItemStack(item, 1, 2)+" "+item.getRegistryName());
-					OreUtil.registerOre("reflectorIridium", new ItemStack(item, 1, 2));
-				}
-			}
-
-			ItemStack industrialTnt = getItem("te", "itnt");
-
-			// IC2E ITNT has meta 0 as nukes and meta 1 as industrial tnt. IC2C flips it for some reason.
-			if(experimental) {
-				industrialTnt.setItemDamage(1);
-			}
-
-			OreUtil.registerOre("industrialTnt", industrialTnt);
-
 			OreUtil.registerOre("craftingIndustrialDiamond", getItem("crafting", "industrial_diamond"));
 
-			// IC2C doesn't have bio chaff
-			if(experimental) {
-				OreUtil.registerOre("fertilizer", getItem("crafting", "bio_chaff"));
-			}
-
 			OreUtil.registerOre("hvTransformer", getItem("te", "hv_transformer"));
-
-			if(experimental) {
-				OreUtil.registerOre("uran235", getItem("nuclear", "uranium_235"));
-				OreUtil.registerOre("uran238", getItem("nuclear", "uranium_238"));
-				OreUtil.registerOre("smallUran235", getItem("nuclear", "small_uranium_235"));
-				OreUtil.registerOre("smallUran238", getItem("nuclear", "small_uranium_238"));
-			}
-
-			if(experimental) {
-				OreUtil.registerOre("fenceIron", getItem("fence", "iron"));
-			} else {
-				OreUtil.registerOre("fenceIron", getItem("fence"));
-			}
 
 			OreUtil.registerOre("rubberWood", getItem("rubber_wood"));
 			OreUtil.registerOre("glassReinforced", getItem("glass", "reinforced"));
