@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package techreborn.compatmod.ic2;
+package techreborn.compatmod.ic2.classic;
 
 import ic2.api.recipe.Recipes;
 import net.minecraft.block.state.IBlockState;
@@ -44,6 +44,8 @@ import techreborn.api.IC2Helper;
 import techreborn.api.Reference;
 import techreborn.api.TechRebornAPI;
 import techreborn.compat.ICompatModule;
+import techreborn.compatmod.ic2.IC2Recipes;
+import techreborn.compatmod.ic2.IC2Dict;
 import techreborn.init.IC2Duplicates;
 import techreborn.lib.ModInfo;
 

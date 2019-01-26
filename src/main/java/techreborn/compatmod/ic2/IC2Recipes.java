@@ -23,7 +23,7 @@ import java.util.List;
 public class IC2Recipes {
 	static List<RecipeDuplicate> recipeDuplicateList = new ArrayList<>();
 
-	static void cloneMachineRecipes(String machine, IBasicMachineRecipeManager recipeManager){
+	public static void cloneMachineRecipes(String machine, IBasicMachineRecipeManager recipeManager){
 		RecipeHandler.getRecipeClassFromName(machine).forEach(recipeType -> {
 			if(recipeType.getInputs().size() == 1 && recipeType.getOutputs().size() == 1){
 				Object object = recipeType.getInputs().get(0);

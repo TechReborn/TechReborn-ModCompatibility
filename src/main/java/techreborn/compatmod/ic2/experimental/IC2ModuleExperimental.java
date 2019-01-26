@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package techreborn.compatmod.ic2;
+package techreborn.compatmod.ic2.experimental;
 
 import ic2.api.recipe.Recipes;
 import ic2.core.item.tool.ItemTreetap;
@@ -46,6 +46,8 @@ import techreborn.api.IC2Helper;
 import techreborn.api.Reference;
 import techreborn.api.TechRebornAPI;
 import techreborn.compat.ICompatModule;
+import techreborn.compatmod.ic2.IC2Dict;
+import techreborn.compatmod.ic2.IC2Recipes;
 import techreborn.init.IC2Duplicates;
 import techreborn.lib.ModInfo;
 

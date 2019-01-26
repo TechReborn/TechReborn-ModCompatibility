@@ -26,7 +26,7 @@
  * THE SOFTWARE.
  */
 
-package techreborn.compatmod.ic2;
+package techreborn.compatmod.ic2.power;
 
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
