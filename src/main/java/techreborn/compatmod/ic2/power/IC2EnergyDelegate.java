@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Optional;
 import reborncore.api.power.ExternalPowerHandler;
 import reborncore.common.powerSystem.TilePowerAcceptor;
 
-public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySource, ExternalPowerHandler, ILocatable {
+public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySource, ExternalPowerHandler, ILocatable, IMultiEnergySource {
 
 	TilePowerAcceptor powerAcceptor;
 	protected boolean addedToEnet;
@@ -47,7 +47,7 @@ public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySourc
 	// IEnergySource
 	@Override
 	public double getOfferedEnergy() {
-		return Math.min(powerAcceptor.getEnergy(), powerAcceptor.getMaxOutput());
+		return Math.min(powerAcceptor.getEnergy(), powerAcceptor.getMaxOutput() * powerAcceptor.maxPacketsPerTick);
 	}
 
 	@Override
@@ -58,6 +58,17 @@ public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySourc
 	@Override
 	public int getSourceTier() {
 		return powerAcceptor.getTier().getIC2Tier();
+	}
+
+	// IMultiEnergySource
+	@Override
+	public boolean sendMultipleEnergyPackets() {
+		return powerAcceptor.maxPacketsPerTick > 1;
+	}
+
+	@Override
+	public int getMultipleEnergyPacketAmount() {
+		return powerAcceptor.maxPacketsPerTick;
 	}
 
 	// IEnergyEmitter
