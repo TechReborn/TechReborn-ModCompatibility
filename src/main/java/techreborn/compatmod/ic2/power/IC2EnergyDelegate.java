@@ -57,7 +57,7 @@ public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySourc
 
 	@Override
 	public int getSourceTier() {
-		return powerAcceptor.getTier().getIC2Tier();
+		return powerAcceptor.getPushingTier().getIC2Tier();
 	}
 
 	// IMultiEnergySource
