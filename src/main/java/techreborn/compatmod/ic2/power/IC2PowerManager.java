@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.common.Loader;
 import reborncore.api.power.ExternalPowerHandler;
 import reborncore.api.power.ExternalPowerManager;
 import reborncore.common.powerSystem.TilePowerAcceptor;
@@ -21,9 +22,12 @@ public class IC2PowerManager implements ExternalPowerManager {
 	@ConfigRegistry(config = "ic2", comment = "Should ic2 power support be enabled? (Requires restart)")
 	public static boolean ic2Power = true;
 
+	private boolean useIc2cWorkaround;
+
 	public IC2PowerManager() {
 		if(ic2Power) {
 			ElectricItem.registerBackupManager(new TRBackupElectricItemManager(this));
+			useIc2cWorkaround = Loader.isModLoaded("ic2-classic-spmod");
 		}
 	}
 
@@ -32,7 +36,7 @@ public class IC2PowerManager implements ExternalPowerManager {
 		if(!ic2Power){
 			return null;
 		}
-		return new IC2EnergyDelegate(acceptor);
+		return new IC2EnergyDelegate(acceptor, useIc2cWorkaround);
 	}
 
 	@Override
