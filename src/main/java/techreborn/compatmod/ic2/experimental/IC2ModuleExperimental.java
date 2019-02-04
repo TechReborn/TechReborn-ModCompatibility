@@ -51,6 +51,7 @@ import techreborn.api.TechRebornAPI;
 import techreborn.compat.ICompatModule;
 import techreborn.compatmod.ic2.IC2Dict;
 import techreborn.compatmod.ic2.IC2Recipes;
+import techreborn.config.ConfigTechReborn;
 import techreborn.init.IC2Duplicates;
 import techreborn.lib.ModInfo;
 
@@ -66,23 +67,14 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 	@ConfigRegistry(config = "ic2", comment = "When enabled all of TR's compressor recipes are added to the IC2 compressor (Requies deduplication) (Requires restart)")
 	public static boolean syncCompressorRecipes = true;
 
-	public IC2ModuleExperimental() {
-		//Needs to be loaded here as profileSwitch is loaded before our pre-init
-		MinecraftForge.EVENT_BUS.register(this);
-	}
-
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.register(this);
 		TechRebornAPI.ic2Helper = this;
-		RebornCore.logHelper.info("IC2 profile: " + ModInfo.IC2_PROFILE);
+		RebornCore.logHelper.info("IC2 profile: " + ConfigTechReborn.IC2_PROFILE);
 		if(IC2Duplicates.isClassicMode()){
 			IC2DictExperimentalClassic.preInit();
 		}
-	}
-
-	@SubscribeEvent
-	public void profileSwitch(ProfileEvent.Load event){
-		ModInfo.IC2_PROFILE = event.active;
 	}
 
 	@Override
