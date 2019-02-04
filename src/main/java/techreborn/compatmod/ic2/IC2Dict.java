@@ -28,6 +28,7 @@ import ic2.api.item.IC2Items;
 import net.minecraft.item.ItemStack;
 import reborncore.common.util.OreUtil;
 import techreborn.Core;
+import techreborn.compatmod.ic2.experimental.IC2DictExperimentalClassic;
 import techreborn.init.IC2Duplicates;
 
 /**
@@ -77,6 +78,10 @@ public class IC2Dict {
 		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(getItem("neutron_reflector"));
 		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(getItem("thick_neutron_reflector"));
 		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
+
+		if(IC2Duplicates.isClassicMode()){
+			IC2DictExperimentalClassic.preInit();
+		}
 	}
 
 	public static void initOreDictionary() {

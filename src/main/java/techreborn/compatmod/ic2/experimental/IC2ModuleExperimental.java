@@ -72,9 +72,6 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 		MinecraftForge.EVENT_BUS.register(this);
 		TechRebornAPI.ic2Helper = this;
 		RebornCore.logHelper.info("IC2 profile: " + ConfigTechReborn.IC2_PROFILE);
-		if(IC2Duplicates.isClassicMode()){
-			IC2DictExperimentalClassic.preInit();
-		}
 	}
 
 	@Override
