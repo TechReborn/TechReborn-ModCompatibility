@@ -123,7 +123,7 @@ dependencies {
 	deobfCompile "mcp.mobius.waila:Hwyla:1.8+"
 	deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.12.323"
 	deobfCompile name: 'buildcraft', version: '7.99.19', ext: 'jar'
-	deobfCompile "mezz.jei:jei_1.12.2:+"
+	deobfCompile "mezz.jei:jei_1.12.2:4.14.4.264"
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.19-11"
 	deobfCompile 'net.industrial-craft:industrialcraft-2:2.8.+'
 	deobfCompile 'cofh:ThermalDynamics:1.12.2-+:universal'
