@@ -16,9 +16,11 @@ public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySourc
 
 	TilePowerAcceptor powerAcceptor;
 	protected boolean addedToEnet;
+	boolean useIc2cWorkaround;
 
-	public IC2EnergyDelegate(TilePowerAcceptor powerAcceptor) {
+	public IC2EnergyDelegate(TilePowerAcceptor powerAcceptor, boolean useIc2cWorkaround) {
 		this.powerAcceptor = powerAcceptor;
+		this.useIc2cWorkaround = useIc2cWorkaround;
 	}
 
 	@Override
@@ -47,7 +49,15 @@ public class IC2EnergyDelegate implements IEnergyTile, IEnergySink, IEnergySourc
 	// IEnergySource
 	@Override
 	public double getOfferedEnergy() {
-		return Math.min(powerAcceptor.getEnergy(), powerAcceptor.getMaxOutput() * powerAcceptor.maxPacketsPerTick);
+		double maxOffered = powerAcceptor.getMaxOutput() * powerAcceptor.maxPacketsPerTick;
+
+		if(useIc2cWorkaround) {
+			// IC2 Classic thinks that getOfferedEnergy refers to each packet...
+			// This prevents explosions on transformers.
+			maxOffered = powerAcceptor.getMaxOutput();
+		}
+
+		return Math.min(powerAcceptor.getEnergy(), maxOffered);
 	}
 
 	@Override
