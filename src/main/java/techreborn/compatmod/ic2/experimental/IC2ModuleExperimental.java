@@ -24,6 +24,7 @@
 
 package techreborn.compatmod.ic2.experimental;
 
+import ic2.api.item.IC2Items;
 import ic2.api.recipe.Recipes;
 import ic2.core.item.tool.ItemTreetap;
 import net.minecraft.block.Block;
@@ -54,6 +55,7 @@ import techreborn.compatmod.ic2.IC2Dict;
 import techreborn.compatmod.ic2.IC2Recipes;
 import techreborn.config.ConfigTechReborn;
 import techreborn.init.IC2Duplicates;
+import techreborn.items.tools.ItemWrench;
 import techreborn.lib.ModInfo;
 
 import java.util.List;
@@ -78,6 +80,7 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		ToolManager.INSTANCE.customToolHandlerList.add(new IC2EletricalWrench());
+		ItemWrench.ic2WrenchContext = (player, world, pos, hand, facing, hitX, hitY, hitZ) -> IC2Items.getItem("wrench").getItem().onItemUseFirst(player, world, pos, facing, hitX, hitY, hitZ, hand);
 	}
 
 	@Override
