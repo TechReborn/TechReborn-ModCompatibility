@@ -26,6 +26,7 @@ package techreborn.compatmod.ic2;
 
 import ic2.api.item.IC2Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import reborncore.common.util.OreUtil;
 import techreborn.Core;
 import techreborn.compatmod.ic2.experimental.IC2DictExperimentalClassic;
@@ -90,7 +91,7 @@ public class IC2Dict {
 		//Rubber tree blocks, hidden when deduplication is on, and rubber tress are not set to gen, includes tree taps
 		//Circuits are hidden in JEI
 
-		OreUtil.registerOre("reBattery", getItem("re_battery"));
+		OreUtil.registerOre("reBattery", wildcard(getItem("re_battery")));
 
 		OreUtil.registerOre("circuitBasic", getItem("crafting", "circuit"));
 		OreUtil.registerOre("circuitAdvanced", getItem("crafting", "advanced_circuit"));
@@ -140,6 +141,15 @@ public class IC2Dict {
 		}
 
 		return stack;
+	}
+
+	public static ItemStack wildcard(ItemStack itemStack){
+		return meta(itemStack, OreDictionary.WILDCARD_VALUE);
+	}
+
+	public static ItemStack meta(ItemStack itemStack, int meta){
+		//Has to be done this way, over using setItemDamage as ic2 batterys overwirte this
+		return new ItemStack(itemStack.getItem(), 1, meta);
 	}
 
 }

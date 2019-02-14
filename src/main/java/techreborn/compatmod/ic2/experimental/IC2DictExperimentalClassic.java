@@ -25,6 +25,7 @@
 package techreborn.compatmod.ic2.experimental;
 
 import ic2.api.item.IC2Items;
+import net.minecraft.item.ItemStack;
 import techreborn.init.IC2Duplicates;
 
 public class IC2DictExperimentalClassic {
@@ -33,11 +34,16 @@ public class IC2DictExperimentalClassic {
 		IC2Duplicates.REFINED_IRON.setIc2Stack(IC2Items.getItem("ingot", "refined_iron"));
 		IC2Duplicates.ENERGY_CRYSTAL.setIc2Stack(IC2Items.getItem("energy_crystal"));
 		IC2Duplicates.LAPATRON_CRYSTAL.setIc2Stack(IC2Items.getItem("lapotron_crystal"));
-		IC2Duplicates.RE_BATTERY.setIc2Stack(IC2Items.getItem("re_battery"));
+		IC2Duplicates.RE_BATTERY.setIc2Stack(meta(IC2Items.getItem("re_battery"), 26));
 		IC2Duplicates.BASIC_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "machine"));
 		IC2Duplicates.ADVANCED_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "advanced_machine"));
 		IC2Duplicates.CARBON_PLATE.setIc2Stack(IC2Items.getItem("crafting", "carbon_plate"));
 		IC2Duplicates.ADVANCED_ALLOY.setIc2Stack(IC2Items.getItem("crafting", "alloy"));
+	}
+
+	public static ItemStack meta(ItemStack itemStack, int meta){
+		//Has to be done this way, over using setItemDamage as ic2 batterys overwirte this
+		return new ItemStack(itemStack.getItem(), 1, meta);
 	}
 
 }
