@@ -59,7 +59,7 @@ public class BuildcraftCompat implements ICompatModule {
 		if (CompatConfigs.allowBCFuels) {
 			for (IFuel fuel : FuelRegistry.INSTANCE.getFuels()) {
 				// getPowerPerCycle returns micro mj values
-				GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.THERMAL, fuel.getFluid().getFluid(), (int) (fuel.getPowerPerCycle() / RebornCoreConfig.euPerFU * 1000));
+				GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.THERMAL, fuel.getFluid().getFluid(), (int) (fuel.getPowerPerCycle() / 200000));
 			}
 		}
 	}
