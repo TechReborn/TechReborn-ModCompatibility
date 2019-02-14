@@ -24,7 +24,6 @@
 
 package techreborn.compatmod.ic2.experimental;
 
-import ic2.api.event.ProfileEvent;
 import ic2.api.recipe.Recipes;
 import ic2.core.item.tool.ItemTreetap;
 import net.minecraft.block.Block;
@@ -37,11 +36,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import reborncore.RebornCore;
+import reborncore.api.ToolManager;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
 import techreborn.Core;
@@ -72,6 +73,11 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 		MinecraftForge.EVENT_BUS.register(this);
 		TechRebornAPI.ic2Helper = this;
 		RebornCore.logHelper.info("IC2 profile: " + ConfigTechReborn.IC2_PROFILE);
+	}
+
+	@Override
+	public void init(FMLInitializationEvent event) {
+		ToolManager.INSTANCE.customToolHandlerList.add(new IC2EletricalWrench());
 	}
 
 	@Override
