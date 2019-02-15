@@ -69,6 +69,7 @@ public class IC2Dict {
 		IC2Duplicates.CABLE_HV.setIc2Stack(getIC2Cable("iron", 0));
 		IC2Duplicates.CABLE_IHV.setIc2Stack(getIC2Cable("iron", 1));
 		IC2Duplicates.CABLE_IIHV.setIc2Stack(getIC2Cable("iron", 2));
+		IC2Duplicates.CABLE_TIN.setIc2Stack(getIC2Cable("tin", 0));
 		IC2Duplicates.CABLE_GLASSFIBER.setIc2Stack(getIC2Cable("glass", 0));
 
 		IC2Duplicates.MIXED_METAL.setIc2Stack(getItem("ingot", "alloy"));
