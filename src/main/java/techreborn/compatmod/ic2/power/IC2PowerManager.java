@@ -10,6 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.Loader;
 import reborncore.api.power.ExternalPowerHandler;
 import reborncore.api.power.ExternalPowerManager;
+import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.powerSystem.TilePowerAcceptor;
 import reborncore.common.powerSystem.forge.ForgePowerItemManager;
 import reborncore.common.registration.RebornRegistry;
@@ -29,6 +30,7 @@ public class IC2PowerManager implements ExternalPowerManager {
 			ElectricItem.registerBackupManager(new TRBackupElectricItemManager(this));
 			useIc2cWorkaround = Loader.isModLoaded("ic2-classic-spmod");
 		}
+		PowerSystem.EnergySystem.EU.enabled = () -> ic2Power;
 	}
 
 	@Override
