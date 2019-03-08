@@ -79,6 +79,7 @@ public class IC2Dict {
 		IC2Duplicates.FREQ_TRANSMITTER.setIc2Stack(getItem("frequency_transmitter"));
 		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(getItem("neutron_reflector"));
 		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(getItem("thick_neutron_reflector"));
+		IC2Duplicates.SCRAP_BOX.setIc2Stack(getItem("crafting","scrap_box"));
 		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
 
 		if(IC2Duplicates.isClassicMode()){
