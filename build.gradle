@@ -33,12 +33,12 @@ repositories {
 	jcenter()
 	maven {
 		name = "Modmuss50"
-		url = "http://maven.modmuss50.me/"
+		url = "https://maven.modmuss50.me/"
 	}
 	maven {
 		// JEI, TiC
 		name "TiC"
-		url "http://dvs1.progwml6.com/files/maven"
+		url "https://dvs1.progwml6.com/files/maven"
 	}
 	maven {
 		name = "Amadornes"
