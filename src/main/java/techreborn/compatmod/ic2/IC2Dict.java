@@ -101,7 +101,7 @@ public class IC2Dict {
 		OreUtil.registerOre("machineBlockBasic", getItem("resource", "machine"));
 		OreUtil.registerOre("machineBlockAdvanced", getItem("resource", "advanced_machine"));
 
-		OreUtil.registerOre("lapotronCrystal", getItem("lapotron_crystal"));
+		OreUtil.registerOre("lapotronCrystal", wildcard(getItem("lapotron_crystal")));
 		OreUtil.registerOre("energyCrystal", wildcard(getItem("energy_crystal")));
 
 		OreUtil.registerOre("drillBasic", getItem("drill"));
