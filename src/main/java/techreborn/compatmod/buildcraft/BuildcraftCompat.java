@@ -30,7 +30,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import reborncore.common.RebornCoreConfig;
 import reborncore.common.registration.RebornRegistry;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;

@@ -41,11 +41,12 @@ repositories {
 		url "https://dvs1.progwml6.com/files/maven"
 	}
 	maven {
+		// MC MultiPart
 		name = "Amadornes"
 		url "http://maven.amadornes.com/"
 	}
 	maven {
-		// CraftTweaker2
+		// CraftTweaker2, ImmersiveEngineering
 		name "Jared"
 		url "http://maven.blamejared.com/"
 	}
@@ -76,16 +77,20 @@ repositories {
 		name "OpenComputer"
 		url "http://maven.cil.li/"
 	}
+	
 	maven {
-		url "http://maven.shadowfacts.net/"
-	}
+		// Forgelin
+        url "http://maven.shadowfacts.net/"
+    }
+
 	maven {
+		// Mekanism, Baubles, Industrial Foregoing, Tesla
 		name "CurseForge"
 		url "https://minecraft.curseforge.com/api/maven/"
 	}
 	ivy {
 		name "BuildCraft"
-		artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
+		artifactPattern "https://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
 	}
 }
 
