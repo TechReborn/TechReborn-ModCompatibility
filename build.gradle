@@ -84,7 +84,7 @@ repositories {
     }
 
 	maven {
-		// Mekanism, Baubles, Industrial Foregoing, Tesla
+		// Mekanism, Baubles, Industrial Foregoing, Tesla, AE2
 		name "CurseForge"
 		url "https://minecraft.curseforge.com/api/maven/"
 	}
@@ -149,6 +149,7 @@ dependencies {
 	deobfCompile "industrial-foregoing:industrialforegoing-1.12.2:1.12.3:227"
 	deobfCompile "tesla-core-lib:tesla-core-lib:1.12.2:1.0.15"
 	runtime "net.shadowfacts:Forgelin:1.8.2" //Needed by tesla-core-lib :D
+	runtime "appeng:appliedenergistics2:rv6-stable-6:api" // Needed by Mekanism
 }
 
 
