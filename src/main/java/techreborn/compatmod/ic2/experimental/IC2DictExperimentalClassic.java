@@ -34,7 +34,6 @@ public class IC2DictExperimentalClassic {
 		IC2Duplicates.REFINED_IRON.setIc2Stack(IC2Items.getItem("ingot", "refined_iron"));
 		IC2Duplicates.ENERGY_CRYSTAL.setIc2Stack(IC2Items.getItem("energy_crystal"));
 		IC2Duplicates.LAPATRON_CRYSTAL.setIc2Stack(IC2Items.getItem("lapotron_crystal"));
-		IC2Duplicates.RE_BATTERY.setIc2Stack(meta(IC2Items.getItem("re_battery"), 26));
 		IC2Duplicates.BASIC_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "machine"));
 		IC2Duplicates.ADVANCED_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "advanced_machine"));
 		IC2Duplicates.CARBON_PLATE.setIc2Stack(IC2Items.getItem("crafting", "carbon_plate"));

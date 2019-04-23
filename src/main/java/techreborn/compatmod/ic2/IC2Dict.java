@@ -81,6 +81,7 @@ public class IC2Dict {
 		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(getItem("thick_neutron_reflector"));
 		IC2Duplicates.SCRAP_BOX.setIc2Stack(getItem("crafting","scrap_box"));
 		IC2Duplicates.RUBBER_WOOD.setIc2Stack(getItem("rubber_wood"));
+		IC2Duplicates.RE_BATTERY.setIc2Stack(wildcard(getItem("re_battery")));
 		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
 
 		if(IC2Duplicates.isClassicMode()){
