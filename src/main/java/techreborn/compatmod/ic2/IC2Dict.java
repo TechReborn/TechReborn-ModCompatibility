@@ -80,6 +80,7 @@ public class IC2Dict {
 		IC2Duplicates.NEUTRON_REFLECTOR.setIc2Stack(getItem("neutron_reflector"));
 		IC2Duplicates.THICK_NEUTRON_REFLECTOR.setIc2Stack(getItem("thick_neutron_reflector"));
 		IC2Duplicates.SCRAP_BOX.setIc2Stack(getItem("crafting","scrap_box"));
+		IC2Duplicates.RUBBER_WOOD.setIc2Stack(getItem("rubber_wood"));
 		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
 
 		if(IC2Duplicates.isClassicMode()){
@@ -114,12 +115,13 @@ public class IC2Dict {
 
 		OreUtil.registerOre("hvTransformer", getItem("te", "hv_transformer"));
 
-		OreUtil.registerOre("rubberWood", getItem("rubber_wood"));
+		OreUtil.registerOre("logWood", getItem("rubber_wood"));
+		OreUtil.registerOre("logRubber", getItem("rubber_wood"));
+		
 		OreUtil.registerOre("glassReinforced", getItem("glass", "reinforced"));
 
 		OreUtil.registerOre("oreIridium", getItem("misc_resource", "iridium_ore"));
 
-		OreUtil.registerOre("logRubber", getItem("rubber_wood"));
 		OreUtil.registerOre("plateIridiumAlloy", getItem("crafting", "iridium"));
 		OreUtil.registerOre("plateAdvancedAlloy", getItem("crafting", "alloy"));
 		OreUtil.registerOre("plateCarbon", getItem("crafting", "carbon_plate"));
