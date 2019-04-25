@@ -82,6 +82,7 @@ public class IC2Dict {
 		IC2Duplicates.SCRAP_BOX.setIc2Stack(getItem("crafting","scrap_box"));
 		IC2Duplicates.RUBBER_WOOD.setIc2Stack(getItem("rubber_wood"));
 		IC2Duplicates.RE_BATTERY.setIc2Stack(wildcard(getItem("re_battery")));
+		IC2Duplicates.ENERGY_CRYSTAL.setIc2Stack(wildcard(getItem("energy_crystal")));
 		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
 
 		if(IC2Duplicates.isClassicMode()){
