@@ -32,7 +32,7 @@ public class IC2DictExperimentalClassic {
 
 	public static void preInit(){
 		IC2Duplicates.REFINED_IRON.setIc2Stack(IC2Items.getItem("ingot", "refined_iron"));
-		IC2Duplicates.LAPATRON_CRYSTAL.setIc2Stack(IC2Items.getItem("lapotron_crystal"));
+
 		IC2Duplicates.BASIC_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "machine"));
 		IC2Duplicates.ADVANCED_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "advanced_machine"));
 		IC2Duplicates.CARBON_PLATE.setIc2Stack(IC2Items.getItem("crafting", "carbon_plate"));
