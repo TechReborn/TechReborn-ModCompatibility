@@ -35,7 +35,7 @@ public class IC2DictExperimentalClassic {
 
 		IC2Duplicates.BASIC_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "machine"));
 		IC2Duplicates.ADVANCED_MACHINE_FRAME.setIc2Stack(IC2Items.getItem("resource", "advanced_machine"));
-		IC2Duplicates.CARBON_PLATE.setIc2Stack(IC2Items.getItem("crafting", "carbon_plate"));
+		
 		IC2Duplicates.ADVANCED_ALLOY.setIc2Stack(IC2Items.getItem("crafting", "alloy"));
 	}
 
