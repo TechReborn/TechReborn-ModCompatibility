@@ -99,15 +99,14 @@ public class IC2Dict {
 		//Circuits are hidden in JEI
 
 		OreUtil.registerOre("reBattery", wildcard(getItem("re_battery")));
+		OreUtil.registerOre("lapotronCrystal", wildcard(getItem("lapotron_crystal")));
+		OreUtil.registerOre("energyCrystal", wildcard(getItem("energy_crystal")));
 
 		OreUtil.registerOre("circuitBasic", getItem("crafting", "circuit"));
 		OreUtil.registerOre("circuitAdvanced", getItem("crafting", "advanced_circuit"));
 
 		OreUtil.registerOre("machineBlockBasic", getItem("resource", "machine"));
 		OreUtil.registerOre("machineBlockAdvanced", getItem("resource", "advanced_machine"));
-
-		OreUtil.registerOre("lapotronCrystal", wildcard(getItem("lapotron_crystal")));
-		OreUtil.registerOre("energyCrystal", wildcard(getItem("energy_crystal")));
 
 		OreUtil.registerOre("drillBasic", getItem("drill"));
 		OreUtil.registerOre("drillDiamond", getItem("diamond_drill"));

@@ -33,6 +33,7 @@ import reborncore.common.util.RebornCraftingHelper;
 import techreborn.api.recipe.machines.CompressorRecipe;
 import techreborn.api.recipe.machines.ExtractorRecipe;
 import techreborn.api.recipe.machines.GrinderRecipe;
+import techreborn.init.IC2Duplicates;
 import techreborn.init.ModBlocks;
 import techreborn.init.recipes.ChemicalReactorRecipes;
 import techreborn.init.recipes.RecipeMethods;
@@ -71,23 +72,25 @@ public class IC2Recipes {
 
 		RebornCraftingHelper.addShapelessRecipe(ItemParts.getPartByName("rubber"),
 				IC2Dict.getItem("crafting", "rubber"));
-		RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("crafting", "rubber"),
-				ItemParts.getPartByName("rubber"));
+		
+		if (!IC2Duplicates.deduplicate()) {
+			RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("crafting", "rubber"),
+					ItemParts.getPartByName("rubber"));
+			RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "carbon_mesh"),
+					IC2Dict.getItem("crafting", "carbon_plate"), 300, 4));
+			RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "coal_ball"),
+					IC2Dict.getItem("crafting", "coal_block"), 300, 4));
 
-		RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "carbon_mesh"),
-				IC2Dict.getItem("crafting", "carbon_plate"), 300, 4));
-		RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "coal_ball"),
-				IC2Dict.getItem("crafting", "coal_block"), 300, 4));
+			RecipeHandler.addRecipe(new GrinderRecipe(IC2Dict.getItem("crafting", "tin_can"),
+					RecipeMethods.getOre("dustTin", 2), 300, 16));
 
-		RecipeHandler.addRecipe(new GrinderRecipe(IC2Dict.getItem("crafting", "tin_can"),
-				RecipeMethods.getOre("dustTin", 2), 300, 16));
+			RecipeHandler.addRecipe(new ExtractorRecipe(IC2Dict.getItem("filled_tin_can"),
+					IC2Dict.getItem("crafting", "tin_can"), 300, 16));
 
-		RecipeHandler.addRecipe(new ExtractorRecipe(IC2Dict.getItem("filled_tin_can"),
-				IC2Dict.getItem("crafting", "tin_can"), 300, 16));
-
-		RecipeHandler.addRecipe(
-				new ExtractorRecipe(IC2Dict.getItem("misc_resource", "resin"),
-						ItemParts.getPartByName("rubber", 3), 400, 2));
+			RecipeHandler.addRecipe(
+					new ExtractorRecipe(IC2Dict.getItem("misc_resource", "resin"),
+							ItemParts.getPartByName("rubber", 3), 400, 2));
+		}
 
 		ItemStack f = IC2Dict.getItem("crop_res", "fertilizer");
 		ChemicalReactorRecipes.register(RecipeMethods.getMaterial("calcite", RecipeMethods.Type.DUST), RecipeMethods.getMaterial("sulfur", RecipeMethods.Type.DUST), f, 40);
