@@ -24,6 +24,17 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: net.minecrell.gradle.licenser.Licenser
+apply plugin: 'idea'
+
+idea {
+	module {
+		// if you hate browsing Javadoc
+		downloadJavadoc = true
+
+		// and love reading sources :)
+		downloadSources = true
+	}
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -34,6 +45,11 @@ repositories {
 	maven {
 		name = "Modmuss50"
 		url = "https://maven.modmuss50.me/"
+	}
+	maven {
+		// JEI
+		name "JEI"
+		url "https://dvs1.progwml6.com/files/maven"
 	}
 	maven {
 		// JEI, TiC
@@ -102,7 +118,7 @@ if (ENV.BUILD_NUMBER) {
 }
 
 minecraft {
-	version = "1.12.2-14.23.5.2768"
+	version = "1.12.2-14.23.5.2838"
 	mappings = "snapshot_20171003"
 	replace "@MODVERSION@", project.version
 	useDepAts = true
@@ -128,7 +144,7 @@ dependencies {
 	deobfCompile "mcp.mobius.waila:Hwyla:1.8+"
 	deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.12.323"
 	deobfCompile name: 'buildcraft-main', version: '7.99.20', ext: 'jar'
-	deobfCompile "mezz.jei:jei_1.12.2:4.15.0.268"
+	deobfCompile "mezz.jei:jei_1.12.2:+"
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.19-11"
 	deobfCompile 'net.industrial-craft:industrialcraft-2:2.8.+'
 	deobfCompile 'cofh:ThermalDynamics:1.12.2-+:universal'
@@ -147,6 +163,7 @@ dependencies {
 	deobfCompile "mekanism-tools:MekanismTools:1.12.2:9.4.13.349"
 	deobfCompile "baubles:Baubles:1.12:1.5.2"
 	deobfCompile "industrial-foregoing:industrialforegoing-1.12.2:1.12.3:227"
+	deobfCompile "net.sengir.forestry:forestry_1.12.2:+" // forestry
 	deobfCompile "tesla-core-lib:tesla-core-lib:1.12.2:1.0.15"
 	runtime "net.shadowfacts:Forgelin:1.8.2" //Needed by tesla-core-lib :D
 	runtime "appeng:appliedenergistics2:rv6-stable-6:api" // Needed by Mekanism
