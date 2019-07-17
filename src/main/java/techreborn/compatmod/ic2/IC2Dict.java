@@ -36,6 +36,7 @@ import techreborn.init.IC2Duplicates;
  * Created by modmuss50 on 16/07/2016.
  */
 public class IC2Dict {
+	// Fields >>
 	public static final String ERROR_CLASS_NOT_FOUND =
 			"Can't enable integration: IC2 is installed but cannot be hooked\n" +
 			"Are you using an incompatible IC2 version?\n" +
@@ -46,6 +47,7 @@ public class IC2Dict {
 			"Are you using an incompatible IC2 version?\n" +
 			"Please create an issue on GitHub and provide the FULL LOG and mod list\n" +
 			"Error stack trace: ";
+	// << Fields
 
 	public static void initDuplicates() {
 		IC2Duplicates.GRINDER.setIc2Stack(getItem("te", "macerator"));
@@ -87,7 +89,7 @@ public class IC2Dict {
 		IC2Duplicates.LAPATRON_CRYSTAL.setIc2Stack(wildcard(getItem("lapotron_crystal")));
 		// Note: IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR is handled by classic/experimental
 
-		if(IC2Duplicates.isClassicMode()){
+		if (IC2Duplicates.isClassicMode()) {
 			IC2DictExperimentalClassic.preInit();
 		}
 	}
@@ -131,7 +133,7 @@ public class IC2Dict {
 	}
 
 	public static ItemStack getIC2Cable(String type, int insulation) {
-		return getItem("cable", "type:"+type+",insulation:"+insulation);
+		return getItem("cable", "type:" + type + ",insulation:" + insulation);
 	}
 
 	public static ItemStack getItem(String name) {
