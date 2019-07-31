@@ -108,9 +108,14 @@ repositories {
 		name "BuildCraft"
 		artifactPattern "https://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
 	}
+	// refined storage
+	maven {
+		name "Raoulvdberge"
+		url  "https://repo.raoulvdberge.com/"
+	}
 }
 
-version = "1.1.0"
+version = "1.2.0"
 
 def ENV = System.getenv()
 if (ENV.BUILD_NUMBER) {
@@ -137,7 +142,12 @@ dependencies {
 	deobfCompile('RebornCore:RebornCore-1.12.2:+:universal') {
 		transitive = false
 	}
+	
 	deobfCompile('TechReborn:TechReborn-1.12.2:+:universal') {
+		transitive = false
+	}
+
+	deobfCompile ('refinedstorage:refinedstorage:1.6.+'){
 		transitive = false
 	}
 
