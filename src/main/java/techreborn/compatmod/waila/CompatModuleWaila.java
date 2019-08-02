@@ -31,7 +31,6 @@ import reborncore.common.BaseTileBlock;
 
 @WailaPlugin
 public class CompatModuleWaila implements IWailaPlugin {
-
 	@Override
 	public void register(IWailaRegistrar registrar) {
 		registrar.registerBodyProvider(new WailaProviderMachines(), BaseTileBlock.class);

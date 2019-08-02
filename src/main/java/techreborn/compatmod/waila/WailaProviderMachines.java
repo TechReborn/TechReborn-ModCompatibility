@@ -38,7 +38,6 @@ import reborncore.api.IListInfoProvider;
 import java.util.List;
 
 public class WailaProviderMachines implements IWailaDataProvider {
-
 	@Override
 	public List<String> getWailaBody(ItemStack item, List<String> tip, IWailaDataAccessor accessor,
 	                                 IWailaConfigHandler config) {

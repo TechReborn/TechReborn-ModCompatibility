@@ -32,9 +32,11 @@ import techreborn.api.generator.GeneratorRecipeHelper;
 import techreborn.compat.ICompatModule;
 import techreborn.lib.ModInfo;
 
+/**
+ * @author modmuss50
+ */
 @RebornRegistry(modOnly = "industrialforegoing", modID = ModInfo.MOD_ID)
 public class IndustrialForegoingCompat implements ICompatModule {
-
 	@Override
 	public void init(FMLInitializationEvent event) {
 		GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, FluidsRegistry.BIOFUEL, 32);

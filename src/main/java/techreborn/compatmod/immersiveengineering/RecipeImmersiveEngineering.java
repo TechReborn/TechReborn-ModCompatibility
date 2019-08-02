@@ -24,31 +24,31 @@
 
 package techreborn.compatmod.immersiveengineering;
 
-
 import blusunrize.immersiveengineering.common.IEContent;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
+import reborncore.common.registration.impl.ConfigRegistry;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;
 import techreborn.api.recipe.machines.CompressorRecipe;
 import techreborn.compat.ICompatModule;
 import techreborn.lib.ModInfo;
 
+/**
+ * @author modmuss50
+ */
 @RebornRegistry(modOnly = "immersiveengineering", modID = ModInfo.MOD_ID)
 public class RecipeImmersiveEngineering implements ICompatModule {
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-
-	}
+	// Configs >>
+	@ConfigRegistry(config = "compat", category = "immersiveengineering", key = "EnableImmersiveEngineeringFuels", comment = "Allow ImmersiveEngineering fuels to be used in the fuel generators (i.e. Creosote)")
+	public static boolean allowImmersiveEngineeringFuels = true;
+	// << Configs
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, IEContent.fluidCreosote, 40);
 		// dust_coke to dust_hop_graphite
 		RecipeHandler.addRecipe(new CompressorRecipe(new ItemStack(IEContent.itemMaterial, 8, 17),
 				new ItemStack(IEContent.itemMaterial, 1, 18), 300, 4));
@@ -56,11 +56,9 @@ public class RecipeImmersiveEngineering implements ICompatModule {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-
-	}
-
-	@Override
-	public void serverStarting(FMLServerStartingEvent event) {
-
+		if (allowImmersiveEngineeringFuels) {
+			// Creosote
+			GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, IEContent.fluidCreosote, 3); // 3k EU per bucket
+		}
 	}
 }

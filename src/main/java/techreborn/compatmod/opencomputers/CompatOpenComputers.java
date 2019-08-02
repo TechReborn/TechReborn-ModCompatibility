@@ -32,10 +32,8 @@ import techreborn.lib.ModInfo;
 
 @RebornRegistry(modOnly = "opencomputers", modID = ModInfo.MOD_ID)
 public class CompatOpenComputers implements ICompatModule {
-
 	@Override
 	public void init(FMLInitializationEvent event) {
 		Driver.add(new DriverMachine());
 	}
-
 }

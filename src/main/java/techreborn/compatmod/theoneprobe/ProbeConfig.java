@@ -41,14 +41,12 @@ import reborncore.common.powerSystem.TilePowerAcceptor;
 public class ProbeConfig implements IProbeConfigProvider {
 	@Override
 	public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-
+		// NO-OP
 	}
 
 	@Override
 	public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
 		TileEntity tile = world.getTileEntity(data.getPos());
-		if (tile instanceof TilePowerAcceptor) {
-			config.setRFMode(0);
-		}
+		if (tile instanceof TilePowerAcceptor) config.setRFMode(0);
 	}
 }

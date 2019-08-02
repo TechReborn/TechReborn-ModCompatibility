@@ -51,9 +51,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author modmuss50
+ */
 @RebornRegistry(modOnly = "baubles", modID = ModInfo.MOD_ID)
 public class BaublesCompat implements ICompatModule {
-
 	IBauble POWER_BAUBLE = new IBauble() {
 		@Override
 		public BaubleType getBaubleType(ItemStack itemStack) {

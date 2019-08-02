@@ -45,8 +45,8 @@ import techreborn.api.IC2Helper;
 import techreborn.api.Reference;
 import techreborn.api.TechRebornAPI;
 import techreborn.compat.ICompatModule;
-import techreborn.compatmod.ic2.IC2Recipes;
 import techreborn.compatmod.ic2.IC2Dict;
+import techreborn.compatmod.ic2.IC2Recipes;
 import techreborn.init.IC2Duplicates;
 import techreborn.lib.ModInfo;
 

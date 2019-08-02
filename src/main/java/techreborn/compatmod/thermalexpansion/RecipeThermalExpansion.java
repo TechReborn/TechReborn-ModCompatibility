@@ -48,8 +48,6 @@ import techreborn.lib.ModInfo;
  */
 @RebornRegistry(modOnly = "thermalexpansion", modID = ModInfo.MOD_ID)
 public class RecipeThermalExpansion implements ICompatModule {
-
-
 	@Override
 	public void init(FMLInitializationEvent event) {
 		ThermalExpansionHelper.addPulverizerRecipe(2000, new ItemStack(Items.ENDER_PEARL), RecipeMethods.getMaterial("ender_pearl", 1, RecipeMethods.Type.DUST));
@@ -78,8 +76,7 @@ public class RecipeThermalExpansion implements ICompatModule {
 
 		GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.THERMAL, TFFluids.fluidPyrotheum, 80);
 		GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCreosote, 40);
-		
+
 		FluidReplicatorRecipeList.addRecipe(new FluidReplicatorRecipe(4, TFFluids.fluidCoal, 100, 20));
 	}
-
 }
