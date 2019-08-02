@@ -24,47 +24,41 @@
 
 package techreborn.compatmod.buildcraft;
 
-import buildcraft.api.fuels.IFuel;
-import buildcraft.lib.fluid.FuelRegistry;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import buildcraft.builders.BCBuildersBlocks;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import reborncore.common.registration.RebornRegistry;
-import techreborn.api.generator.EFluidGenerator;
-import techreborn.api.generator.GeneratorRecipeHelper;
-import techreborn.compat.CompatConfigs;
+import reborncore.common.registration.impl.ConfigRegistry;
+import reborncore.common.util.RebornCraftingHelper;
+import reborncore.common.util.RecipeRemover;
+import techreborn.Core;
 import techreborn.compat.ICompatModule;
+import techreborn.init.ModItems;
 import techreborn.lib.ModInfo;
 
 /**
  * Created by Mark on 02/06/2017.
  */
-@RebornRegistry(modOnly = "buildcraftcore", modID = ModInfo.MOD_ID)
-public class BuildcraftCompat implements ICompatModule {
-
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-
-	}
-
-	@Override
-	public void init(FMLInitializationEvent event) {
-
-	}
+@RebornRegistry(modOnly = "buildcraftbuilders", modID = ModInfo.MOD_ID)
+public class BuildCraftBuildersCompat implements ICompatModule {
+	// Configs >>
+	@ConfigRegistry(config = "compat", category = "buildcraft", key = "ExpensiveQuarryRecipe", comment = "Buildcraft's quarry will require an advanced circuit and diamond drill if enabled")
+	public static boolean expensiveQuarryRecipe = true;
+	// << Configs
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		if (CompatConfigs.allowBCFuels) {
-			for (IFuel fuel : FuelRegistry.INSTANCE.getFuels()) {
-				// getPowerPerCycle returns micro mj values
-				GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.THERMAL, fuel.getFluid().getFluid(), (int) (fuel.getPowerPerCycle() / 200000));
-			}
+		if (expensiveQuarryRecipe) {
+			RecipeRemover.removeAnyRecipe(new ItemStack(BCBuildersBlocks.quarry));
+			RebornCraftingHelper.addShapedOreRecipe(new ItemStack(BCBuildersBlocks.quarry),
+				"IAI", "GIG", "DED",
+				'I', "gearIron",
+				'G', "gearGold",
+				'D', "gearDiamond",
+				'A', "circuitAdvanced",
+				'E', new ItemStack(ModItems.DIAMOND_DRILL));
 		}
-	}
-
-	@Override
-	public void serverStarting(FMLServerStartingEvent event) {
-
+		//The recipebook still knows about the old recipe so crashes, this should update it to have it replaced by the new recipe
+		Core.proxy.rebuildRecipeBook();
 	}
 }
