@@ -24,14 +24,57 @@
 
 package techreborn.compatmod.ic2.experimental;
 
+import ic2.api.item.IC2Items;
+import ic2.core.profile.ProfileManager;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import reborncore.api.recipe.RecipeHandler;
+import reborncore.common.util.ItemUtils;
 import reborncore.common.util.RebornCraftingHelper;
+import techreborn.api.Reference;
+import techreborn.api.recipe.machines.BlastFurnaceRecipe;
+import techreborn.api.recipe.machines.IndustrialGrinderRecipe;
 import techreborn.compatmod.ic2.IC2Dict;
+import techreborn.init.ModFluids;
 import techreborn.init.ModItems;
+import techreborn.init.recipes.RecipeMethods;
+import techreborn.items.ingredients.ItemIngots;
 
 public class IC2RecipesExperimental {
 	public static void registerRecipes() {
 		RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("electric_wrench"), new ItemStack(ModItems.WRENCH),
 				IC2Dict.getItem("crafting", "small_power_unit"));
+
+		// Ores
+		if (ProfileManager.selected.equals(ProfileManager.get("Experimental"))) {
+			// Iridium related recipes
+			// Blast furnace
+			RecipeHandler.addRecipe(new BlastFurnaceRecipe("gemIridium", null, ItemIngots.getIngotByName("iridium"), null, 1700,
+				128, 1700));
+
+			// Industrial Grinder
+			removeRecipe(Reference.INDUSTRIAL_GRINDER_RECIPE, "oreIridium");
+
+			ItemStack iridium = IC2Items.getItem("misc_resource", "iridium_ore");
+			RecipeHandler.addRecipe(new IndustrialGrinderRecipe(RecipeMethods.getOre("oreIridium"), WATER, iridium.copy(), RecipeMethods.getMaterial("iridium", 6, RecipeMethods.Type.SMALL_DUST), RecipeMethods.getMaterial("platinum", 2, RecipeMethods.Type.SMALL_DUST), null, 100, 128));
+			RecipeHandler.addRecipe(new IndustrialGrinderRecipe(RecipeMethods.getOre("oreIridium"), MERCURY, iridium.copy(), RecipeMethods.getMaterial("iridium", 6, RecipeMethods.Type.SMALL_DUST), RecipeMethods.getMaterial("platinum", 2, RecipeMethods.Type.DUST), null, 100, 128));
+		}
 	}
+
+	public static void removeRecipe(String machine, String entry) {
+		RecipeHandler.recipeList.removeIf(recipeType -> {
+				if (!recipeType.getRecipeName().equals(machine)) return false;
+
+				return recipeType.getInputs().stream()
+					.anyMatch(ingredient ->
+						ingredient instanceof ItemStack && ItemUtils.isInputEqual(entry, (ItemStack) ingredient, false, false, true));
+			});
+	}
+
+	// Fields >>
+	private static FluidStack WATER = new FluidStack(FluidRegistry.WATER, 1000);
+	private static FluidStack MERCURY = new FluidStack(ModFluids.MERCURY, 1000);
+	private static FluidStack SODIUM_PERSULFATE = new FluidStack(ModFluids.SODIUMPERSULFATE, 1000);
+	// << Fields
 }

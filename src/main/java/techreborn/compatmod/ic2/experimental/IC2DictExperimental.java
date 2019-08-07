@@ -31,7 +31,7 @@ import techreborn.init.IC2Duplicates;
 
 public class IC2DictExperimental {
 	public static void initDuplicates() {
-		IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(IC2Dict.getItem("iridium_reflector"));
+//		IC2Duplicates.IRIDIUM_NEUTRON_REFLECTOR.setIc2Stack(IC2Dict.getItem("iridium_reflector"));
 		IC2Duplicates.IRON_FENCE.setIc2Stack(IC2Dict.getItem("fence", "iron"));
 	}
 
