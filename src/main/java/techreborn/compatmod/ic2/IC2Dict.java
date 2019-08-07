@@ -125,8 +125,6 @@ public class IC2Dict {
 		
 		OreUtil.registerOre("glassReinforced", getItem("glass", "reinforced"));
 
-		OreUtil.registerOre("oreIridium", getItem("misc_resource", "iridium_ore"));
-
 		OreUtil.registerOre("plateIridiumAlloy", getItem("crafting", "iridium"));
 		OreUtil.registerOre("plateAdvancedAlloy", getItem("crafting", "alloy"));
 		OreUtil.registerOre("plateCarbon", getItem("crafting", "carbon_plate"));
