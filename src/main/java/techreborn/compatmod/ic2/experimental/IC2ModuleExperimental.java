@@ -93,6 +93,8 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 	// LOW is used as we want it to load as late as possible, but before crafttweaker
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+		IC2RecipesExperimental.removeCraftingTableDuplicates(event);
+
 		IC2Recipes.registerRecipes();
 		IC2RecipesExperimental.registerRecipes();
 	}
