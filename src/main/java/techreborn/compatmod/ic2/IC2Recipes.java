@@ -35,7 +35,6 @@ import techreborn.api.recipe.machines.ExtractorRecipe;
 import techreborn.api.recipe.machines.GrinderRecipe;
 import techreborn.init.IC2Duplicates;
 import techreborn.init.ModBlocks;
-import techreborn.init.recipes.ChemicalReactorRecipes;
 import techreborn.init.recipes.RecipeMethods;
 import techreborn.items.ingredients.ItemParts;
 
@@ -91,9 +90,6 @@ public class IC2Recipes {
 					new ExtractorRecipe(IC2Dict.getItem("misc_resource", "resin"),
 							ItemParts.getPartByName("rubber", 3), 400, 2));
 		}
-
-		ItemStack f = IC2Dict.getItem("crop_res", "fertilizer");
-		ChemicalReactorRecipes.register(RecipeMethods.getMaterial("calcite", RecipeMethods.Type.DUST), RecipeMethods.getMaterial("sulfur", RecipeMethods.Type.DUST), f, 40);
 	}
 
 	public static class RecipeDuplicate {

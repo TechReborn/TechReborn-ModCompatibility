@@ -33,7 +33,7 @@ import techreborn.api.Reference;
 import techreborn.api.recipe.machines.GrinderRecipe;
 
 /**
- * mods.techreborn.grinder.addRecipe(<minecraft:gold_ingot>, <minecraft:iron_ingot>, 20, 100);
+ * mods.techreborn.grinder.add(<minecraft:gold_ingot>, <minecraft:iron_ingot>, 20, 100);
  */
 
 @ZenClass("mods.techreborn.grinder")

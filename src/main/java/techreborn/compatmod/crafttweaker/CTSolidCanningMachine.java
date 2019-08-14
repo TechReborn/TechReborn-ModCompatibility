@@ -45,15 +45,17 @@ import java.util.Optional;
 /**
  * @author estebes
  */
-@ZenClass("mods.techreborn.wireMill")
-public class CTWireMill extends CTPraescriptum {
+@ZenClass("mods.techreborn.solidCanningMachine")
+public class CTSolidCanningMachine extends CTPraescriptum {
 	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration")
-	public static void add(IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration) {
-		InputIngredient input = ingredient instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredient), ingredient.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
+	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int energyCostPerTick, int operationDuration")
+	public static void addRecipe(IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int energyCostPerTick, int operationDuration) {
+		InputIngredient inputA = ingredientA instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientA), ingredientA.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientA).getName(), ingredientA.getAmount());
+
+		InputIngredient inputB = ingredientB instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientB), ingredientB.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientB).getName(), ingredientB.getAmount());
 
 		Recipe recipe = getRecipeHandler().createRecipe()
-			.withInput(ImmutableList.of(input))
+			.withInput(ImmutableList.of(inputA, inputB))
 			.withOutput(CraftTweakerMC.getItemStack(output))
 			.withEnergyCostPerTick(energyCostPerTick)
 			.withOperationDuration(operationDuration);
@@ -62,11 +64,12 @@ public class CTWireMill extends CTPraescriptum {
 	}
 
 	@ZenMethod
-	@ZenDocumentation("IItemStack ingredient")
-	public static void remove(IItemStack ingredient) {
-		ItemStack input = CraftTweakerMC.getItemStack(ingredient);
+	@ZenDocumentation("IItemStack ingredientA, IItemStack ingredientB")
+	public static void removeRecipe(IItemStack ingredientA, IItemStack ingredientB) {
+		ItemStack inputA = CraftTweakerMC.getItemStack(ingredientA);
+		ItemStack inputB = CraftTweakerMC.getItemStack(ingredientB);
 
-		Optional<Recipe> maybeRecipe = getRecipeHandler().findRecipe(ImmutableList.of(input), ImmutableList.of());
+		Optional<Recipe> maybeRecipe = getRecipeHandler().findRecipe(ImmutableList.of(inputA, inputB), ImmutableList.of());
 
 		maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
 	}
@@ -77,6 +80,6 @@ public class CTWireMill extends CTPraescriptum {
 	}
 
 	public static RecipeHandler getRecipeHandler() {
-		return Recipes.wireMill;
+		return Recipes.solidCanningMachine;
 	}
 }

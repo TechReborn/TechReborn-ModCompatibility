@@ -53,6 +53,7 @@ import techreborn.api.TechRebornAPI;
 import techreborn.compat.ICompatModule;
 import techreborn.compatmod.ic2.IC2Dict;
 import techreborn.compatmod.ic2.IC2Recipes;
+import techreborn.compatmod.ic2.experimental.recipes.ChemicalReactorRecipes;
 import techreborn.config.ConfigTechReborn;
 import techreborn.init.IC2Duplicates;
 import techreborn.items.tools.ItemWrench;
@@ -63,7 +64,6 @@ import java.util.List;
 /**
  * Created by Mark on 06/06/2016.
  */
-//We load this as TR so we can get the config options in there, and this is mainly recipes
 @RebornRegistry(modOnly = "ic2,!ic2-classic-spmod", modID = ModInfo.MOD_ID)
 public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 
@@ -97,6 +97,7 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 
 		IC2Recipes.registerRecipes();
 		IC2RecipesExperimental.registerRecipes();
+		ChemicalReactorRecipes.init();
 	}
 
 	@Override

@@ -33,7 +33,7 @@ import techreborn.api.Reference;
 import techreborn.api.recipe.machines.ExtractorRecipe;
 
 /**
- * mods.techreborn.extractor.addRecipe(<minecraft:gold_ingot>, <minecraft:iron_ingot>, 20, 100);
+ * mods.techreborn.extractor.add(<minecraft:gold_ingot>, <minecraft:iron_ingot>, 20, 100);
  */
 @ZenClass("mods.techreborn.extractor")
 public class CTExtractor extends CTGeneric {

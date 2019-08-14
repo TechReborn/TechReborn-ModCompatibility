@@ -33,7 +33,7 @@ import techreborn.api.Reference;
 import techreborn.api.recipe.machines.CompressorRecipe;
 
 /*
- * mods.techreborn.compressor.addRecipe(<minecraft:clay>,<minecraft:clay_ball>, 40,100);
+ * mods.techreborn.compressor.add(<minecraft:clay>,<minecraft:clay_ball>, 40,100);
  */
 
 @ZenClass("mods.techreborn.compressor")

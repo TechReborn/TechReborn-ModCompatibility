@@ -21,29 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-//
-//package techreborn.compatmod.mekanism;
-//
-//import mekanism.api.gas.GasRegistry;
-//import mekanism.common.FuelHandler;
-//import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-//import reborncore.common.RebornCoreConfig;
-//import reborncore.common.registration.RebornRegistry;
-//import techreborn.api.generator.EFluidGenerator;
-//import techreborn.api.generator.GeneratorRecipeHelper;
-//import techreborn.compat.ICompatModule;
-//import techreborn.lib.ModInfo;
-//
-//@RebornRegistry(modOnly = "mekanism", modID = ModInfo.MOD_ID)
-//public class MekanismCompat implements ICompatModule {
-//
-//	@Override
-//	public void postInit(FMLPostInitializationEvent event) {
-//		GasRegistry.getRegisteredGasses().stream().filter(gas -> FuelHandler.getFuel(gas) != null).forEach(gas -> {
-//			FuelHandler.FuelGas fuel = FuelHandler.getFuel(gas);
-//			GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.GAS, gas.getFluid(), (int) fuel.energyPerTick / RebornCoreConfig.euPerFU);
-//		});
-//
-//	}
-//
-//}
+
+package techreborn.compatmod.ic2.experimental.recipes;
+
+import net.minecraft.item.ItemStack;
+import reborncore.common.util.ItemUtils;
+import techreborn.api.recipe.Recipes;
+import techreborn.compatmod.ic2.IC2Dict;
+
+/**
+ * @author estebes
+ */
+public class ChemicalReactorRecipes {
+	public static void init() {
+		// Fertilizer
+		ItemStack fertilizer = IC2Dict.getItem("crop_res", "fertilizer");
+
+		Recipes.chemicalReactor.createRecipe()
+			.withInput("dustCalcite", 1)
+			.withInput("dustSulfur", 1)
+			.withOutput(copyWithSize(fertilizer, 2))
+			.withEnergyCostPerTick(30)
+			.withOperationDuration(200)
+			.register();
+
+		Recipes.chemicalReactor.createRecipe()
+			.withInput("dustCalcite", 1)
+			.withInput("dustAsh", 3)
+			.withOutput(copyWithSize(fertilizer, 1))
+			.withEnergyCostPerTick(30)
+			.withOperationDuration(100)
+			.register();
+	}
+
+	public static ItemStack copyWithSize(ItemStack stack, int size) {
+		if (ItemUtils.isEmpty(stack)) return ItemStack.EMPTY;
+
+		return ItemUtils.setSize(stack.copy(), size);
+	}
+}

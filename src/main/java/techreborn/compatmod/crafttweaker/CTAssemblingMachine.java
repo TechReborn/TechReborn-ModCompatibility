@@ -24,48 +24,62 @@
 
 package techreborn.compatmod.crafttweaker;
 
-import crafttweaker.CraftTweakerAPI;
+import com.google.common.collect.ImmutableList;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.minecraft.CraftTweakerMC;
+import crafttweaker.api.oredict.IOreDictEntry;
+import net.minecraft.item.ItemStack;
+import reborncore.api.praescriptum.ingredients.input.InputIngredient;
+import reborncore.api.praescriptum.ingredients.input.ItemStackInputIngredient;
+import reborncore.api.praescriptum.ingredients.input.OreDictionaryInputIngredient;
+import reborncore.api.praescriptum.recipes.Recipe;
+import reborncore.api.praescriptum.recipes.RecipeHandler;
+import reborncore.common.util.ItemUtils;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import techreborn.api.Reference;
-import techreborn.api.recipe.machines.AssemblingMachineRecipe;
+import techreborn.api.recipe.Recipes;
 
+import java.util.Optional;
+
+/**
+ * @author estebes
+ */
 @ZenClass("mods.techreborn.assemblingMachine")
-public class CTAssemblingMachine extends CTGeneric {
-
+public class CTAssemblingMachine extends CTPraescriptum {
 	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient input1, IIngredient input2, int ticktime, int euTick")
-	public static RecipeSettings addRecipe(IItemStack output, IIngredient input1, IIngredient input2, int ticktime, int euTick) {
-		Object oInput1 = techreborn.compatmod.crafttweaker.CraftTweakerCompat.toObject(input1);
-		Object oInput2 = techreborn.compatmod.crafttweaker.CraftTweakerCompat.toObject(input2);
+	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int energyCostPerTick, int operationDuration")
+	public static void addRecipe(IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int energyCostPerTick, int operationDuration) {
+		InputIngredient inputA = ingredientA instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientA), ingredientA.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientA).getName(), ingredientA.getAmount());
 
-		AssemblingMachineRecipe r = new AssemblingMachineRecipe(oInput1, oInput2, techreborn.compatmod.crafttweaker.CraftTweakerCompat.toStack(output), ticktime, euTick);
+		InputIngredient inputB = ingredientB instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientB), ingredientB.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientB).getName(), ingredientB.getAmount());
 
-		addRecipe(r);
-		return new RecipeSettings(r);
-	}
+		Recipe recipe = getRecipeHandler().createRecipe()
+			.withInput(ImmutableList.of(inputA, inputB))
+			.withOutput(CraftTweakerMC.getItemStack(output))
+			.withEnergyCostPerTick(energyCostPerTick)
+			.withOperationDuration(operationDuration);
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("IIngredient iIngredient")
-	public static void removeInputRecipe(IIngredient iIngredient) {
-		CraftTweakerAPI.apply(new RemoveInput(iIngredient, getMachineName()));
+		add(recipe);
 	}
 
 	@ZenMethod
-	@ZenDocumentation("IItemStack output")
-	public static void removeRecipe(IItemStack output) {
-		CraftTweakerAPI.apply(new Remove(CraftTweakerCompat.toStack(output), getMachineName()));
+	@ZenDocumentation("IItemStack ingredientA, IItemStack ingredientB")
+	public static void removeRecipe(IItemStack ingredientA, IItemStack ingredientB) {
+		ItemStack inputA = CraftTweakerMC.getItemStack(ingredientA);
+		ItemStack inputB = CraftTweakerMC.getItemStack(ingredientB);
+
+		Optional<Recipe> maybeRecipe = getRecipeHandler().findRecipe(ImmutableList.of(inputA, inputB), ImmutableList.of());
+
+		maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
 	}
-	
+
 	@ZenMethod
-	public static void removeAll(){
-		CraftTweakerAPI.apply(new RemoveAll(getMachineName()));
+	public static void removeAll() {
+		removeAll(getRecipeHandler());
 	}
 
-	public static String getMachineName() {
-		return Reference.ASSEMBLING_MACHINE_RECIPE;
+	public static RecipeHandler getRecipeHandler() {
+		return Recipes.assemblingMachine;
 	}
-
 }
