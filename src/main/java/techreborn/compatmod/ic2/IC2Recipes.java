@@ -31,7 +31,6 @@ import net.minecraft.item.ItemStack;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.util.RebornCraftingHelper;
 import techreborn.api.recipe.machines.CompressorRecipe;
-import techreborn.api.recipe.machines.ExtractorRecipe;
 import techreborn.api.recipe.machines.GrinderRecipe;
 import techreborn.init.IC2Duplicates;
 import techreborn.init.ModBlocks;
@@ -82,13 +81,6 @@ public class IC2Recipes {
 
 			RecipeHandler.addRecipe(new GrinderRecipe(IC2Dict.getItem("crafting", "tin_can"),
 					RecipeMethods.getOre("dustTin", 2), 300, 16));
-
-			RecipeHandler.addRecipe(new ExtractorRecipe(IC2Dict.getItem("filled_tin_can"),
-					IC2Dict.getItem("crafting", "tin_can"), 300, 16));
-
-			RecipeHandler.addRecipe(
-					new ExtractorRecipe(IC2Dict.getItem("misc_resource", "resin"),
-							ItemParts.getPartByName("rubber", 3), 400, 2));
 		}
 	}
 

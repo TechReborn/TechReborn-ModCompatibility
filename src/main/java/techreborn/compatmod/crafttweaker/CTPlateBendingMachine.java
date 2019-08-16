@@ -43,14 +43,10 @@ import techreborn.api.recipe.Recipes;
 import java.util.Optional;
 
 /**
- * mods.techreborn.extractor.add(<minecraft:gold_ingot>, <minecraft:iron_ingot>, 20, 100);
- */
-
-/**
  * @author estebes
  */
-@ZenClass("mods.techreborn.extractor")
-public class CTExtractor extends CTPraescriptum {
+@ZenClass("mods.techreborn.plateBendingMachine")
+public class CTPlateBendingMachine extends CTPraescriptum {
 	@ZenMethod
 	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration")
 	public static void add(IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration) {
@@ -81,6 +77,6 @@ public class CTExtractor extends CTPraescriptum {
 	}
 
 	public static RecipeHandler getRecipeHandler() {
-		return Recipes.extractor;
+		return Recipes.plateBendingMachine;
 	}
 }
