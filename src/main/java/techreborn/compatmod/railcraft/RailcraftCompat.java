@@ -24,7 +24,7 @@
 
 package techreborn.compatmod.railcraft;
 
-import mods.railcraft.common.fluids.RailcraftFluids;
+import mods.railcraft.common.fluids.Fluids;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -42,8 +42,8 @@ import techreborn.lib.ModInfo;
 @RebornRegistry(modOnly = "railcraft", modID = ModInfo.MOD_ID)
 public class RailcraftCompat implements ICompatModule {
 	// Configs >>
-	@ConfigRegistry(config = "compat", category = "railcraft", key = "DisableRailRelatedRollingMachinesRecipes", comment = "Disable rolling machine rail related recipes when Railcraft is installed")
-	public static boolean disableRailRelatedRollingMachinesRecipes = true;
+	@ConfigRegistry(config = "compat", category = "railcraft", key = "DisableRailRelatedRollingMachineRecipes", comment = "Disable rolling machine rail related recipes when Railcraft is installed")
+	public static boolean disableRailRelatedRollingMachineRecipes = true;
 
 	@ConfigRegistry(config = "compat", category = "railcraft", key = "EnableRailcraftFuels", comment = "Allow Railcraft fuels to be used in the fuel generators (i.e. Creosote)")
 	public static boolean allowRailcraftFuels = true;
@@ -51,7 +51,7 @@ public class RailcraftCompat implements ICompatModule {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		if (disableRailRelatedRollingMachinesRecipes) {
+		if (disableRailRelatedRollingMachineRecipes) {
 			RollingMachineRecipe.instance.getRecipeList().remove(new ResourceLocation(ModInfo.MOD_ID, "rail"));
 			RollingMachineRecipe.instance.getRecipeList().remove(new ResourceLocation(ModInfo.MOD_ID, "gold_rail"));
 			RollingMachineRecipe.instance.getRecipeList().remove(new ResourceLocation(ModInfo.MOD_ID, "detector_rail"));
@@ -64,7 +64,8 @@ public class RailcraftCompat implements ICompatModule {
 	public void postInit(FMLPostInitializationEvent event) {
 		if (allowRailcraftFuels) {
 			// Creosote
-			GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, RailcraftFluids.CREOSOTE.getBlock().getFluid(), 3); // 3k EU per bucket
+			if (Fluids.CREOSOTE.isPresent())
+				GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, Fluids.CREOSOTE.get(), 3); // 3k EU per bucket
 		}
 	}
 }

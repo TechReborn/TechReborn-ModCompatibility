@@ -31,6 +31,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
+import techreborn.Core;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;
 import techreborn.api.recipe.machines.DistillationTowerRecipe;
@@ -40,7 +41,7 @@ import techreborn.items.ItemDynamicCell;
 import techreborn.lib.ModInfo;
 
 /**
- * Created by Mark on 02/06/2017.
+ * @author estebes, modmuss50
  */
 @RebornRegistry(modOnly = "buildcraftenergy", modID = ModInfo.MOD_ID)
 public class BuildCraftEnergyCompat implements ICompatModule {
@@ -55,9 +56,13 @@ public class BuildCraftEnergyCompat implements ICompatModule {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		if (enableDistillationTowerBuildCraftRecipes) {
-			RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemDynamicCell.getCellWithFluid(BCEnergyFluids.crudeOil[0], 16), ItemDynamicCell.getEmptyCell(33),
-				RecipeMethods.getMaterial("diesel", 16, RecipeMethods.Type.CELL), RecipeMethods.getMaterial("sulfuricAcid", 16, RecipeMethods.Type.CELL),
-				RecipeMethods.getMaterial("glyceryl", RecipeMethods.Type.CELL), RecipeMethods.getMaterial("methane", 16, RecipeMethods.Type.CELL), 16000, 16));
+			try {
+				RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemDynamicCell.getCellWithFluid(BCEnergyFluids.crudeOil[0], 16), ItemDynamicCell.getEmptyCell(33),
+					RecipeMethods.getMaterial("diesel", 16, RecipeMethods.Type.CELL), RecipeMethods.getMaterial("sulfuricAcid", 16, RecipeMethods.Type.CELL),
+					RecipeMethods.getMaterial("glyceryl", RecipeMethods.Type.CELL), RecipeMethods.getMaterial("methane", 16, RecipeMethods.Type.CELL), 16000, 16));
+			} catch (NullPointerException exception) {
+				Core.logHelper.error("Cannot create a distillation tower recipe for BuildCraft Oil. This might be caused by another mod messing with it (i.e. AsmodeusCore).");
+			}
 		}
 	}
 
