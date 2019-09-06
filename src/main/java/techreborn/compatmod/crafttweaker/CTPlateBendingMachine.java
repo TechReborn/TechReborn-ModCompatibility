@@ -49,7 +49,7 @@ import java.util.Optional;
 public class CTPlateBendingMachine extends CTPraescriptum {
 	@ZenMethod
 	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration")
-	public static void add(IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration) {
+	public static void addRecipe(IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration) {
 		InputIngredient input = ingredient instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredient), ingredient.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
 
 		Recipe recipe = getRecipeHandler().createRecipe()
@@ -63,7 +63,7 @@ public class CTPlateBendingMachine extends CTPraescriptum {
 
 	@ZenMethod
 	@ZenDocumentation("IItemStack ingredient")
-	public static void remove(IItemStack ingredient) {
+	public static void removeRecipe(IItemStack ingredient) {
 		ItemStack input = CraftTweakerMC.getItemStack(ingredient);
 
 		Optional<Recipe> maybeRecipe = getRecipeHandler().findRecipe(ImmutableList.of(input), ImmutableList.of());
