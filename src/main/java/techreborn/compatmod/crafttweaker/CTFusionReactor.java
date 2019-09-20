@@ -48,6 +48,13 @@ public class CTFusionReactor {
 		FusionReactorRecipe reactorRecipe = new FusionReactorRecipe((ItemStack) techreborn.compatmod.crafttweaker.CraftTweakerCompat.toObject(topInput), (ItemStack) techreborn.compatmod.crafttweaker.CraftTweakerCompat.toObject(bottomInput), techreborn.compatmod.crafttweaker.CraftTweakerCompat.toStack(output), startEU, euTick, tickTime);
 		CraftTweakerAPI.apply(new Add(reactorRecipe));
 	}
+	
+	@ZenMethod
+	@techreborn.compatmod.crafttweaker.ZenDocumentation("IIngredient topInput, IIngredient bottomInput, IItemStack output, int startEU, int euTick, int tickTime, int minSize")
+	public static void addRecipe(IIngredient topInput, IIngredient bottomInput, IItemStack output, int startEU, int euTick, int tickTime, int minSize) {
+		FusionReactorRecipe reactorRecipe = new FusionReactorRecipe((ItemStack) techreborn.compatmod.crafttweaker.CraftTweakerCompat.toObject(topInput), (ItemStack) techreborn.compatmod.crafttweaker.CraftTweakerCompat.toObject(bottomInput), techreborn.compatmod.crafttweaker.CraftTweakerCompat.toStack(output), startEU, euTick, tickTime, minSize);
+		CraftTweakerAPI.apply(new Add(reactorRecipe));
+	}
 
 	@ZenMethod
 	@techreborn.compatmod.crafttweaker.ZenDocumentation("IIngredient iIngredient")
