@@ -53,8 +53,8 @@ import java.util.Optional;
 public class CTExtractor extends CTPraescriptum {
 	@ZenMethod
 	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration")
-	public static void add(IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration) {
-		InputIngredient input = ingredient instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredient), ingredient.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
+	public static void addRecipe(IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration) {
+		InputIngredient<?> input = ingredient instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredient), ingredient.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
 
 		Recipe recipe = getRecipeHandler().createRecipe()
 			.withInput(ImmutableList.of(input))
