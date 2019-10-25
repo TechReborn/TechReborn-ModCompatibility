@@ -33,6 +33,7 @@ import net.minecraft.item.ItemStack;
 import reborncore.api.praescriptum.ingredients.input.InputIngredient;
 import reborncore.api.praescriptum.ingredients.input.ItemStackInputIngredient;
 import reborncore.api.praescriptum.ingredients.input.OreDictionaryInputIngredient;
+import reborncore.api.praescriptum.ingredients.output.ItemStackOutputIngredient;
 import reborncore.api.praescriptum.recipes.Recipe;
 import reborncore.api.praescriptum.recipes.RecipeHandler;
 import reborncore.common.util.ItemUtils;
@@ -45,11 +46,15 @@ import java.util.Optional;
 @ZenClass("mods.techreborn.chemicalReactor")
 public class CTChemicalReactor extends CTPraescriptum {
 	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int energyCostPerTick, int operationDuration")
-	public static void addRecipe(IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int energyCostPerTick, int operationDuration) {
-		InputIngredient inputA = ingredientA instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientA), ingredientA.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientA).getName(), ingredientA.getAmount());
+	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int tickTime, int energyCostPerTick")
+	public static void addRecipe(IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int operationDuration, int energyCostPerTick ) {
+		InputIngredient<?> inputA = ingredientA instanceof IItemStack ? 
+				ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientA), ingredientA.getAmount())) 
+				: OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientA).getName(), ingredientA.getAmount());
 
-		InputIngredient inputB = ingredientB instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientB), ingredientB.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientB).getName(), ingredientB.getAmount());
+		InputIngredient<?> inputB = ingredientB instanceof IItemStack ? 
+				ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredientB), ingredientB.getAmount())) 
+				: OreDictionaryInputIngredient.of(((IOreDictEntry) ingredientB).getName(), ingredientB.getAmount());
 
 		Recipe recipe = getRecipeHandler().createRecipe()
 			.withInput(ImmutableList.of(inputA, inputB))
@@ -59,10 +64,18 @@ public class CTChemicalReactor extends CTPraescriptum {
 
 		add(recipe);
 	}
+	
+	@ZenMethod
+	@ZenDocumentation("IItemStack output")
+	public static void removeRecipe(IItemStack output) {
+		ItemStack outStack = CraftTweakerMC.getItemStack(output);
+		Optional<Recipe> maybeRecipe = getRecipeHandler().getRecipeByOutput(ImmutableList.of(ItemStackOutputIngredient.of(outStack)));
+		maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
+	}
 
 	@ZenMethod
 	@ZenDocumentation("IItemStack ingredientA, IItemStack ingredientB")
-	public static void removeRecipe(IItemStack ingredientA, IItemStack ingredientB) {
+	public static void removeInputRecipe(IItemStack ingredientA, IItemStack ingredientB) {
 		ItemStack inputA = CraftTweakerMC.getItemStack(ingredientA);
 		ItemStack inputB = CraftTweakerMC.getItemStack(ingredientB);
 

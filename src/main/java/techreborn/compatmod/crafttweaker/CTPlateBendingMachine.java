@@ -33,6 +33,7 @@ import net.minecraft.item.ItemStack;
 import reborncore.api.praescriptum.ingredients.input.InputIngredient;
 import reborncore.api.praescriptum.ingredients.input.ItemStackInputIngredient;
 import reborncore.api.praescriptum.ingredients.input.OreDictionaryInputIngredient;
+import reborncore.api.praescriptum.ingredients.output.ItemStackOutputIngredient;
 import reborncore.api.praescriptum.recipes.Recipe;
 import reborncore.api.praescriptum.recipes.RecipeHandler;
 import reborncore.common.util.ItemUtils;
@@ -48,9 +49,11 @@ import java.util.Optional;
 @ZenClass("mods.techreborn.plateBendingMachine")
 public class CTPlateBendingMachine extends CTPraescriptum {
 	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration")
-	public static void addRecipe(IItemStack output, IIngredient ingredient, int energyCostPerTick, int operationDuration) {
-		InputIngredient input = ingredient instanceof IItemStack ? ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredient), ingredient.getAmount())) : OreDictionaryInputIngredient.of(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
+	@techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredient, int tickTime, int energyCostPerTick")
+	public static void addRecipe(IItemStack output, IIngredient ingredient, int operationDuration, int energyCostPerTick) {
+		InputIngredient<?> input = ingredient instanceof IItemStack ? 
+				ItemStackInputIngredient.of(ItemUtils.copyWithSize(CraftTweakerMC.getItemStack(ingredient), ingredient.getAmount())) 
+				: OreDictionaryInputIngredient.of(((IOreDictEntry) ingredient).getName(), ingredient.getAmount());
 
 		Recipe recipe = getRecipeHandler().createRecipe()
 			.withInput(ImmutableList.of(input))
@@ -60,10 +63,18 @@ public class CTPlateBendingMachine extends CTPraescriptum {
 
 		add(recipe);
 	}
+	
+	@ZenMethod
+	@ZenDocumentation("IItemStack output")
+	public static void removeRecipe(IItemStack output) {
+		ItemStack outStack = CraftTweakerMC.getItemStack(output);
+		Optional<Recipe> maybeRecipe = getRecipeHandler().getRecipeByOutput(ImmutableList.of(ItemStackOutputIngredient.of(outStack)));
+		maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
+	}
 
 	@ZenMethod
 	@ZenDocumentation("IItemStack ingredient")
-	public static void removeRecipe(IItemStack ingredient) {
+	public static void removeInputRecipe(IItemStack ingredient) {
 		ItemStack input = CraftTweakerMC.getItemStack(ingredient);
 
 		Optional<Recipe> maybeRecipe = getRecipeHandler().findRecipe(ImmutableList.of(input), ImmutableList.of());

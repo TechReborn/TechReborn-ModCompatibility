@@ -117,7 +117,7 @@ if (ENV.BUILD_NUMBER) {
 }
 
 minecraft {
-	version = "1.12.2-14.23.5.2838"
+	version = "1.12.2-14.23.5.2847"
 	mappings = "stable_39"
 	replace "@MODVERSION@", project.version
 	useDepAts = true
@@ -212,7 +212,7 @@ dependencies {
 	deobfCompile "mezz.jei:jei_1.12.2:+"
 	deobfCompile name: 'buildcraft-main', version: '7.99.20', ext: 'jar'
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.+"
-	deobfCompile "codechicken:CodeChickenLib:1.12.2-+:universal"
+	deobfProvided "codechicken:CodeChickenLib:1.12.2-+:universal"
 
 //	deobfCompile 'MCMultiPart2:MCMultiPart:2.4.1'
 
