@@ -25,7 +25,9 @@
 package techreborn.compatmod.ic2.experimental.recipes;
 
 import net.minecraft.item.ItemStack;
+
 import reborncore.common.util.ItemUtils;
+
 import techreborn.api.recipe.Recipes;
 import techreborn.compatmod.ic2.IC2Dict;
 
@@ -33,30 +35,24 @@ import techreborn.compatmod.ic2.IC2Dict;
  * @author estebes
  */
 public class ChemicalReactorRecipes {
-	public static void init() {
-		// Fertilizer
-		ItemStack fertilizer = IC2Dict.getItem("crop_res", "fertilizer");
+    public static void init() {
+        // Fertilizer
+        ItemStack fertilizer = IC2Dict.getItem("crop_res", "fertilizer");
 
-		Recipes.chemicalReactor.createRecipe()
-			.withInput("dustCalcite", 1)
-			.withInput("dustSulfur", 1)
-			.withOutput(copyWithSize(fertilizer, 2))
-			.withEnergyCostPerTick(30)
-			.withOperationDuration(200)
-			.register();
+        Recipes.chemicalReactor.createRecipe()
+                .withInput("dustCalcite", 1)
+                .withInput("dustSulfur", 1)
+                .withOutput(ItemUtils.copyWithSize(fertilizer, 2))
+                .withEnergyCostPerTick(30)
+                .withOperationDuration(200)
+                .register();
 
-		Recipes.chemicalReactor.createRecipe()
-			.withInput("dustCalcite", 1)
-			.withInput("dustAsh", 3)
-			.withOutput(copyWithSize(fertilizer, 1))
-			.withEnergyCostPerTick(30)
-			.withOperationDuration(100)
-			.register();
-	}
-
-	public static ItemStack copyWithSize(ItemStack stack, int size) {
-		if (ItemUtils.isEmpty(stack)) return ItemStack.EMPTY;
-
-		return ItemUtils.setSize(stack.copy(), size);
-	}
+        Recipes.chemicalReactor.createRecipe()
+                .withInput("dustCalcite", 1)
+                .withInput("dustAsh", 3)
+                .withOutput(ItemUtils.copyWithSize(fertilizer, 1))
+                .withEnergyCostPerTick(30)
+                .withOperationDuration(100)
+                .register();
+    }
 }

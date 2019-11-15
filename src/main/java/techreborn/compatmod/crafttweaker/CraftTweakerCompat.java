@@ -24,78 +24,83 @@
 
 package techreborn.compatmod.crafttweaker;
 
+import net.minecraft.item.ItemStack;
+
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import reborncore.common.registration.RebornRegistry;
+
+import techreborn.compat.ICompatModule;
+import techreborn.compatmod.crafttweaker.praescriptum.*;
+import techreborn.lib.ModInfo;
+
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import reborncore.common.registration.RebornRegistry;
-import techreborn.compat.ICompatModule;
-import techreborn.lib.ModInfo;
 
 import static crafttweaker.api.minecraft.CraftTweakerMC.getItemStack;
 import static crafttweaker.api.minecraft.CraftTweakerMC.getLiquidStack;
 
 @RebornRegistry(modOnly = "crafttweaker", modID = ModInfo.MOD_ID)
 public class CraftTweakerCompat implements ICompatModule {
-	public static ItemStack toStack(IItemStack iStack) {
-		if (iStack == null){
-			return null;
-		}
-		return getItemStack(iStack);
-	}
+    public static ItemStack toStack(IItemStack iStack) {
+        if (iStack == null) {
+            return null;
+        }
+        return getItemStack(iStack);
+    }
 
-	public static Object toObject(IIngredient iStack) {
-		if (iStack == null)
-			return null;
-		else {
-			if (iStack instanceof IOreDictEntry)
-				return ((IOreDictEntry) iStack).getName();
-			else if (iStack instanceof IItemStack)
-				return getItemStack((IItemStack) iStack);
-			else if (iStack instanceof IngredientStack) {
-				IIngredient ingr = ReflectionHelper.getPrivateValue(IngredientStack.class, (IngredientStack) iStack, "ingredient");
-				return toObject(ingr);
-			} else
-				return null;
-		}
-	}
+    public static Object toObject(IIngredient iStack) {
+        if (iStack == null)
+            return null;
+        else {
+            if (iStack instanceof IOreDictEntry)
+                return ((IOreDictEntry) iStack).getName();
+            else if (iStack instanceof IItemStack)
+                return getItemStack((IItemStack) iStack);
+            else if (iStack instanceof IngredientStack) {
+                IIngredient ingr = ObfuscationReflectionHelper.getPrivateValue(IngredientStack.class, (IngredientStack) iStack, "ingredient");
+                return toObject(ingr);
+            } else
+                return null;
+        }
+    }
 
-	public static FluidStack toFluidStack(ILiquidStack iStack) {
-		return getLiquidStack(iStack);
-	}
+    public static FluidStack toFluidStack(ILiquidStack iStack) {
+        return getLiquidStack(iStack);
+    }
 
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		CraftTweakerAPI.registerClass(CTBlastFurnace.class);
-		CraftTweakerAPI.registerClass(CTCentrifuge.class);
-		CraftTweakerAPI.registerClass(CTCompressor.class);
-		CraftTweakerAPI.registerClass(CTIndustrialGrinder.class);
-		CraftTweakerAPI.registerClass(CTImplosionCompressor.class);
-		CraftTweakerAPI.registerClass(CTIndustrialElectrolyzer.class);
-		CraftTweakerAPI.registerClass(CTIndustrialSawmill.class);
-		CraftTweakerAPI.registerClass(CTFusionReactor.class);
-		CraftTweakerAPI.registerClass(CTVacuumFreezer.class);
-		CraftTweakerAPI.registerClass(CTFluidGen.class);
-		CraftTweakerAPI.registerClass(CTRollingMachine.class);
-		CraftTweakerAPI.registerClass(CTScrapbox.class);
-		CraftTweakerAPI.registerClass(CTDistillationTower.class);
-		CraftTweakerAPI.registerClass(CTGrinder.class);
-		CraftTweakerAPI.registerClass(CTFluidReplicator.class);
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        CraftTweakerAPI.registerClass(CTBlastFurnace.class);
+        CraftTweakerAPI.registerClass(CTCentrifuge.class);
+        CraftTweakerAPI.registerClass(CTCompressor.class);
+        CraftTweakerAPI.registerClass(CTIndustrialGrinder.class);
+        CraftTweakerAPI.registerClass(CTImplosionCompressor.class);
+        CraftTweakerAPI.registerClass(CTIndustrialElectrolyzer.class);
+        CraftTweakerAPI.registerClass(CTIndustrialSawmill.class);
+        CraftTweakerAPI.registerClass(CTFusionReactor.class);
+        CraftTweakerAPI.registerClass(CTVacuumFreezer.class);
+        CraftTweakerAPI.registerClass(CTFluidGen.class);
+        CraftTweakerAPI.registerClass(CTRollingMachine.class);
+        CraftTweakerAPI.registerClass(CTScrapbox.class);
+        CraftTweakerAPI.registerClass(CTDistillationTower.class);
+        CraftTweakerAPI.registerClass(CTFluidReplicator.class);
 
-		// Praescriptum >>
-		CraftTweakerAPI.registerClass(CTAlloySmelter.class);
-		CraftTweakerAPI.registerClass(CTAssemblingMachine.class);
-		CraftTweakerAPI.registerClass(CTChemicalReactor.class);
-		CraftTweakerAPI.registerClass(CTExtractor.class);
-		CraftTweakerAPI.registerClass(CTPlateBendingMachine.class);
-		CraftTweakerAPI.registerClass(CTSolidCanningMachine.class);
-		CraftTweakerAPI.registerClass(CTWireMill.class);
-		// << Praescriptum
-	}
+        // Praescriptum >>
+        CraftTweakerAPI.registerClass(CTAlloySmelter.class);
+        CraftTweakerAPI.registerClass(CTAssemblingMachine.class);
+        CraftTweakerAPI.registerClass(CTChemicalReactor.class);
+        CraftTweakerAPI.registerClass(CTExtractor.class);
+        CraftTweakerAPI.registerClass(CTGrinder.class);
+        CraftTweakerAPI.registerClass(CTPlateBendingMachine.class);
+        CraftTweakerAPI.registerClass(CTSolidCanningMachine.class);
+        CraftTweakerAPI.registerClass(CTWireMill.class);
+        // << Praescriptum
+    }
 }

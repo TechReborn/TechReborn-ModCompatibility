@@ -24,84 +24,95 @@
 
 package techreborn.compatmod.appliedenergistics;
 
-import appeng.api.AEApi;
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
-import techreborn.api.recipe.machines.GrinderRecipe;
+
+import techreborn.api.recipe.Recipes;
 import techreborn.api.recipe.machines.IndustrialGrinderRecipe;
 import techreborn.compat.ICompatModule;
 import techreborn.init.ModItems;
-import techreborn.init.recipes.RecipeMethods;
 import techreborn.lib.ModInfo;
+
+import appeng.api.AEApi;
 
 /**
  * @author estebes
  */
 @RebornRegistry(modOnly = "appliedenergistics2", modID = ModInfo.MOD_ID)
 public class AppliedEnergisticsCompat implements ICompatModule {
-	// Config >>
-	@ConfigRegistry(config = "compat", category = "appliedenergistics2", key = "EnableQuartzGrinderRecipes", comment = "Enable grinder recipes related to Applied Energistics 2 quartz")
-	public static boolean enableQuartzGrinderRecipes = true;
+    // Config >>
+    @ConfigRegistry(config = "compat", category = "appliedenergistics2", key = "EnableQuartzGrinderRecipes", comment = "Enable grinder recipes related to Applied Energistics 2 quartz")
+    public static boolean enableQuartzGrinderRecipes = true;
 
-	@ConfigRegistry(config = "compat", category = "appliedenergistics2", key = "EnableQuartzIndustrialGrinderRecipes", comment = "Enable industrial grinder recipes related to Applied Energistics 2 quartz")
-	public static boolean enableQuartzIndustrialGrinderRecipes = true;
-	// << Config
+    @ConfigRegistry(config = "compat", category = "appliedenergistics2", key = "EnableQuartzIndustrialGrinderRecipes", comment = "Enable industrial grinder recipes related to Applied Energistics 2 quartz")
+    public static boolean enableQuartzIndustrialGrinderRecipes = true;
+    // << Config
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		// Grinder
-		if (enableQuartzGrinderRecipes) {
-			RecipeHandler.addRecipe(new GrinderRecipe(
-				AEApi.instance().definitions().materials().certusQuartzCrystal().maybeStack(1).orElse(MISSING.copy()),
-				AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(1).orElse(MISSING.copy()),
-				300, 2));
+    @Override
+    public void init(FMLInitializationEvent event) {
+        // Grinder
+        if (enableQuartzGrinderRecipes) {
+            Recipes.grinder.createRecipe()
+                    .withInput(AEApi.instance().definitions().materials().certusQuartzCrystal().maybeStack(1).orElse(MISSING.copy()))
+                    .withOutput(AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(1).orElse(MISSING.copy()))
+                    .withEnergyCostPerTick(2)
+                    .withOperationDuration(300)
+                    .register();
 
-			RecipeHandler.addRecipe(new GrinderRecipe(
-				RecipeMethods.getOre("oreCertusQuartz"),
-				AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(5).orElse(MISSING.copy()),
-				300, 2));
+            Recipes.grinder.createRecipe()
+                    .withInput("oreCertusQuartz")
+                    .withOutput(AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(5).orElse(MISSING.copy()))
+                    .withEnergyCostPerTick(2)
+                    .withOperationDuration(300)
+                    .register();
 
-			RecipeHandler.addRecipe(new GrinderRecipe(
-				RecipeMethods.getOre("oreQuartz"),
-				AEApi.instance().definitions().materials().netherQuartzDust().maybeStack(3).orElse(MISSING.copy()),
-				300, 2));
+            Recipes.grinder.createRecipe()
+                    .withInput("oreQuartz")
+                    .withOutput(AEApi.instance().definitions().materials().netherQuartzDust().maybeStack(3).orElse(MISSING.copy()))
+                    .withEnergyCostPerTick(2)
+                    .withOperationDuration(300)
+                    .register();
 
-			RecipeHandler.addRecipe(new GrinderRecipe(
-				RecipeMethods.getOre("gemQuartz"),
-				AEApi.instance().definitions().materials().netherQuartzDust().maybeStack(1).orElse(MISSING.copy()),
-				300, 2));
-		}
+            Recipes.grinder.createRecipe()
+                    .withInput("gemQuartz")
+                    .withOutput(AEApi.instance().definitions().materials().netherQuartzDust().maybeStack(1).orElse(MISSING.copy()))
+                    .withEnergyCostPerTick(2)
+                    .withOperationDuration(300)
+                    .register();
+        }
 
-		// Industrial Grinder
-		if (enableQuartzIndustrialGrinderRecipes) {
-			FluidStack water = new FluidStack(FluidRegistry.WATER, 1000);
+        // Industrial Grinder
+        if (enableQuartzIndustrialGrinderRecipes) {
+            FluidStack water = new FluidStack(FluidRegistry.WATER, 1000);
 
-			RecipeHandler.addRecipe(new IndustrialGrinderRecipe(
-				AEApi.instance().definitions().blocks().quartzOre().maybeStack(1).orElse(MISSING.copy()),
-				water,
-				AEApi.instance().definitions().materials().certusQuartzCrystal().maybeStack(2).orElse(MISSING.copy()),
-				AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(3).orElse(MISSING.copy()) ,
-				null,
-				null,
-				100, 128, false));
+            RecipeHandler.addRecipe(new IndustrialGrinderRecipe(
+                    AEApi.instance().definitions().blocks().quartzOre().maybeStack(1).orElse(MISSING.copy()),
+                    water,
+                    AEApi.instance().definitions().materials().certusQuartzCrystal().maybeStack(2).orElse(MISSING.copy()),
+                    AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(3).orElse(MISSING.copy()),
+                    null,
+                    null,
+                    100, 128, false));
 
-			RecipeHandler.addRecipe(new IndustrialGrinderRecipe(
-				AEApi.instance().definitions().blocks().quartzOreCharged().maybeStack(1).orElse(MISSING.copy()),
-				water,
-				AEApi.instance().definitions().materials().certusQuartzCrystalCharged().maybeStack(2).orElse(MISSING.copy()),
-				AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(3).orElse(MISSING.copy()) ,
-				null,
-				null,
-				100, 128, false));
-		}
-	}
+            RecipeHandler.addRecipe(new IndustrialGrinderRecipe(
+                    AEApi.instance().definitions().blocks().quartzOreCharged().maybeStack(1).orElse(MISSING.copy()),
+                    water,
+                    AEApi.instance().definitions().materials().certusQuartzCrystalCharged().maybeStack(2).orElse(MISSING.copy()),
+                    AEApi.instance().definitions().materials().certusQuartzDust().maybeStack(3).orElse(MISSING.copy()),
+                    null,
+                    null,
+                    100, 128, false));
+        }
+    }
 
-	// Fields >>
-	private static final ItemStack MISSING = new ItemStack(ModItems.MISSING_RECIPE_PLACEHOLDER);
-	// << Fields
+    // Fields >>
+    private static final ItemStack MISSING = new ItemStack(ModItems.MISSING_RECIPE_PLACEHOLDER);
+    // << Fields
 }

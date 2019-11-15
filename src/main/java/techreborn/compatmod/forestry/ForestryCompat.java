@@ -24,14 +24,13 @@
 
 package techreborn.compatmod.forestry;
 
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.GeneratorFuel;
-import forestry.core.fluids.Fluids;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
+
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;
 import techreborn.api.recipe.machines.DistillationTowerRecipe;
@@ -41,39 +40,43 @@ import techreborn.items.ItemCells;
 import techreborn.items.ItemDynamicCell;
 import techreborn.lib.ModInfo;
 
+import forestry.api.fuels.FuelManager;
+import forestry.api.fuels.GeneratorFuel;
+import forestry.core.fluids.Fluids;
+
 /**
  * @author estebes
  */
 @RebornRegistry(modOnly = "forestry", modID = ModInfo.MOD_ID)
 public class ForestryCompat implements ICompatModule {
-	// Configs >>
-	@ConfigRegistry(config = "compat", category = "forestry", key = "EnableDistillationTowerForestryRecipes", comment = "Enable distillation tower recipes envolving Forestry fuels")
-	public static boolean enableDistillationTowerForestryRecipes = true;
+    // Configs >>
+    @ConfigRegistry(config = "compat", category = "forestry", key = "EnableDistillationTowerForestryRecipes", comment = "Enable distillation tower recipes envolving Forestry fuels")
+    public static boolean enableDistillationTowerForestryRecipes = true;
 
-	@ConfigRegistry(config = "compat", category = "forestry", key = "EnableForestryFuels", comment = "Allow Forestry fuels to be used in the fuel generators")
-	public static boolean allowForestryFuels = true;
-	// << Configs
+    @ConfigRegistry(config = "compat", category = "forestry", key = "EnableForestryFuels", comment = "Allow Forestry fuels to be used in the fuel generators")
+    public static boolean allowForestryFuels = true;
+    // << Configs
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		// Biomass -> etanol
-		if (enableDistillationTowerForestryRecipes) {
-			RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemCells.getCellByName(Fluids.BIOMASS.getTag(), 16), null,
-				RecipeMethods.getMaterial(Fluids.BIO_ETHANOL.getTag(), 8, RecipeMethods.Type.CELL),
-				ItemDynamicCell.getEmptyCell(8), null, null, 400, 16));
-		}
-	}
+    @Override
+    public void init(FMLInitializationEvent event) {
+        // Biomass -> etanol
+        if (enableDistillationTowerForestryRecipes) {
+            RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemCells.getCellByName(Fluids.BIOMASS.getTag(), 16), null,
+                    RecipeMethods.getMaterial(Fluids.BIO_ETHANOL.getTag(), 8, RecipeMethods.Type.CELL),
+                    ItemDynamicCell.getEmptyCell(8), null, null, 400, 16));
+        }
+    }
 
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		if (allowForestryFuels) {
-			// Biomass
-			GeneratorFuel biomass = FuelManager.generatorFuel.get(Fluids.BIOMASS.getFluid());
-			GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, Fluids.BIOMASS.getFluid(), biomass.getEu() * biomass.getRate());
+    @Override
+    public void postInit(FMLPostInitializationEvent event) {
+        if (allowForestryFuels) {
+            // Biomass
+            GeneratorFuel biomass = FuelManager.generatorFuel.get(Fluids.BIOMASS.getFluid());
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, Fluids.BIOMASS.getFluid(), biomass.getEu() * biomass.getRate());
 
-			// Ethanol
-			GeneratorFuel ethanol = FuelManager.generatorFuel.get(Fluids.BIO_ETHANOL.getFluid());
-			GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.DIESEL, Fluids.BIO_ETHANOL.getFluid(), ethanol.getEu() * ethanol.getRate());
-		}
-	}
+            // Ethanol
+            GeneratorFuel ethanol = FuelManager.generatorFuel.get(Fluids.BIO_ETHANOL.getFluid());
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.DIESEL, Fluids.BIO_ETHANOL.getFluid(), ethanol.getEu() * ethanol.getRate());
+        }
+    }
 }

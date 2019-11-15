@@ -20,6 +20,10 @@ buildscript {
 	}
 }
 
+plugins {
+	id "com.wynprice.cursemaven" version "2.1.1"
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -105,7 +109,7 @@ repositories {
 	// refined storage
 	maven {
 		name "Raoulvdberge"
-		url  "https://repo.raoulvdberge.com/"
+		url "https://repo.raoulvdberge.com"
 	}
 }
 
@@ -182,6 +186,10 @@ dependencies {
 	}
 
 	deobfCompile ("blusunrize:ImmersiveEngineering:0.12-+") {
+		transitive = false
+	}
+
+	deobfCompile ("curse.maven:immersive-petroleum:2544919") {
 		transitive = false
 	}
 

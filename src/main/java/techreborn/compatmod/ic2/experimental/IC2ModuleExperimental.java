@@ -55,6 +55,7 @@ import techreborn.compatmod.ic2.IC2Dict;
 import techreborn.compatmod.ic2.IC2Recipes;
 import techreborn.compatmod.ic2.experimental.recipes.ChemicalReactorRecipes;
 import techreborn.compatmod.ic2.experimental.recipes.ExtractorRecipes;
+import techreborn.compatmod.ic2.experimental.recipes.GrinderRecipes;
 import techreborn.config.ConfigTechReborn;
 import techreborn.init.IC2Duplicates;
 import techreborn.items.tools.ItemWrench;
@@ -100,6 +101,7 @@ public class IC2ModuleExperimental implements ICompatModule, IC2Helper {
 		IC2RecipesExperimental.registerRecipes();
 		ChemicalReactorRecipes.init();
 		ExtractorRecipes.init();
+		GrinderRecipes.init();
 	}
 
 	@Override

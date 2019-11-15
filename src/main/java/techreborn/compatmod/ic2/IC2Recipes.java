@@ -24,18 +24,19 @@
 
 package techreborn.compatmod.ic2;
 
+import net.minecraft.item.ItemStack;
+
+import reborncore.api.recipe.RecipeHandler;
+import reborncore.common.util.RebornCraftingHelper;
+
+import techreborn.api.recipe.machines.CompressorRecipe;
+import techreborn.init.IC2Duplicates;
+import techreborn.init.ModBlocks;
+import techreborn.items.ingredients.ItemParts;
+
 import ic2.api.recipe.IBasicMachineRecipeManager;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.Recipes;
-import net.minecraft.item.ItemStack;
-import reborncore.api.recipe.RecipeHandler;
-import reborncore.common.util.RebornCraftingHelper;
-import techreborn.api.recipe.machines.CompressorRecipe;
-import techreborn.api.recipe.machines.GrinderRecipe;
-import techreborn.init.IC2Duplicates;
-import techreborn.init.ModBlocks;
-import techreborn.init.recipes.RecipeMethods;
-import techreborn.items.ingredients.ItemParts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,9 +79,6 @@ public class IC2Recipes {
 					IC2Dict.getItem("crafting", "carbon_plate"), 300, 4));
 			RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "coal_ball"),
 					IC2Dict.getItem("crafting", "coal_block"), 300, 4));
-
-			RecipeHandler.addRecipe(new GrinderRecipe(IC2Dict.getItem("crafting", "tin_can"),
-					RecipeMethods.getOre("dustTin", 2), 300, 16));
 		}
 	}
 
