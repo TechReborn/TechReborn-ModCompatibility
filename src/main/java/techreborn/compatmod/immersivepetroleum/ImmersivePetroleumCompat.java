@@ -7,9 +7,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
+import reborncore.common.util.ItemUtils;
 
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;
+import techreborn.api.recipe.Recipes;
 import techreborn.api.recipe.machines.DistillationTowerRecipe;
 import techreborn.compat.ICompatModule;
 import techreborn.init.recipes.RecipeMethods;
@@ -26,6 +28,9 @@ public class ImmersivePetroleumCompat implements ICompatModule {
     // Configs >>
     @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableDistillationTowerImmersivePetroleumRecipes", comment = "Enable distillation tower recipes related to Immersive Petroleum fuels")
     public static boolean enableDistillationTowerImmersivePetroleumRecipes = true;
+
+    @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableChemicalReactorImmersivePetroleumRecipes", comment = "Enable chemical reactor recipes related to Immersive Petroleum fuels")
+    public static boolean enableChemicalReactorImmersivePetroleumRecipes = true;
 
     @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableImmersivePetroleumFuels", comment = "Allow Immersive Petroleum fuels to be used in the fuel generators")
     public static boolean enableImmersivePetroleumFuels = true;
@@ -47,6 +52,24 @@ public class ImmersivePetroleumCompat implements ICompatModule {
                     RecipeMethods.getMaterial("methane", 16, RecipeMethods.Type.CELL),
                     16000,
                     16));
+        }
+
+        if (enableChemicalReactorImmersivePetroleumRecipes) {
+            Recipes.chemicalReactor.createRecipe()
+                    .withInput("dustAluminum", 6)
+                    .withInput(ItemDynamicCell.getCellWithFluid(IPContent.fluidCrudeOil, 1))
+                    .withOutput(ItemDynamicCell.getCellWithFluid(IPContent.fluidNapalm, 1))
+                    .withEnergyCostPerTick(30)
+                    .withOperationDuration(1000)
+                    .register();
+
+            Recipes.chemicalReactor.createRecipe()
+                    .withInput("dustAluminium", 6)
+                    .withInput(ItemDynamicCell.getCellWithFluid(IPContent.fluidCrudeOil, 1))
+                    .withOutput(ItemDynamicCell.getCellWithFluid(IPContent.fluidNapalm, 1))
+                    .withEnergyCostPerTick(30)
+                    .withOperationDuration(1000)
+                    .register();
         }
     }
 
