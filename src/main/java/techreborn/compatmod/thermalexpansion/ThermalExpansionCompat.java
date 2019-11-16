@@ -29,6 +29,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
@@ -50,10 +51,10 @@ import cofh.thermalfoundation.init.TFItems;
 import cofh.thermalfoundation.item.ItemMaterial;
 
 /**
- * Created by modmuss50 on 06/07/2017.
+ * @author estebes, modmuss50
  */
 @RebornRegistry(modOnly = "thermalexpansion", modID = ModInfo.MOD_ID)
-public class RecipeThermalExpansion implements ICompatModule {
+public class ThermalExpansionCompat implements ICompatModule {
     // Configs >>
     @ConfigRegistry(config = "compat", category = "thermal_expansion", key = "DisableInductionSmelterRecipesBypassingBlastFurnace", comment = "Disable induction smelter recipes that bypass the use of the blast furnace (i.e. tungsten ingots)")
     public static boolean disableInductionSmelterRecipesBypassingBlastFurnace = true;
@@ -89,7 +90,10 @@ public class RecipeThermalExpansion implements ICompatModule {
         GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCreosote, 40);
 
         FluidReplicatorRecipeList.addRecipe(new FluidReplicatorRecipe(4, TFFluids.fluidCoal, 100, 20));
+    }
 
+    @Override
+    public void postInit(FMLPostInitializationEvent event) {
         if (disableInductionSmelterRecipesBypassingBlastFurnace) {
             // Sand
             ThermalExpansionHelper.removeSmelterRecipe(RecipeMethods.getMaterial("tungsten", 1, RecipeMethods.Type.ORE),
