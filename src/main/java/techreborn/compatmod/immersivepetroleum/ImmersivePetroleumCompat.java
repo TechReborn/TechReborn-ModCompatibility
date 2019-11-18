@@ -26,10 +26,10 @@ import flaxbeard.immersivepetroleum.common.IPContent;
 @RebornRegistry(modOnly = "immersivepetroleum", modID = ModInfo.MOD_ID)
 public class ImmersivePetroleumCompat implements ICompatModule {
     // Configs >>
-    @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableDistillationTowerImmersivePetroleumRecipes", comment = "Enable distillation tower recipes related to Immersive Petroleum fuels")
+    @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableDistillationTowerImmersivePetroleumRecipes", comment = "Enable distillation tower recipes related to Immersive Petroleum content")
     public static boolean enableDistillationTowerImmersivePetroleumRecipes = true;
 
-    @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableChemicalReactorImmersivePetroleumRecipes", comment = "Enable chemical reactor recipes related to Immersive Petroleum fuels")
+    @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableChemicalReactorImmersivePetroleumRecipes", comment = "Enable chemical reactor recipes related to Immersive Petroleum content")
     public static boolean enableChemicalReactorImmersivePetroleumRecipes = true;
 
     @ConfigRegistry(config = "compat", category = "immersive_petroleum", key = "EnableImmersivePetroleumFuels", comment = "Allow Immersive Petroleum fuels to be used in the fuel generators")

@@ -24,41 +24,52 @@
 
 package techreborn.compatmod.immersiveengineering;
 
-import blusunrize.immersiveengineering.common.IEContent;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import reborncore.api.recipe.RecipeHandler;
+
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
+
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;
-import techreborn.api.recipe.machines.CompressorRecipe;
+import techreborn.api.recipe.Recipes;
 import techreborn.compat.ICompatModule;
+import techreborn.init.recipes.RecipeMethods;
 import techreborn.lib.ModInfo;
 
+import blusunrize.immersiveengineering.common.IEContent;
+
 /**
- * @author modmuss50
+ * @author estebes, modmuss50
  */
 @RebornRegistry(modOnly = "immersiveengineering", modID = ModInfo.MOD_ID)
-public class RecipeImmersiveEngineering implements ICompatModule {
-	// Configs >>
-	@ConfigRegistry(config = "compat", category = "immersiveengineering", key = "EnableImmersiveEngineeringFuels", comment = "Allow ImmersiveEngineering fuels to be used in the fuel generators (i.e. Creosote)")
-	public static boolean allowImmersiveEngineeringFuels = true;
-	// << Configs
+public class ImmersiveEngineeringCompat implements ICompatModule {
+    // Configs >>
+    @ConfigRegistry(config = "compat", category = "immersive_engineering", key = "EnableCompressorImmersiveEngineeringRecipes", comment = "Enable compressor recipes related to Immersive Engineering content")
+    public static boolean enableCompressorImmersiveEngineeringRecipes = true;
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		// dust_coke to dust_hop_graphite
-		RecipeHandler.addRecipe(new CompressorRecipe(new ItemStack(IEContent.itemMaterial, 8, 17),
-				new ItemStack(IEContent.itemMaterial, 1, 18), 300, 4));
-	}
+    @ConfigRegistry(config = "compat", category = "immersive_engineering", key = "EnableImmersiveEngineeringFuels", comment = "Allow Immersive Engineering fuels to be used in the fuel generators")
+    public static boolean enableImmersiveEngineeringFuels = true;
+    // << Configs
 
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		if (allowImmersiveEngineeringFuels) {
-			// Creosote
-			GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, IEContent.fluidCreosote, 3); // 3k EU per bucket
-		}
-	}
+    @Override
+    public void init(FMLInitializationEvent event) {
+        if (enableCompressorImmersiveEngineeringRecipes) {
+            // Coke dust -> HOP Graphite dust
+            Recipes.compressor.createRecipe()
+                    .withInput("dustCoke")
+                    .withOutput(RecipeMethods.getStack(IEContent.itemMaterial, 1, 18))
+                    .withEnergyCostPerTick(4)
+                    .withOperationDuration(300)
+                    .register();
+        }
+    }
+
+    @Override
+    public void postInit(FMLPostInitializationEvent event) {
+        if (enableImmersiveEngineeringFuels) {
+            // Creosote
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, IEContent.fluidCreosote, 3); // 3k EU per bucket
+        }
+    }
 }

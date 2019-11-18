@@ -28,9 +28,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
+import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
 
@@ -38,14 +40,17 @@ import techreborn.api.fluidreplicator.FluidReplicatorRecipe;
 import techreborn.api.fluidreplicator.FluidReplicatorRecipeList;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;
+import techreborn.api.recipe.machines.DistillationTowerRecipe;
 import techreborn.compat.ICompatModule;
 import techreborn.init.ModItems;
 import techreborn.init.recipes.RecipeMethods;
+import techreborn.items.ItemDynamicCell;
 import techreborn.items.ingredients.ItemDusts;
 import techreborn.items.ingredients.ItemPlates;
 import techreborn.lib.ModInfo;
 
 import cofh.api.util.ThermalExpansionHelper;
+import cofh.thermalexpansion.util.managers.dynamo.CompressionManager;
 import cofh.thermalfoundation.init.TFFluids;
 import cofh.thermalfoundation.init.TFItems;
 import cofh.thermalfoundation.item.ItemMaterial;
@@ -56,6 +61,12 @@ import cofh.thermalfoundation.item.ItemMaterial;
 @RebornRegistry(modOnly = "thermalexpansion", modID = ModInfo.MOD_ID)
 public class ThermalExpansionCompat implements ICompatModule {
     // Configs >>
+    @ConfigRegistry(config = "compat", category = "thermal_expansion", key = "EnableDistillationTowerThermalExpansionRecipes", comment = "Enable distillation tower recipes related to ThermalExpansion content")
+    public static boolean enableDistillationTowerThermalExpansionRecipes = true;
+
+    @ConfigRegistry(config = "compat", category = "thermal_expansion", key = "EnableThermalExpansionFuels", comment = "Allow Thermal Expansion fuels to be used in the fuel generators")
+    public static boolean enableThermalExpansionFuels = true;
+
     @ConfigRegistry(config = "compat", category = "thermal_expansion", key = "DisableInductionSmelterRecipesBypassingBlastFurnace", comment = "Disable induction smelter recipes that bypass the use of the blast furnace (i.e. tungsten ingots)")
     public static boolean disableInductionSmelterRecipesBypassingBlastFurnace = true;
     // << Configs
@@ -86,14 +97,68 @@ public class ThermalExpansionCompat implements ICompatModule {
 
         ThermalExpansionHelper.addSmelterRecipe(4000, new ItemStack(Items.IRON_INGOT, 2), new ItemStack(Blocks.SAND), RecipeMethods.getMaterial("refined_iron", 2, RecipeMethods.Type.INGOT), ItemMaterial.crystalSlag.copy(), 25);
 
-        GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.THERMAL, TFFluids.fluidPyrotheum, 80);
-        GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCreosote, 40);
-
         FluidReplicatorRecipeList.addRecipe(new FluidReplicatorRecipe(4, TFFluids.fluidCoal, 100, 20));
+
+
+        if (enableDistillationTowerThermalExpansionRecipes) {
+            // Crude Oil
+            RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemDynamicCell.getCellWithFluid(TFFluids.fluidCrudeOil, 16),
+                    ItemDynamicCell.getEmptyCell(33),
+                    RecipeMethods.getMaterial("diesel", 16, RecipeMethods.Type.CELL),
+                    RecipeMethods.getMaterial("sulfuricAcid", 16, RecipeMethods.Type.CELL),
+                    RecipeMethods.getMaterial("glyceryl", RecipeMethods.Type.CELL),
+                    RecipeMethods.getMaterial("methane", 16, RecipeMethods.Type.CELL),
+                    16000,
+                    16));
+
+            // Biocrude -> Grassoline
+            RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemDynamicCell.getCellWithFluid(TFFluids.fluidBiocrude, 16),
+                    null,
+                    ItemDynamicCell.getCellWithFluid(TFFluids.fluidBiofuel, 8),
+                    ItemDynamicCell.getEmptyCell(8),
+                    null,
+                    null,
+                    400,
+                    16));
+        }
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
+        if (enableThermalExpansionFuels) {
+            // Creosote
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCreosote,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidCreosote, 1)) / 100) / 4);
+
+            // Crude Oil
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCrudeOil,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidCrudeOil, 1)) / 100) / 4);
+
+            // Grassoline
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.DIESEL, TFFluids.fluidBiofuel,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidBiofuel, 1)) / 100) / 4);
+
+            // Liquifacted Coal
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCoal,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidCoal, 1)) / 100) / 4);
+
+            // Naphtha
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidRefinedOil,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidRefinedOil, 1)) / 100) / 4);
+
+            // Refined Fuel
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.DIESEL, TFFluids.fluidFuel,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidFuel, 1)) / 100) / 4);
+
+            // Seed Oil
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidSeedOil,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidSeedOil, 1)) / 100) / 4);
+
+            // Tree Oil
+            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidTreeOil,
+                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidTreeOil, 1)) / 100) / 4);
+        }
+
         if (disableInductionSmelterRecipesBypassingBlastFurnace) {
             // Sand
             ThermalExpansionHelper.removeSmelterRecipe(RecipeMethods.getMaterial("tungsten", 1, RecipeMethods.Type.ORE),

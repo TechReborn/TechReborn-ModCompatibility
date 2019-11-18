@@ -54,12 +54,12 @@ public class ForestryCompat implements ICompatModule {
     public static boolean enableDistillationTowerForestryRecipes = true;
 
     @ConfigRegistry(config = "compat", category = "forestry", key = "EnableForestryFuels", comment = "Allow Forestry fuels to be used in the fuel generators")
-    public static boolean allowForestryFuels = true;
+    public static boolean enableForestryFuels = true;
     // << Configs
 
     @Override
     public void init(FMLInitializationEvent event) {
-        // Biomass -> etanol
+        // Biomass -> ethanol
         if (enableDistillationTowerForestryRecipes) {
             RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemCells.getCellByName(Fluids.BIOMASS.getTag(), 16), null,
                     RecipeMethods.getMaterial(Fluids.BIO_ETHANOL.getTag(), 8, RecipeMethods.Type.CELL),
@@ -69,7 +69,7 @@ public class ForestryCompat implements ICompatModule {
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
-        if (allowForestryFuels) {
+        if (enableForestryFuels) {
             // Biomass
             GeneratorFuel biomass = FuelManager.generatorFuel.get(Fluids.BIOMASS.getFluid());
             GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, Fluids.BIOMASS.getFluid(), biomass.getEu() * biomass.getRate());

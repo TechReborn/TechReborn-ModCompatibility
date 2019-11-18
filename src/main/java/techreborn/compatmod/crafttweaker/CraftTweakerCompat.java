@@ -79,7 +79,6 @@ public class CraftTweakerCompat implements ICompatModule {
     public void preInit(FMLPreInitializationEvent event) {
         CraftTweakerAPI.registerClass(CTBlastFurnace.class);
         CraftTweakerAPI.registerClass(CTCentrifuge.class);
-        CraftTweakerAPI.registerClass(CTCompressor.class);
         CraftTweakerAPI.registerClass(CTIndustrialGrinder.class);
         CraftTweakerAPI.registerClass(CTImplosionCompressor.class);
         CraftTweakerAPI.registerClass(CTIndustrialElectrolyzer.class);
@@ -96,6 +95,7 @@ public class CraftTweakerCompat implements ICompatModule {
         CraftTweakerAPI.registerClass(CTAlloySmelter.class);
         CraftTweakerAPI.registerClass(CTAssemblingMachine.class);
         CraftTweakerAPI.registerClass(CTChemicalReactor.class);
+        CraftTweakerAPI.registerClass(CTCompressor.class);
         CraftTweakerAPI.registerClass(CTExtractor.class);
         CraftTweakerAPI.registerClass(CTGrinder.class);
         CraftTweakerAPI.registerClass(CTPlateBendingMachine.class);

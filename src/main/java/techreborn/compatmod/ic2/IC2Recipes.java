@@ -29,7 +29,6 @@ import net.minecraft.item.ItemStack;
 import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.util.RebornCraftingHelper;
 
-import techreborn.api.recipe.machines.CompressorRecipe;
 import techreborn.init.IC2Duplicates;
 import techreborn.init.ModBlocks;
 import techreborn.items.ingredients.ItemParts;
@@ -75,10 +74,20 @@ public class IC2Recipes {
 		if (!IC2Duplicates.deduplicate()) {
 			RebornCraftingHelper.addShapelessRecipe(IC2Dict.getItem("crafting", "rubber"),
 					ItemParts.getPartByName("rubber"));
-			RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "carbon_mesh"),
-					IC2Dict.getItem("crafting", "carbon_plate"), 300, 4));
-			RecipeHandler.addRecipe(new CompressorRecipe(IC2Dict.getItem("crafting", "coal_ball"),
-					IC2Dict.getItem("crafting", "coal_block"), 300, 4));
+
+			techreborn.api.recipe.Recipes.compressor.createRecipe()
+					.withInput(IC2Dict.getItem("crafting", "carbon_mesh"))
+					.withOutput(IC2Dict.getItem("crafting", "carbon_plate"))
+					.withEnergyCostPerTick(2)
+					.withOperationDuration(400)
+					.register();
+
+			techreborn.api.recipe.Recipes.compressor.createRecipe()
+					.withInput(IC2Dict.getItem("crafting", "coal_ball"))
+					.withOutput(IC2Dict.getItem("crafting", "coal_block"))
+					.withEnergyCostPerTick(2)
+					.withOperationDuration(400)
+					.register();
 		}
 	}
 
