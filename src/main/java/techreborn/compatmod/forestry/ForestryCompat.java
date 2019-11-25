@@ -24,6 +24,8 @@
 
 package techreborn.compatmod.forestry;
 
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
@@ -31,8 +33,7 @@ import reborncore.api.recipe.RecipeHandler;
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
 
-import techreborn.api.generator.EFluidGenerator;
-import techreborn.api.generator.GeneratorRecipeHelper;
+import techreborn.api.recipe.Fuels;
 import techreborn.api.recipe.machines.DistillationTowerRecipe;
 import techreborn.compat.ICompatModule;
 import techreborn.init.recipes.RecipeMethods;
@@ -42,7 +43,6 @@ import techreborn.lib.ModInfo;
 
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.GeneratorFuel;
-import forestry.core.fluids.Fluids;
 
 /**
  * @author estebes
@@ -61,9 +61,13 @@ public class ForestryCompat implements ICompatModule {
     public void init(FMLInitializationEvent event) {
         // Biomass -> ethanol
         if (enableDistillationTowerForestryRecipes) {
-            RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemCells.getCellByName(Fluids.BIOMASS.getTag(), 16), null,
-                    RecipeMethods.getMaterial(Fluids.BIO_ETHANOL.getTag(), 8, RecipeMethods.Type.CELL),
-                    ItemDynamicCell.getEmptyCell(8), null, null, 400, 16));
+            Fluid biomass = FluidRegistry.getFluid("biomass");
+            Fluid ethanol = FluidRegistry.getFluid("bio.ethanol");
+            if (biomass != null && ethanol != null) {
+                RecipeHandler.addRecipe(new DistillationTowerRecipe(ItemCells.getCellByName("biomass", 16), null,
+                        RecipeMethods.getMaterial("bio.ethanol", 8, RecipeMethods.Type.CELL),
+                        ItemDynamicCell.getEmptyCell(8), null, null, 400, 16));
+            }
         }
     }
 
@@ -71,12 +75,26 @@ public class ForestryCompat implements ICompatModule {
     public void postInit(FMLPostInitializationEvent event) {
         if (enableForestryFuels) {
             // Biomass
-            GeneratorFuel biomass = FuelManager.generatorFuel.get(Fluids.BIOMASS.getFluid());
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, Fluids.BIOMASS.getFluid(), biomass.getEu() * biomass.getRate());
+            Fluid biomass = FluidRegistry.getFluid("biomass");
+            if (biomass != null) {
+                GeneratorFuel biomassFuel = FuelManager.generatorFuel.get(biomass);
+                Fuels.semiFluidGenerator.addFuel()
+                        .addFluidSource(biomass)
+                        .withEnergyOutput(biomassFuel.getEu() * biomassFuel.getRate())
+                        .withEnergyPerTick((double) biomassFuel.getEu() / (double) biomassFuel.getRate())
+                        .register();
+            }
 
             // Ethanol
-            GeneratorFuel ethanol = FuelManager.generatorFuel.get(Fluids.BIO_ETHANOL.getFluid());
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.DIESEL, Fluids.BIO_ETHANOL.getFluid(), ethanol.getEu() * ethanol.getRate());
+            Fluid ethanol = FluidRegistry.getFluid("bio.ethanol");
+            if (ethanol != null) {
+                GeneratorFuel ethanolFuel = FuelManager.generatorFuel.get(ethanol);
+                Fuels.dieselGenerator.addFuel()
+                        .addFluidSource(ethanol)
+                        .withEnergyOutput(ethanolFuel.getEu() * ethanolFuel.getRate())
+                        .withEnergyPerTick((double) ethanolFuel.getEu() / (double) ethanolFuel.getRate())
+                        .register();
+            }
         }
     }
 }

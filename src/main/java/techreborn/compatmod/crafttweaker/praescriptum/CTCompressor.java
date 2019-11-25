@@ -44,7 +44,7 @@ import crafttweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.Optional;
+import java.util.Collections;
 
 import com.google.common.collect.ImmutableList;
 
@@ -52,7 +52,7 @@ import com.google.common.collect.ImmutableList;
  * @author estebes
  */
 @ZenClass("mods.techreborn.compressor")
-public class CTCompressor extends CTPraescriptum {
+public class CTCompressor extends CTPraescriptumRecipe {
     @ZenMethod
     @ZenDocumentation("IItemStack output, IIngredient ingredient, int tickTime, int energyCostPerTick")
     public static void addRecipe(IItemStack output, IIngredient ingredient, int operationDuration, int energyCostPerTick) {
@@ -73,16 +73,16 @@ public class CTCompressor extends CTPraescriptum {
     @ZenDocumentation("IItemStack output")
     public static void removeRecipe(IItemStack output) {
         ItemStack outStack = CraftTweakerMC.getItemStack(output);
-        Optional<Recipe> maybeRecipe = getRecipeHandler().getRecipeByOutput(ImmutableList.of(ItemStackOutputIngredient.of(outStack)));
-        maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
+        Recipe recipe = getRecipeHandler().getRecipeByOutput(Collections.singleton(ItemStackOutputIngredient.of(outStack)));
+        if (recipe != null) getRecipeHandler().removeRecipe(recipe);
     }
 
     @ZenMethod
     @ZenDocumentation("IItemStack ingredient")
     public static void removeInputRecipe(IItemStack ingredient) {
         ItemStack input = CraftTweakerMC.getItemStack(ingredient);
-        Optional<Recipe> maybeRecipe = getRecipeHandler().findRecipe(ImmutableList.of(input), ImmutableList.of());
-        maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
+        Recipe recipe = getRecipeHandler().findRecipe(input);
+        if (recipe != null) getRecipeHandler().removeRecipe(recipe);
     }
 
     @ZenMethod

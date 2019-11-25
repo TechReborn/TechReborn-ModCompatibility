@@ -38,10 +38,10 @@ import java.util.stream.Collectors;
 /**
  * @author estebes
  */
-public class CTPraescriptum {
+public class CTPraescriptumRecipe {
     // Add Recipe >>
     public static void add(Recipe recipe) {
-        CraftTweakerAPI.apply(new CTPraescriptum.Add(recipe));
+        CraftTweakerAPI.apply(new CTPraescriptumRecipe.Add(recipe));
     }
 
     private static class Add implements IAction {
@@ -69,7 +69,7 @@ public class CTPraescriptum {
 
     // Remove Recipe >>
     public static void remove(Recipe recipe, RecipeHandler recipeHandler) {
-        CraftTweakerAPI.apply(new CTPraescriptum.Remove(recipe, recipeHandler));
+        CraftTweakerAPI.apply(new CTPraescriptumRecipe.Remove(recipe, recipeHandler));
     }
 
     private static class Remove implements IAction {
@@ -101,7 +101,7 @@ public class CTPraescriptum {
 
     // Remove All Recipes >>
     public static void removeAll(RecipeHandler recipeHandler) {
-        CraftTweakerAPI.apply(new CTPraescriptum.RemoveAll(recipeHandler));
+        CraftTweakerAPI.apply(new CTPraescriptumRecipe.RemoveAll(recipeHandler));
     }
 
     private static class RemoveAll implements IAction {

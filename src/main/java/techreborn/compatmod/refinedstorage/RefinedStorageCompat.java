@@ -24,9 +24,12 @@
 
 package techreborn.compatmod.refinedstorage;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
@@ -34,8 +37,6 @@ import reborncore.common.registration.impl.ConfigRegistry;
 import techreborn.api.recipe.Recipes;
 import techreborn.compat.ICompatModule;
 import techreborn.lib.ModInfo;
-
-import com.raoulvdberge.refinedstorage.RSItems;
 
 /**
  * @author estebes
@@ -51,31 +52,35 @@ public class RefinedStorageCompat implements ICompatModule {
     public void init(FMLInitializationEvent event) {
         if (!enableAssemblingMachineProcessorRecipes) return;
 
-        // Basic Processor
-        Recipes.assemblingMachine.createRecipe()
-                .withInput("plateSilicon")
-                .withInput("plateIron")
-                .withOutput(new ItemStack(RSItems.PROCESSOR, 1, 3))
-                .withEnergyCostPerTick(1)
-                .withOperationDuration(800)
-                .register();
+        Item processor = ForgeRegistries.ITEMS.getValue(new ResourceLocation("refinedstorage:processor"));
 
-        // Improved Processor
-        Recipes.assemblingMachine.createRecipe()
-                .withInput("plateSilicon")
-                .withInput("plateGold")
-                .withOutput(new ItemStack(RSItems.PROCESSOR, 1, 4))
-                .withEnergyCostPerTick(2)
-                .withOperationDuration(1600)
-                .register();
+        if (processor != null) {
+            // Basic Processor
+            Recipes.assemblingMachine.createRecipe()
+                    .withInput("plateSilicon")
+                    .withInput("plateIron")
+                    .withOutput(new ItemStack(processor, 1, 3))
+                    .withEnergyCostPerTick(1)
+                    .withOperationDuration(800)
+                    .register();
 
-        // Advanced Processor
-        Recipes.assemblingMachine.createRecipe()
-                .withInput("plateSilicon")
-                .withInput("plateDiamond")
-                .withOutput(new ItemStack(RSItems.PROCESSOR, 1, 5))
-                .withEnergyCostPerTick(4)
-                .withOperationDuration(3200)
-                .register();
+            // Improved Processor
+            Recipes.assemblingMachine.createRecipe()
+                    .withInput("plateSilicon")
+                    .withInput("plateGold")
+                    .withOutput(new ItemStack(processor, 1, 4))
+                    .withEnergyCostPerTick(2)
+                    .withOperationDuration(1600)
+                    .register();
+
+            // Advanced Processor
+            Recipes.assemblingMachine.createRecipe()
+                    .withInput("plateSilicon")
+                    .withInput("plateDiamond")
+                    .withOutput(new ItemStack(processor, 1, 5))
+                    .withEnergyCostPerTick(4)
+                    .withOperationDuration(3200)
+                    .register();
+        }
     }
 }

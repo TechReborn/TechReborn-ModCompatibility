@@ -36,7 +36,6 @@ import reborncore.common.util.ItemUtils;
 
 import techreborn.api.recipe.Recipes;
 import techreborn.compatmod.crafttweaker.ZenDocumentation;
-import techreborn.compatmod.crafttweaker.praescriptum.CTPraescriptum;
 
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
@@ -45,15 +44,16 @@ import crafttweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.Optional;
+import java.util.Collections;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 /**
  * @author estebes
  */
 @ZenClass("mods.techreborn.assemblingMachine")
-public class CTAssemblingMachine extends CTPraescriptum {
+public class CTAssemblingMachine extends CTPraescriptumRecipe {
     @ZenMethod
     @techreborn.compatmod.crafttweaker.ZenDocumentation("IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int tickTime, int energyCostPerTick")
     public static void addRecipe(IItemStack output, IIngredient ingredientA, IIngredient ingredientB, int operationDuration, int energyCostPerTick) {
@@ -77,8 +77,8 @@ public class CTAssemblingMachine extends CTPraescriptum {
     @ZenDocumentation("IItemStack output")
     public static void removeRecipe(IItemStack output) {
         ItemStack outStack = CraftTweakerMC.getItemStack(output);
-        Optional<Recipe> maybeRecipe = getRecipeHandler().getRecipeByOutput(ImmutableList.of(ItemStackOutputIngredient.of(outStack)));
-        maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
+        Recipe recipe = getRecipeHandler().getRecipeByOutput(Collections.singleton(ItemStackOutputIngredient.of(outStack)));
+        if (recipe != null) getRecipeHandler().removeRecipe(recipe);
     }
 
     @ZenMethod
@@ -86,8 +86,8 @@ public class CTAssemblingMachine extends CTPraescriptum {
     public static void removeInputRecipe(IItemStack ingredientA, IItemStack ingredientB) {
         ItemStack inputA = CraftTweakerMC.getItemStack(ingredientA);
         ItemStack inputB = CraftTweakerMC.getItemStack(ingredientB);
-        Optional<Recipe> maybeRecipe = getRecipeHandler().findRecipe(ImmutableList.of(inputA, inputB), ImmutableList.of());
-        maybeRecipe.ifPresent(recipe -> getRecipeHandler().removeRecipe(recipe));
+        Recipe recipe = getRecipeHandler().findRecipe(Lists.newArrayList(inputA, inputB));
+        if (recipe != null) getRecipeHandler().removeRecipe(recipe);
     }
 
     @ZenMethod

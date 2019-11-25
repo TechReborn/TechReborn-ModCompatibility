@@ -24,80 +24,83 @@
 
 package techreborn.compatmod.crafttweaker;
 
-import crafttweaker.api.liquid.ILiquidStack;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.GeneratorRecipeHelper;
 
+import crafttweaker.api.liquid.ILiquidStack;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
+
+/**
+ * @author estebes
+ */
 @ZenClass("mods.techreborn.fluidGen")
 public class CTFluidGen {
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
+    public static void addThermalFluid(ILiquidStack fluid, int energyPerMb) {
+        addFluid(EFluidGenerator.THERMAL, fluid, energyPerMb);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
-	public static void addThermalFluid(ILiquidStack fluid, int energyPerMb) {
-		addFluid(EFluidGenerator.THERMAL, fluid, energyPerMb);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
+    public static void addGasFluid(ILiquidStack fluid, int energyPerMb) {
+        addFluid(EFluidGenerator.GAS, fluid, energyPerMb);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
-	public static void addGasFluid(ILiquidStack fluid, int energyPerMb) {
-		addFluid(EFluidGenerator.GAS, fluid, energyPerMb);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
+    public static void addSemiFluid(ILiquidStack fluid, int energyPerMb) {
+        addFluid(EFluidGenerator.SEMIFLUID, fluid, energyPerMb);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
-	public static void addSemiFluid(ILiquidStack fluid, int energyPerMb) {
-		addFluid(EFluidGenerator.SEMIFLUID, fluid, energyPerMb);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
+    public static void addDieselFluid(ILiquidStack fluid, int energyPerMb) {
+        addFluid(EFluidGenerator.DIESEL, fluid, energyPerMb);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
-	public static void addDieselFluid(ILiquidStack fluid, int energyPerMb) {
-		addFluid(EFluidGenerator.DIESEL, fluid, energyPerMb);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
+    public static void addPlasmaFluid(ILiquidStack fluid, int energyPerMb) {
+        addFluid(EFluidGenerator.PLASMA, fluid, energyPerMb);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid, int energyPerMb")
-	public static void addPlasmaFluid(ILiquidStack fluid, int energyPerMb) {
-		addFluid(EFluidGenerator.PLASMA, fluid, energyPerMb);
-	}
-	
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
-	public static void removeThermalFluid(ILiquidStack fluid) {
-		removeFluid(EFluidGenerator.THERMAL, fluid);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
+    public static void removeThermalFluid(ILiquidStack fluid) {
+        removeFluid(EFluidGenerator.THERMAL, fluid);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
-	public static void removeGasFluid(ILiquidStack fluid) {
-		removeFluid(EFluidGenerator.GAS, fluid);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
+    public static void removeGasFluid(ILiquidStack fluid) {
+        removeFluid(EFluidGenerator.GAS, fluid);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
-	public static void removeSemiFluid(ILiquidStack fluid) {
-		removeFluid(EFluidGenerator.SEMIFLUID, fluid);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
+    public static void removeSemiFluid(ILiquidStack fluid) {
+        removeFluid(EFluidGenerator.SEMIFLUID, fluid);
+    }
 
-	@ZenMethod
-	@techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
-	public static void removeDieselFluid(ILiquidStack fluid) {
-		removeFluid(EFluidGenerator.DIESEL, fluid);
-	}
+    @ZenMethod
+    @techreborn.compatmod.crafttweaker.ZenDocumentation("ILiquidStack fluid")
+    public static void removeDieselFluid(ILiquidStack fluid) {
+        removeFluid(EFluidGenerator.DIESEL, fluid);
+    }
 
-	@ZenMethod
-	@ZenDocumentation("ILiquidStack fluid")
-	public static void removePlasmaFluid(ILiquidStack fluid) {
-		removeFluid(EFluidGenerator.PLASMA, fluid);
-	}
-	
-	private static void addFluid(EFluidGenerator type, ILiquidStack fluid, int energyPerMb) {
-		GeneratorRecipeHelper.registerFluidRecipe(type, CraftTweakerCompat.toFluidStack(fluid).getFluid(), energyPerMb);
-	}
-	
-	private static void removeFluid(EFluidGenerator type, ILiquidStack fluid) {
-		GeneratorRecipeHelper.removeFluidRecipe(type, CraftTweakerCompat.toFluidStack(fluid).getFluid());
-	}
+    @ZenMethod
+    @ZenDocumentation("ILiquidStack fluid")
+    public static void removePlasmaFluid(ILiquidStack fluid) {
+        removeFluid(EFluidGenerator.PLASMA, fluid);
+    }
+
+    private static void addFluid(EFluidGenerator type, ILiquidStack fluid, int energyPerMb) {
+        GeneratorRecipeHelper.registerFluidRecipe(type, CraftTweakerCompat.toFluidStack(fluid).getFluid(), energyPerMb);
+    }
+
+    private static void removeFluid(EFluidGenerator type, ILiquidStack fluid) {
+        GeneratorRecipeHelper.removeFluidRecipe(type, CraftTweakerCompat.toFluidStack(fluid).getFluid());
+    }
 }

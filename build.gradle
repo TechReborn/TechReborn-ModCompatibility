@@ -60,7 +60,7 @@ repositories {
 		url "http://maven.amadornes.com/"
 	}
 	maven {
-		// CraftTweaker2, ImmersiveEngineering
+		// CraftTweaker2
 		name "Jared"
 		url "http://maven.blamejared.com/"
 	}
@@ -106,14 +106,9 @@ repositories {
 		name "BuildCraft"
 		artifactPattern "https://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision].[ext]"
 	}
-	// refined storage
-	maven {
-		name "Raoulvdberge"
-		url "https://repo.raoulvdberge.com"
-	}
 }
 
-version = "1.3.2"
+version = "1.4.0"
 
 def ENV = System.getenv()
 if (ENV.BUILD_NUMBER) {
@@ -145,10 +140,6 @@ dependencies {
 		transitive = false
 	}
 
-	deobfCompile ("refinedstorage:refinedstorage:1.6.15-+") {
-		transitive = false
-	}
-
 	deobfCompile ("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.12.323") {
 		transitive = true
 	}
@@ -174,22 +165,6 @@ dependencies {
 	}
 
 	deobfCompile ("net.sengir.forestry:forestry_1.12.2:+") {
-		transitive = false
-	}
-
-	deobfCompile ("industrial-foregoing:industrialforegoing-1.12.2:1.12.3:227") {
-		transitive = false
-	}
-
-	deobfCompile ("railcraft:railcraft:release") {
-		transitive = false
-	}
-
-	deobfCompile ("blusunrize:ImmersiveEngineering:0.12-+") {
-		transitive = false
-	}
-
-	deobfCompile ("curse.maven:immersive-petroleum:2544919") {
 		transitive = false
 	}
 
@@ -222,15 +197,7 @@ dependencies {
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.+"
 	deobfProvided "codechicken:CodeChickenLib:1.12.2-+:universal"
 
-//	deobfCompile 'MCMultiPart2:MCMultiPart:2.4.1'
-
-//	deobfCompile "mekanism:Mekanism:1.12.2:9.4.13.349"
-//	deobfCompile "mekanism-generators:MekanismGenerators:1.12.2:9.4.13.349"
-//	deobfCompile "mekanism-tools:MekanismTools:1.12.2:9.4.13.349"
-//	deobfCompile "mekanism-tools:MekanismTools:1.12.2:9.4.13.349"
-
 	runtime "net.shadowfacts:Forgelin:1.8.2" //Needed by tesla-core-lib :D
-//	runtime "appeng:appliedenergistics2:rv6-stable-6:api" // Needed by Mekanism
 }
 
 jar {

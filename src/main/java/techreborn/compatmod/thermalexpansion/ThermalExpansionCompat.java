@@ -28,7 +28,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
@@ -38,8 +37,7 @@ import reborncore.common.registration.impl.ConfigRegistry;
 
 import techreborn.api.fluidreplicator.FluidReplicatorRecipe;
 import techreborn.api.fluidreplicator.FluidReplicatorRecipeList;
-import techreborn.api.generator.EFluidGenerator;
-import techreborn.api.generator.GeneratorRecipeHelper;
+import techreborn.api.recipe.Fuels;
 import techreborn.api.recipe.machines.DistillationTowerRecipe;
 import techreborn.compat.ICompatModule;
 import techreborn.init.ModItems;
@@ -50,7 +48,6 @@ import techreborn.items.ingredients.ItemPlates;
 import techreborn.lib.ModInfo;
 
 import cofh.api.util.ThermalExpansionHelper;
-import cofh.thermalexpansion.util.managers.dynamo.CompressionManager;
 import cofh.thermalfoundation.init.TFFluids;
 import cofh.thermalfoundation.init.TFItems;
 import cofh.thermalfoundation.item.ItemMaterial;
@@ -127,36 +124,60 @@ public class ThermalExpansionCompat implements ICompatModule {
     public void postInit(FMLPostInitializationEvent event) {
         if (enableThermalExpansionFuels) {
             // Creosote
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCreosote,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidCreosote, 1)) / 100) / 4);
+            Fuels.semiFluidGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidCreosote)
+                    .withEnergyOutput(3.0D)
+                    .withEnergyPerTick(3.0D)
+                    .register();
 
             // Crude Oil
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCrudeOil,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidCrudeOil, 1)) / 100) / 4);
+            Fuels.semiFluidGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidCrudeOil)
+                    .withEnergyOutput(16.0D)
+                    .withEnergyPerTick(8.0D)
+                    .register();
 
             // Grassoline
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.DIESEL, TFFluids.fluidBiofuel,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidBiofuel, 1)) / 100) / 4);
+            Fuels.dieselGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidBiofuel)
+                    .withEnergyOutput(32.0D)
+                    .withEnergyPerTick(16.0D)
+                    .register();
 
             // Liquifacted Coal
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidCoal,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidCoal, 1)) / 100) / 4);
+            Fuels.semiFluidGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidCoal)
+                    .withEnergyOutput(48.0D)
+                    .withEnergyPerTick(8.0D)
+                    .register();
 
             // Naphtha
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidRefinedOil,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidRefinedOil, 1)) / 100) / 4);
+            Fuels.semiFluidGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidRefinedOil)
+                    .withEnergyOutput(48.0D)
+                    .withEnergyPerTick(8.0D)
+                    .register();
 
             // Refined Fuel
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.DIESEL, TFFluids.fluidFuel,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidFuel, 1)) / 100) / 4);
+            Fuels.dieselGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidRefinedOil)
+                    .withEnergyOutput(384.0D)
+                    .withEnergyPerTick(20.0D)
+                    .register();
 
             // Seed Oil
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidSeedOil,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidSeedOil, 1)) / 100) / 4);
+            Fuels.semiFluidGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidSeedOil)
+                    .withEnergyOutput(8.0D)
+                    .withEnergyPerTick(8.0D)
+                    .register();
 
             // Tree Oil
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, TFFluids.fluidTreeOil,
-                    (CompressionManager.getFuelEnergy100mB(new FluidStack(TFFluids.fluidTreeOil, 1)) / 100) / 4);
+            Fuels.semiFluidGenerator.addFuel()
+                    .addFluidSource(TFFluids.fluidTreeOil)
+                    .withEnergyOutput(48.0D)
+                    .withEnergyPerTick(8.0D)
+                    .register();
         }
 
         if (disableInductionSmelterRecipesBypassingBlastFurnace) {

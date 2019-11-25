@@ -24,20 +24,23 @@
 
 package techreborn.compatmod.immersiveengineering;
 
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import reborncore.common.registration.RebornRegistry;
 import reborncore.common.registration.impl.ConfigRegistry;
 
-import techreborn.api.generator.EFluidGenerator;
-import techreborn.api.generator.GeneratorRecipeHelper;
+import techreborn.api.recipe.Fuels;
 import techreborn.api.recipe.Recipes;
 import techreborn.compat.ICompatModule;
 import techreborn.init.recipes.RecipeMethods;
 import techreborn.lib.ModInfo;
-
-import blusunrize.immersiveengineering.common.IEContent;
 
 /**
  * @author estebes, modmuss50
@@ -56,12 +59,15 @@ public class ImmersiveEngineeringCompat implements ICompatModule {
     public void init(FMLInitializationEvent event) {
         if (enableCompressorImmersiveEngineeringRecipes) {
             // Coke dust -> HOP Graphite dust
-            Recipes.compressor.createRecipe()
-                    .withInput("dustCoke")
-                    .withOutput(RecipeMethods.getStack(IEContent.itemMaterial, 1, 18))
-                    .withEnergyCostPerTick(4)
-                    .withOperationDuration(300)
-                    .register();
+            Item material = ForgeRegistries.ITEMS.getValue(new ResourceLocation("immersiveengineering:material"));
+            if (material != null) {
+                Recipes.compressor.createRecipe()
+                        .withInput("dustCoke")
+                        .withOutput(RecipeMethods.getStack(material, 1, 18))
+                        .withEnergyCostPerTick(4)
+                        .withOperationDuration(300)
+                        .register();
+            }
         }
     }
 
@@ -69,7 +75,14 @@ public class ImmersiveEngineeringCompat implements ICompatModule {
     public void postInit(FMLPostInitializationEvent event) {
         if (enableImmersiveEngineeringFuels) {
             // Creosote
-            GeneratorRecipeHelper.registerFluidRecipe(EFluidGenerator.SEMIFLUID, IEContent.fluidCreosote, 3); // 3k EU per bucket
+            Fluid creosote = FluidRegistry.getFluid("creosote");
+            if (creosote != null) {
+                Fuels.semiFluidGenerator.addFuel()
+                        .addFluidSource(creosote)
+                        .withEnergyOutput(3.0D)
+                        .withEnergyPerTick(3.0D)
+                        .register();
+            }
         }
     }
 }
