@@ -24,14 +24,14 @@
 
 package techreborn.compatmod.crafttweaker.praescriptum;
 
-import reborncore.api.praescriptum.ingredients.Ingredient;
 import reborncore.api.praescriptum.recipes.Recipe;
 import reborncore.api.praescriptum.recipes.RecipeHandler;
-
+import reborncore.common.util.ItemUtils;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,11 +55,11 @@ public class CTPraescriptumRecipe {
         }
 
         @Override
-        public String describe() {
-            return "Adding " + recipe + " for " + recipe.getOutputIngredients().stream()
-                    .map(Ingredient::toFormattedString)
-                    .collect(Collectors.joining(", ", "{", "}"));
-        }
+		public String describe() {
+			return "Adding " + recipe + " for "	+ Arrays.stream(recipe.getItemOutputs())
+					.map(ItemUtils::toFormattedString)
+					.collect(Collectors.joining(", ", "{", "}"));
+		}
 
         // Fields >>
         private final Recipe recipe;
@@ -86,8 +86,8 @@ public class CTPraescriptumRecipe {
 
         @Override
         public String describe() {
-            return "Removing " + recipe + " for " + recipe.getOutputIngredients().stream()
-                    .map(Ingredient::toFormattedString)
+            return "Removing " + recipe + " for " + Arrays.stream(recipe.getItemOutputs())
+					.map(ItemUtils::toFormattedString)
                     .collect(Collectors.joining(", ", "{", "}"));
         }
 
