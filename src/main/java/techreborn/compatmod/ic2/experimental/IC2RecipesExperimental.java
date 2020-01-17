@@ -85,7 +85,7 @@ public class IC2RecipesExperimental {
 	}
 
 	public static void removeCraftingTableDuplicates(RegistryEvent.Register<IRecipe> event) {
-		IForgeRegistryModifiable modRegistry = (IForgeRegistryModifiable) event.getRegistry();
+		IForgeRegistryModifiable<IRecipe> modRegistry = (IForgeRegistryModifiable<IRecipe>) event.getRegistry();
 
 		List<ResourceLocation> recipes = Stream.of(modRegistry.getKeys().toArray())
 			.map(entry -> (ResourceLocation) entry)
@@ -109,13 +109,12 @@ public class IC2RecipesExperimental {
 
 				return recipeType.getInputs().stream()
 					.anyMatch(ingredient ->
-						ingredient instanceof ItemStack && ItemUtils.isInputEqual(entry, (ItemStack) ingredient, false, false, true));
+						ingredient instanceof ItemStack && ItemUtils.isInputEqual(entry, (ItemStack) ingredient, true, false, true));
 			});
 	}
 
 	// Fields >>
 	private static FluidStack WATER = new FluidStack(FluidRegistry.WATER, 1000);
 	private static FluidStack MERCURY = new FluidStack(ModFluids.MERCURY, 1000);
-	private static FluidStack SODIUM_PERSULFATE = new FluidStack(ModFluids.SODIUMPERSULFATE, 1000);
 	// << Fields
 }
