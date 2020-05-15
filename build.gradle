@@ -156,7 +156,7 @@ dependencies {
 		transitive = false
 	}
 
-	deobfCompile ("mcp.mobius.waila:Hwyla:1.8+") {
+	deobfCompile ("mcp.mobius.waila:Hwyla:1.8+:api") {
 		transitive = false
 	}
 
@@ -193,7 +193,7 @@ dependencies {
 	}
 
 	deobfCompile "mezz.jei:jei_1.12.2:+"
-	deobfCompile name: 'buildcraft-main', version: '7.99.24.4', ext: 'jar'
+	deobfCompile name: 'buildcraft-main', version: '7.99.24.6', ext: 'jar'
 	deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.+"
 	deobfProvided "codechicken:CodeChickenLib:1.12.2-+:universal"
 
